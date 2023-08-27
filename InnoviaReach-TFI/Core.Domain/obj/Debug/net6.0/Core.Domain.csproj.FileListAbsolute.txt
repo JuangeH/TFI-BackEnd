@@ -1,0 +1,12 @@
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\Core.Domain.csproj.AssemblyReference.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\Core.Domain.GeneratedMSBuildEditorConfig.editorconfig
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\Core.Domain.AssemblyInfoInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\Core.Domain.AssemblyInfo.cs
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\Core.Domain.csproj.CoreCompileInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\bin\Debug\net6.0\Core.Domain.deps.json
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\bin\Debug\net6.0\Core.Domain.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\bin\Debug\net6.0\Core.Domain.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\Core.Domain.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\refint\Core.Domain.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\Core.Domain.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Core.Domain\obj\Debug\net6.0\ref\Core.Domain.dll

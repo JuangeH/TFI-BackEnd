@@ -1,0 +1,15 @@
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.csproj.AssemblyReference.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.GeneratedMSBuildEditorConfig.editorconfig
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.AssemblyInfoInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.AssemblyInfo.cs
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.csproj.CoreCompileInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Extensions.deps.json
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Extensions.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Extensions.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Helpers.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Helpers.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.csproj.CopyComplete
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\refint\Transversal.Extensions.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\ref\Transversal.Extensions.dll

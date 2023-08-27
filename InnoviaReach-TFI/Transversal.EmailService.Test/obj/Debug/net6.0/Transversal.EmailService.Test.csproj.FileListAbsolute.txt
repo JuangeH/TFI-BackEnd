@@ -1,0 +1,5 @@
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.EmailService.Test\obj\Debug\net6.0\Transversal.EmailService.Test.csproj.AssemblyReference.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.EmailService.Test\obj\Debug\net6.0\Transversal.EmailService.Test.GeneratedMSBuildEditorConfig.editorconfig
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.EmailService.Test\obj\Debug\net6.0\Transversal.EmailService.Test.AssemblyInfoInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.EmailService.Test\obj\Debug\net6.0\Transversal.EmailService.Test.AssemblyInfo.cs
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.EmailService.Test\obj\Debug\net6.0\Transversal.EmailService.Test.csproj.CoreCompileInputs.cache

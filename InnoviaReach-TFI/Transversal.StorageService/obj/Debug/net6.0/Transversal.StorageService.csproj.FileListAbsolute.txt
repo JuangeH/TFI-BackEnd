@@ -1,0 +1,17 @@
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.csproj.AssemblyReference.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.GeneratedMSBuildEditorConfig.editorconfig
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.AssemblyInfoInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.AssemblyInfo.cs
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.csproj.CoreCompileInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\bin\Debug\net6.0\Transversal.StorageService.deps.json
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\bin\Debug\net6.0\Transversal.StorageService.runtimeconfig.json
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\bin\Debug\net6.0\Transversal.StorageService.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\bin\Debug\net6.0\Transversal.StorageService.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\bin\Debug\net6.0\Transversal.Helpers.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\bin\Debug\net6.0\Transversal.Helpers.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.csproj.CopyComplete
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\refint\Transversal.StorageService.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\Transversal.StorageService.genruntimeconfig.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.StorageService\obj\Debug\net6.0\ref\Transversal.StorageService.dll

@@ -1,0 +1,12 @@
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\3. Core.csproj.AssemblyReference.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\3. Core.GeneratedMSBuildEditorConfig.editorconfig
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\3. Core.AssemblyInfoInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\3. Core.AssemblyInfo.cs
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\3. Core.csproj.CoreCompileInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\3. Core.deps.json
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\3. Core.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\3. Core.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\3. Core.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\refint\3. Core.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\3. Core.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\ref\3. Core.dll

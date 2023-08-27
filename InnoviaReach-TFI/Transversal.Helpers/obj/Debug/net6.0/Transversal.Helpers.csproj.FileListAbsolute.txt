@@ -1,0 +1,12 @@
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\Transversal.Helpers.csproj.AssemblyReference.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\Transversal.Helpers.GeneratedMSBuildEditorConfig.editorconfig
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\Transversal.Helpers.AssemblyInfoInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\Transversal.Helpers.AssemblyInfo.cs
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\Transversal.Helpers.csproj.CoreCompileInputs.cache
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\bin\Debug\net6.0\Transversal.Helpers.deps.json
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\bin\Debug\net6.0\Transversal.Helpers.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\bin\Debug\net6.0\Transversal.Helpers.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\Transversal.Helpers.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\refint\Transversal.Helpers.dll
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\Transversal.Helpers.pdb
+G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Helpers\obj\Debug\net6.0\ref\Transversal.Helpers.dll
