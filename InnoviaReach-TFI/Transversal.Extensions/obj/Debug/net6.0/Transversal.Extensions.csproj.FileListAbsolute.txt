@@ -13,3 +13,18 @@ G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\refint\Transversal.Extensions.dll
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.pdb
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\ref\Transversal.Extensions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Extensions.deps.json
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Extensions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Extensions.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Helpers.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\bin\Debug\net6.0\Transversal.Helpers.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.csproj.AssemblyReference.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.AssemblyInfoInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.AssemblyInfo.cs
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.csproj.CoreCompileInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.csproj.CopyComplete
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\refint\Transversal.Extensions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\Transversal.Extensions.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\Transversal.Extensions\obj\Debug\net6.0\ref\Transversal.Extensions.dll

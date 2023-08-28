@@ -21,3 +21,26 @@ G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\refint\Core.Business.dll
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.pdb
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\ref\Core.Business.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Core.Business.deps.json
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Core.Business.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Core.Business.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Core.Contracts.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Core.Domain.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Transversal.EmailService.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Transversal.Extensions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Transversal.Helpers.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Core.Contracts.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Core.Domain.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Transversal.EmailService.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Transversal.Extensions.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\bin\Debug\net6.0\Transversal.Helpers.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.csproj.AssemblyReference.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.AssemblyInfoInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.AssemblyInfo.cs
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.csproj.CoreCompileInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.csproj.CopyComplete
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\refint\Core.Business.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\Core.Business.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\3. Core\obj\Debug\net6.0\ref\Core.Business.dll

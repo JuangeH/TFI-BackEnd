@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Contracts.Data;
 using Core.Domain.ApplicationModels;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
 using IoC.Resolver;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -21,6 +22,7 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
         ILoggerFactory _loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
 
+
         #region ConfigureServices
 
         #region Configure Basic Services
@@ -32,7 +34,9 @@ internal class Program
 
         #region Configure Personalized
         builder.Services.ConfigureSwagger();
+        //builder.Services.AddSwaggerGen();
         builder.Services.ConfigureIoC(builder.Configuration);
+        builder.Services.ConfigureJwt(builder.Configuration);
         builder.Services.ConfigureLogger(builder?.Configuration);
         builder.Services.AddHttpContextAccessor();
         //builder.Services.TryAddScoped<SignInManager<Users>>();
@@ -66,6 +70,7 @@ internal class Program
             options.Password.RequiredLength = 6;
         })
         .AddSignInManager<SignInManager<Users>>()
+        .AddRoles<Privileges>()
         .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         #endregion
 
@@ -82,7 +87,7 @@ internal class Program
         IMapper mapper = mappingConfig.CreateMapper();
         builder.Services.AddSingleton(mapper);
         #endregion
-
+        
         #region Configure ML (Machine Learning)
         var modelPath = builder.Configuration["ML_Config:ModelPath"] ?? "";
         //builder.Services.AddSingleton(new QuestionPredictionEngine(modelPath));
@@ -187,7 +192,7 @@ internal class Program
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                context.Database.Migrate(); //Cuando se ejecuta la aplicación se ejecuta el metodo update-database de dotnet ef core...
+               // context.Database.Migrate(); //Cuando se ejecuta la aplicación se ejecuta el metodo update-database de dotnet ef core...
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
@@ -198,7 +203,7 @@ internal class Program
             app.UseSwaggerUI(c =>
             {
                 c.RoutePrefix = String.Empty;
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "UAI LPPA-FINAL API V1");
+                c.SwaggerEndpoint("/swagger/InnoviaReachAPISpecification/swagger.json", "UAI InnoviaReach API");
             });
 
 
@@ -208,7 +213,7 @@ internal class Program
             app.UseCors(GetCorsConfig(corsAllowAll == "true"));
 
 
-
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

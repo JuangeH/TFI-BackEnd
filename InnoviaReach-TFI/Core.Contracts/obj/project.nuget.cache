@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7ZHP36X1MDwEKZ3sbGklT+dIyt1Do6w3PSSDrOKJ99yWZttL3l7nUgeWRpyHLBn5dHUD+IS5dBqsPviDgLUHdg==",
+  "dgSpecHash": "jViEIH95EeDYWPFwoYRqW+M/E08hzD3Aay2Lfztfzr7S5AGuzzzmst5XHyYneo1lLptnhJh3BJag0N7FISWTOQ==",
   "success": true,
-  "projectFilePath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj",
+  "projectFilePath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.10\\microsoft.aspnetcore.cryptography.internal.7.0.10.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.10\\microsoft.aspnetcore.cryptography.keyderivation.7.0.10.nupkg.sha512",

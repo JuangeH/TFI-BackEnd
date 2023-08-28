@@ -6271,11 +6271,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\3. Core\\Core.Business.csproj",
+      "projectUniqueName": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\3. Core\\Core.Business.csproj",
       "projectName": "Core.Business",
-      "projectPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\3. Core\\Core.Business.csproj",
+      "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\3. Core\\Core.Business.csproj",
       "packagesPath": "C:\\Users\\Juan\\.nuget\\packages\\",
-      "outputPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\3. Core\\obj\\",
+      "outputPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\3. Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6296,20 +6296,20 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj": {
-              "projectPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj"
             },
-            "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Core.Domain\\Core.Domain.csproj": {
-              "projectPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Core.Domain\\Core.Domain.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Domain\\Core.Domain.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Domain\\Core.Domain.csproj"
             },
-            "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Transversal.EmailService\\Transversal.EmailService.csproj": {
-              "projectPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Transversal.EmailService\\Transversal.EmailService.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.EmailService\\Transversal.EmailService.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.EmailService\\Transversal.EmailService.csproj"
             },
-            "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj": {
-              "projectPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj"
             },
-            "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Transversal.Helpers\\Transversal.Helpers.csproj": {
-              "projectPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\Transversal.Helpers\\Transversal.Helpers.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Helpers\\Transversal.Helpers.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Helpers\\Transversal.Helpers.csproj"
             }
           }
         }

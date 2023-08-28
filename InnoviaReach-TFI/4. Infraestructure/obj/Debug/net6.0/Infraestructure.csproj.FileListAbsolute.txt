@@ -21,3 +21,26 @@ G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.pdb
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.genruntimeconfig.cache
 G:\Mi unidad\UAI\UAI\5to Año\Segundo cuatrimestre\TRABAJO FINAL DE INGENIERÍA\Tecnología\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\ref\Infraestructure.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Infraestructure.deps.json
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Infraestructure.runtimeconfig.json
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Infraestructure.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Infraestructure.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Core.Contracts.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Core.Domain.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Transversal.Extensions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Transversal.Helpers.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Core.Contracts.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Core.Domain.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Transversal.Extensions.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\bin\Debug\net6.0\Transversal.Helpers.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.csproj.AssemblyReference.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.AssemblyInfoInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.AssemblyInfo.cs
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.csproj.CoreCompileInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.csproj.CopyComplete
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\refint\Infraestructure.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\Infraestructure.genruntimeconfig.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\4. Infraestructure\obj\Debug\net6.0\ref\Infraestructure.dll

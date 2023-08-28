@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "e9c+DjpJvV9Ka0SSw4xgu5o5PHKg1l6EIbI1f2SF8fKj1eZwohMUmR+MJ8wKV9qjcMkWPpKxWjkXCErYMEIE+w==",
+  "dgSpecHash": "Ik9sr4U07RXaHibJQXcwyOhVYTfEgx709N4T+0PdKzIEUhVHUDpBww1n0du+nRdkhGxEE4koBSMB25t/o8ZrDg==",
   "success": true,
-  "projectFilePath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach-TFI\\IoC.Resolver\\IoC.Resolver.csproj",
+  "projectFilePath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\IoC.Resolver\\IoC.Resolver.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Juan\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\azure.core\\1.33.0\\azure.core.1.33.0.nupkg.sha512",
