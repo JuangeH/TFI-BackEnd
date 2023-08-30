@@ -21,23 +21,20 @@ namespace Core.Business.Services
             this._repository = repository;
         }
 
-        public virtual Task CreateAsync(T entity)
+        public virtual async Task CreateAsync(T entity)
         {
-            _repository.Insert(entity);
-            return _unitOfWork.SaveChangesAsync();
+            await _repository.Insert(entity);
         }
 
         public virtual async Task UpdateAsync(T entity)
         {
             await _repository.Update(entity);
-            await _unitOfWork.SaveChangesAsync();
         }
 
         public virtual async Task DeleteAsync(object id)
         {
             T entity = await _repository.GetByIdAsync(id);
             await _repository.Delete(entity);
-            await _unitOfWork.SaveChangesAsync();
         }
 
         public virtual async Task<T> GetByIdAsync(object id)
