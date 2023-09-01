@@ -9,6 +9,11 @@ namespace Core.Domain.Models
 {
     public class VideojuegoModel
     {
+        public VideojuegoModel()
+        {
+            novedadModels = new HashSet<NovedadModel>();
+        }
+
         public int Videojuego_ID { get; set; }
         public string Nombre { get; set; }
         public int Plataforma_ID { get; set; }
@@ -18,5 +23,6 @@ namespace Core.Domain.Models
         //public List<Reseña> Reseñas { get; set; }
         //public List<Valoracion> Valoraciones { get; set; }
         public PlataformaModel Plataforma { get; set; }
+        public ICollection<NovedadModel> novedadModels { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace Infrastructure.Data.TypeBuilders
         public void Configure(EntityTypeBuilder<UsersPrivileges> builder)
         {
             builder.Ignore(x => x.PrivilegesUsers);
+
+            builder.ToTable("UserRoles");
         }
     }
 }

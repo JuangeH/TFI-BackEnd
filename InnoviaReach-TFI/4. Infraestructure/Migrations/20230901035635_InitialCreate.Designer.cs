@@ -7,21 +7,25 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Data.Migrations
+#nullable disable
+
+namespace _4._Infraestructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220703153157_ADD_REFRESHTOKEN")]
-    partial class ADD_REFRESHTOKEN
+    [Migration("20230901035635_InitialCreate")]
+    partial class InitialCreate
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.17")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            modelBuilder.Entity("Core.Domain.DTO.Privileges", b =>
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Core.Domain.ApplicationModels.Privileges", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -45,15 +49,16 @@ namespace Infrastructure.Data.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("Roles", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.DTO.RefreshToken", b =>
+            modelBuilder.Entity("Core.Domain.ApplicationModels.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime2");
@@ -65,22 +70,27 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.DTO.Users", b =>
+            modelBuilder.Entity("Core.Domain.ApplicationModels.Users", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit")
+                        .HasAnnotation("DefaultValueSql", true);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -116,9 +126,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Salt")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -139,10 +146,10 @@ namespace Infrastructure.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.DTO.UsersPrivileges", b =>
+            modelBuilder.Entity("Core.Domain.ApplicationModels.UsersPrivileges", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -157,15 +164,77 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("UserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.NovedadModel", b =>
+                {
+                    b.Property<int>("Novedad_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Novedad_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Novedad_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("Novedad", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.PlataformaModel", b =>
+                {
+                    b.Property<int>("Plataforma_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Plataforma_ID"));
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Plataforma_ID");
+
+                    b.ToTable("Plataforma", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoModel", b =>
+                {
+                    b.Property<int>("Videojuego_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Videojuego_ID"));
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("Plataforma_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Videojuego_ID");
+
+                    b.HasIndex("Plataforma_ID");
+
+                    b.ToTable("Videojuego", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -181,15 +250,16 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("PrivilegeClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -205,7 +275,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -227,7 +297,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("UserLogin", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -246,36 +316,60 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.DTO.RefreshToken", b =>
+            modelBuilder.Entity("Core.Domain.ApplicationModels.RefreshToken", b =>
                 {
-                    b.HasOne("Core.Domain.DTO.Users", "Users")
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "Users")
                         .WithMany("UserRefreshTokens")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Core.Domain.DTO.UsersPrivileges", b =>
+            modelBuilder.Entity("Core.Domain.ApplicationModels.UsersPrivileges", b =>
                 {
-                    b.HasOne("Core.Domain.DTO.Privileges", null)
+                    b.HasOne("Core.Domain.ApplicationModels.Privileges", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.DTO.Users", null)
+                    b.HasOne("Core.Domain.ApplicationModels.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Core.Domain.Models.NovedadModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "Videojuego")
+                        .WithMany("novedadModels")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.PlataformaModel", "Plataforma")
+                        .WithMany("videojuegoModels")
+                        .HasForeignKey("Plataforma_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plataforma");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Core.Domain.DTO.Privileges", null)
+                    b.HasOne("Core.Domain.ApplicationModels.Privileges", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -284,7 +378,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Core.Domain.DTO.Users", null)
+                    b.HasOne("Core.Domain.ApplicationModels.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -293,7 +387,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Core.Domain.DTO.Users", null)
+                    b.HasOne("Core.Domain.ApplicationModels.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -302,16 +396,26 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Core.Domain.DTO.Users", null)
+                    b.HasOne("Core.Domain.ApplicationModels.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Core.Domain.DTO.Users", b =>
+            modelBuilder.Entity("Core.Domain.ApplicationModels.Users", b =>
                 {
                     b.Navigation("UserRefreshTokens");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.PlataformaModel", b =>
+                {
+                    b.Navigation("videojuegoModels");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoModel", b =>
+                {
+                    b.Navigation("novedadModels");
                 });
 #pragma warning restore 612, 618
         }

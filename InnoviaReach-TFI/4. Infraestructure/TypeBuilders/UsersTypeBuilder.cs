@@ -19,7 +19,7 @@ namespace Infrastructure.Data.TypeBuilders
             builder.Ignore(x => x.UserPrivileges);
             //       .WithMany(x => x.PrivilegesUsers);
 
-            //builder.ToTable("Users");
+            builder.ToTable("Users");
         }
     }
 }
