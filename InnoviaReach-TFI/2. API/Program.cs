@@ -103,98 +103,24 @@ internal class Program
             var services = scope.ServiceProvider;
             Configure(app,
                       app.Environment,
-                      services.GetRequiredService<ApplicationDbContext>()
+                      services.GetRequiredService<ApplicationDbContext>(),
+                      services.GetRequiredService<RoleManager<Privileges>>()
                       );
+
         }
 
-        #region Configure Init Application
-        //void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context, RoleManager<Roles> _roleManager)
-        //{
-        //    #region Configure Development Environment
-        //    if (env.IsDevelopment())
-        //    {
-        //        app.UseSwagger();
-        //        app.UseSwaggerUI();
-        //        app.UseDeveloperExceptionPage();
-        //        context.Database.Migrate(); //Cuando se ejecuta la aplicación se ejecuta el metodo update-database de dotnet ef core...
-        //    }
-        //    #endregion
-
-        //    #region Configure Swagger
-        //    app.UseSwagger();
-        //    app.UseSwaggerUI(c =>
-        //    {
-        //        c.RoutePrefix = String.Empty;
-        //        c.SwaggerEndpoint("/swagger/v1/swagger.json", "UAI TFI-TP-FINAL API V1");
-        //        c.OAuthClientId(builder.Configuration["AuthenticationConfiguration:Google:ClientId"]);
-        //        c.OAuthClientSecret(builder.Configuration["AuthenticationConfiguration:Google:ClientSecret"]);
-        //        c.OAuth2RedirectUrl("https://localhost:44352/signin-google");
-        //        c.OAuthAppName("API - Swagger");
-        //        c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
-        //        c.OAuthUsePkce();
-        //        c.OAuthScopeSeparator(" ");
-        //        c.EnableValidator(null);
-        //        c.OAuthAdditionalQueryStringParams(new Dictionary<string, string> { { "audience", "" } });
-        //    });
-        //    #endregion
-
-        //    #region Configure CORS
-        //    var corsAllowAll = builder.Configuration["CorsAllowedAllHosts"] ?? "false";
-        //    app.UseCors(GetCorsConfig(corsAllowAll == "true"));
-        //    #endregion
-
-        //    #region Save Data For Application
-        //    var htmlDocuments = builder.Configuration.GetSection("TemplatesEmailPath").Value ?? AppDomain.CurrentDomain.BaseDirectory + "HtmlDocuments\\";
-
-        //    AppDomain.CurrentDomain.SetData("ContentRootPath", env.ContentRootPath);
-        //    AppDomain.CurrentDomain.SetData("WebRootPath", env.WebRootPath);
-        //    AppDomain.CurrentDomain.SetData("HtmlDocuments", htmlDocuments);
-        //    #endregion
-
-        //    #region Configure Default Methods .NET
-        //    app.UseStaticFiles();
-        //    app.UseRouting();
-        //    app.UseAuthentication();
-        //    app.UseAuthorization();
-        //    //app.UseHttpsRedirection();
-        //    app.UseEndpoints(endpoints =>
-        //    {
-        //        endpoints.MapControllers();
-        //    });
-        //    #endregion
-
-        //    #region Set Default Roles If Not Exists
-        //    if (_roleManager.FindByNameAsync("Admin").Result == null && _roleManager.FindByNameAsync("User").Result == null)
-        //    //{
-        //    //    //Create Roles
-        //    //    var role = new Roles();
-        //    //    role.Name = "Admin";
-        //    //    IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
-
-        //    //    role = new Roles();
-        //    //    role.Name = "User";
-        //    //    roleResult = _roleManager.CreateAsync(role).Result;
-        //    //}
-        //    {
-        //        _roleManager.CreateAsync(role: new Roles { Name = "Admin", NormalizedName = "ADMIN" }).Wait();
-        //        _roleManager.CreateAsync(role: new Roles { Name = "User", NormalizedName = "USER" }).Wait();
-        //    }
-        //    #endregion
-
-        //    #region Configure SignalR
-        //    //app.UseMiddleware<ActionLoggerMiddleware>();
-        //    #endregion
-        //}
-        #endregion
-
-        void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context)
+        void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context, RoleManager<Privileges> _roleManager)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                // context.Database.Migrate(); //Cuando se ejecuta la aplicación se ejecuta el metodo update-database de dotnet ef core...
             }
-
+            if (_roleManager.FindByNameAsync("Admin").Result == null && _roleManager.FindByNameAsync("User").Result == null)
+            {
+                _roleManager.CreateAsync(role: new Privileges { Name = "Admin", NormalizedName = "ADMIN" }).Wait();
+                _roleManager.CreateAsync(role: new Privileges { Name = "User", NormalizedName = "USER" }).Wait();
+            }
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 

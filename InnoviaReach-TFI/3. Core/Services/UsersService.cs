@@ -68,7 +68,7 @@ namespace Core.Business.Services
                     return usuarioDto;
                 }
                 
-                await _emailService.RegistrationEmailAsync(user);
+                //await _emailService.RegistrationEmailAsync(user);
                 registerDto.IsRegistred = true;
                 usuarioDto.Data = registerDto;
                 return usuarioDto;

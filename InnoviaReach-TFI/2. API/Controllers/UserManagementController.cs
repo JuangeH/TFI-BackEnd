@@ -14,7 +14,7 @@ using Core.Domain.ApplicationModels;
 
 namespace Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Produces("application/json")]
     [ApiController]
     [Route("[controller]")]
@@ -44,8 +44,8 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
-        //[AllowAnonymous]
+        //[Authorize(Roles = "Administrador")]
+        [AllowAnonymous]
         public async Task<IActionResult> CreatePrivilege(PrivilegesPostRequest privilegesRequest)
         {
             Privileges privileges = _mapper.Map<Privileges>(privilegesRequest);
@@ -166,8 +166,8 @@ namespace Api.Controllers
 
 
         [HttpGet("Users")]
-        [Authorize(Roles = "Administrador")]
-        //[AllowAnonymous]
+        //[Authorize(Roles = "Administrador")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUsers()
         {
             try
