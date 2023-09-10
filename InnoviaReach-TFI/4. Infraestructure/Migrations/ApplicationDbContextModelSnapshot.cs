@@ -89,9 +89,15 @@ namespace _4._Infraestructure.Migrations
                         .HasColumnType("bit")
                         .HasAnnotation("DefaultValueSql", true);
 
+                    b.Property<bool>("Actualizaciones")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Descuentos")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -99,6 +105,18 @@ namespace _4._Infraestructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Estilo_preferido")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Genero_preferido")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Idioma")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -164,6 +182,188 @@ namespace _4._Infraestructure.Migrations
                     b.ToTable("UserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("Core.Domain.Models.AdquisicionModel", b =>
+                {
+                    b.Property<int>("Adquisicion_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Adquisicion_id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Adquisicion_id");
+
+                    b.HasIndex("User_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("Adquisicion", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ComentarioModel", b =>
+                {
+                    b.Property<int>("Comentario_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Comentario_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("Foro_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Comentario_ID");
+
+                    b.HasIndex("Foro_ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.ToTable("Comentario", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.EstiloModel", b =>
+                {
+                    b.Property<int>("Estilo_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Estilo_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Estilo_ID");
+
+                    b.ToTable("Estilo", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ForoModel", b =>
+                {
+                    b.Property<int>("Foro_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Foro_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Foro_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("Foro", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("Foro_ID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Tipo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Foro_ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.ToTable("ForoUsuario", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.GeneroModel", b =>
+                {
+                    b.Property<int>("Genero_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Genero_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Genero_ID");
+
+                    b.ToTable("Genero", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.MedioDePagoModel", b =>
+                {
+                    b.Property<int>("Medio_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Medio_ID"));
+
+                    b.Property<int>("Cod_Postal")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cod_Verificador")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Numero")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TipoPago_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Medio_ID");
+
+                    b.HasIndex("TipoPago_ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.ToTable("MedioDePago", (string)null);
+                });
+
             modelBuilder.Entity("Core.Domain.Models.NovedadModel", b =>
                 {
                     b.Property<int>("Novedad_ID")
@@ -201,6 +401,263 @@ namespace _4._Infraestructure.Migrations
                     b.HasKey("Plataforma_ID");
 
                     b.ToTable("Plataforma", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.PuntuacionModel", b =>
+                {
+                    b.Property<int>("Puntuacion_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Puntuacion_ID"));
+
+                    b.Property<int>("Comentario_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Puntaje")
+                        .HasColumnType("int");
+
+                    b.HasKey("Puntuacion_ID");
+
+                    b.HasIndex("Comentario_ID");
+
+                    b.ToTable("Puntuacion", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ReseñaModel", b =>
+                {
+                    b.Property<int>("Reseña_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Reseña_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Reseña_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("Reseña", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.SuscripcionModel", b =>
+                {
+                    b.Property<int>("Suscripcion_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Suscripcion_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Suscripcion_ID");
+
+                    b.ToTable("Suscripcion", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.SuscripcionUsuarioModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Suscripcion_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Suscripcion_ID");
+
+                    b.HasIndex("User_ID")
+                        .IsUnique();
+
+                    b.ToTable("SuscripcionUsuario", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.TiempoDeJuegoModel", b =>
+                {
+                    b.Property<int>("Tiempo_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Tiempo_ID"));
+
+                    b.Property<int>("CantidadHoras")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UltimaFecha")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Tiempo_ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("TiempoDeJuego", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.TipoPagoModel", b =>
+                {
+                    b.Property<int>("TipoPago_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TipoPago_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("TipoPago_ID");
+
+                    b.ToTable("TipoPago", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.TrofeoModel", b =>
+                {
+                    b.Property<int>("Trofeo_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Trofeo_ID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Trofeo_ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("Trofeo", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ValoracionModel", b =>
+                {
+                    b.Property<int>("Valoracion_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Valoracion_ID"));
+
+                    b.Property<int>("Puntuacion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Valoracion_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("Valoracion", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoEstiloModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("Estilo_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Estilo_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("VideojuegoEstilo", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoGeneroModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("Genero_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Genero_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("VideojuegoGenero", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoInteresModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Videojuego_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.HasIndex("Videojuego_ID");
+
+                    b.ToTable("VideojuegoInteres", (string)null);
                 });
 
             modelBuilder.Entity("Core.Domain.Models.VideojuegoModel", b =>
@@ -342,6 +799,93 @@ namespace _4._Infraestructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Core.Domain.Models.AdquisicionModel", b =>
+                {
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("adquicionesModel")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
+                        .WithMany("adquisicionesModel")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("usuario");
+
+                    b.Navigation("videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ComentarioModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.ForoModel", "foro")
+                        .WithMany("comentarioModels")
+                        .HasForeignKey("Foro_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("comentarioModels")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("foro");
+
+                    b.Navigation("usuario");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ForoModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
+                        .WithMany("foroModels")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.ForoModel", "foro")
+                        .WithMany("foroUsuarioModels")
+                        .HasForeignKey("Foro_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("foroUsuarioModels")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("foro");
+
+                    b.Navigation("usuario");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.MedioDePagoModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.TipoPagoModel", "tipoPago")
+                        .WithMany("_mediosPagoModel")
+                        .HasForeignKey("TipoPago_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("medioDePagoModels")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("tipoPago");
+
+                    b.Navigation("usuario");
+                });
+
             modelBuilder.Entity("Core.Domain.Models.NovedadModel", b =>
                 {
                     b.HasOne("Core.Domain.Models.VideojuegoModel", "Videojuego")
@@ -351,6 +895,153 @@ namespace _4._Infraestructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.PuntuacionModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.ComentarioModel", "comentario")
+                        .WithMany("puntuacioModels")
+                        .HasForeignKey("Comentario_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("comentario");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ReseñaModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "Videojuego")
+                        .WithMany("reseñaModel")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.SuscripcionUsuarioModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.SuscripcionModel", "Suscripcion")
+                        .WithMany("suscripcionUsrdModels")
+                        .HasForeignKey("Suscripcion_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "Usuario")
+                        .WithOne("suscripcionUsuarioModel")
+                        .HasForeignKey("Core.Domain.Models.SuscripcionUsuarioModel", "User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Suscripcion");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.TiempoDeJuegoModel", b =>
+                {
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("tiempoDeJuegoModel")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
+                        .WithMany("tiempoDeJuegoModel")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("usuario");
+
+                    b.Navigation("videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.TrofeoModel", b =>
+                {
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("trofeosModel")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
+                        .WithMany("trofeosModel")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("usuario");
+
+                    b.Navigation("videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ValoracionModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "Videojuego")
+                        .WithMany("valoracionModel")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoEstiloModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.EstiloModel", "estiloModel")
+                        .WithMany("videojuegoEstiloModels")
+                        .HasForeignKey("Estilo_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
+                        .WithMany("videojuegoEstiloModels")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("estiloModel");
+
+                    b.Navigation("videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoGeneroModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.GeneroModel", "generoModel")
+                        .WithMany("videojuegoGeneroModels")
+                        .HasForeignKey("Genero_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
+                        .WithMany("videojuegoGeneroModels")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("generoModel");
+
+                    b.Navigation("videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.VideojuegoInteresModel", b =>
+                {
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("videojuegoInteresModel")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
+                        .WithMany("videojuegoInteresModels")
+                        .HasForeignKey("Videojuego_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("usuario");
+
+                    b.Navigation("videojuego");
                 });
 
             modelBuilder.Entity("Core.Domain.Models.VideojuegoModel", b =>
@@ -403,6 +1094,45 @@ namespace _4._Infraestructure.Migrations
             modelBuilder.Entity("Core.Domain.ApplicationModels.Users", b =>
                 {
                     b.Navigation("UserRefreshTokens");
+
+                    b.Navigation("adquicionesModel");
+
+                    b.Navigation("comentarioModels");
+
+                    b.Navigation("foroUsuarioModels");
+
+                    b.Navigation("medioDePagoModels");
+
+                    b.Navigation("suscripcionUsuarioModel")
+                        .IsRequired();
+
+                    b.Navigation("tiempoDeJuegoModel");
+
+                    b.Navigation("trofeosModel");
+
+                    b.Navigation("videojuegoInteresModel");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ComentarioModel", b =>
+                {
+                    b.Navigation("puntuacioModels");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.EstiloModel", b =>
+                {
+                    b.Navigation("videojuegoEstiloModels");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ForoModel", b =>
+                {
+                    b.Navigation("comentarioModels");
+
+                    b.Navigation("foroUsuarioModels");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.GeneroModel", b =>
+                {
+                    b.Navigation("videojuegoGeneroModels");
                 });
 
             modelBuilder.Entity("Core.Domain.Models.PlataformaModel", b =>
@@ -410,9 +1140,37 @@ namespace _4._Infraestructure.Migrations
                     b.Navigation("videojuegoModels");
                 });
 
+            modelBuilder.Entity("Core.Domain.Models.SuscripcionModel", b =>
+                {
+                    b.Navigation("suscripcionUsrdModels");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.TipoPagoModel", b =>
+                {
+                    b.Navigation("_mediosPagoModel");
+                });
+
             modelBuilder.Entity("Core.Domain.Models.VideojuegoModel", b =>
                 {
+                    b.Navigation("adquisicionesModel");
+
+                    b.Navigation("foroModels");
+
                     b.Navigation("novedadModels");
+
+                    b.Navigation("reseñaModel");
+
+                    b.Navigation("tiempoDeJuegoModel");
+
+                    b.Navigation("trofeosModel");
+
+                    b.Navigation("valoracionModel");
+
+                    b.Navigation("videojuegoEstiloModels");
+
+                    b.Navigation("videojuegoGeneroModels");
+
+                    b.Navigation("videojuegoInteresModels");
                 });
 #pragma warning restore 612, 618
         }

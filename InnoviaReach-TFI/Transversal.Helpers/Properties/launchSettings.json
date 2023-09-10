@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Transversal.Helpers": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:60105;http://localhost:60109"
+    }
+  }
+}

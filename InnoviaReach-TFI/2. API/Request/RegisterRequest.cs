@@ -26,5 +26,20 @@ namespace Api.Request
 
         [Required(ErrorMessage = "Campo requerido")]
         public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido")]
+        public string Idioma { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido")]
+        public string Estilo_preferido { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido")]
+        public string Genero_preferido { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido")]
+        public bool Actualizaciones { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido")]
+        public bool Descuentos { get; set; }
     }
 }
