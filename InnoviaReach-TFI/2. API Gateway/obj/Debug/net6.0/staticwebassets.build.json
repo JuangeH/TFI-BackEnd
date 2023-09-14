@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "n6KRw/NCCgu699E+Q5V/O2Io21/LE9CDBy12FpDl12k=",
+  "Source": "API Gateway",
+  "BasePath": "_content/API Gateway",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
