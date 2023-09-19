@@ -2231,6 +2231,7 @@
           "Microsoft.AspNetCore.Identity": "2.2.0",
           "Microsoft.Extensions.Identity.Core": "7.0.10",
           "Microsoft.Extensions.Logging.Abstractions": "7.0.1",
+          "System.Net.Http": "4.3.4",
           "Transversal.EmailService": "1.0.0",
           "Transversal.Extensions": "1.0.0",
           "Transversal.Helpers": "1.0.0"
@@ -2244,6 +2245,7 @@
           "Core.Domain": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Abstractions": "2.2.0",
           "Microsoft.Extensions.Identity.Core": "7.0.10",
+          "Newtonsoft.Json": "13.0.3",
           "Transversal.Helpers": "1.0.0"
         },
         "runtime": {

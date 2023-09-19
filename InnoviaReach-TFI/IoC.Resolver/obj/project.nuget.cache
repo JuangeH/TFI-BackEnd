@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EaoOUkNZ9jULty6YabuaN9w9CFjxRkFS7IFqU6G4IeV+QovCAA45u6a4uvh20TcBAJE6giXAya0I9WPUwuFk4w==",
+  "dgSpecHash": "lCuglY6Mvz7atQ60ZV1X/mGJ06a5WgokHRXOsWbVtgQmf4XJr41AMftXwp8HXNGL2Z11gUph4ocgvNbA6teoaw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\IoC.Resolver\\IoC.Resolver.csproj",
   "expectedPackageFiles": [
@@ -131,6 +131,7 @@
     "C:\\Users\\Juan\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\system.net.http\\4.3.4\\system.net.http.4.3.4.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.net.nameresolution\\4.3.0\\system.net.nameresolution.4.3.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.net.primitives\\4.3.0\\system.net.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.net.security\\4.3.2\\system.net.security.4.3.2.nupkg.sha512",

@@ -670,7 +670,7 @@ namespace _4._Infraestructure.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(max)");
 
                     b.Property<int>("Plataforma_ID")
                         .HasColumnType("int");

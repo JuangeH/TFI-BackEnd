@@ -21,9 +21,10 @@ namespace Core.Business.Services
             this._repository = repository;
         }
 
-        public virtual async Task CreateAsync(T entity)
+        public virtual Task CreateAsync(T entity)
         {
-            await _repository.Insert(entity);
+            _repository.Insert(entity);
+            return _unitOfWork.SaveChangesAsync();
         }
 
         public virtual async Task UpdateAsync(T entity)

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "21xLtP20wl1C2J4zo9jIVtSu9JLaCvCIP0wocA75/1HoM1WWvVB1yaRKKrkLCzde1w3YWiyRksq9JFMIf1ByNg==",
+  "dgSpecHash": "ZJOxAxbAh9G5SzAUwIeIH9BxdZjh+vGolUBqZbdfVHJqoSTPYvglIl7AD9NBFr8rZQCdjtz7smKrxP/19GGLyw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\4. Infraestructure\\Infraestructure.csproj",
   "expectedPackageFiles": [
@@ -53,7 +53,7 @@
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
-    "C:\\Users\\Juan\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",

@@ -16,7 +16,7 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Videojuego_ID);
 
-            builder.Property(x => x.Nombre).HasColumnType("varchar(50)").IsRequired();
+            builder.Property(x => x.Nombre).HasColumnType("varchar(max)").IsRequired();
 
             builder.HasOne(x => x.Plataforma)
                    .WithMany(y => y.videojuegoModels).HasForeignKey(z => z.Plataforma_ID);

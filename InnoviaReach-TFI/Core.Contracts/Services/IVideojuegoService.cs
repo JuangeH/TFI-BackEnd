@@ -1,5 +1,6 @@
 ﻿using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Core.Contracts.Services
     public interface IVideojuegoService : IGenericService<VideojuegoModel>
     {
         public Task<List<VideojuegoModel>> ObtenerVideojuegosYPlataformas();
+        public Task RegistrarVideojuego(VideojuegoModel videojuego, JArray categoriesArray, JArray genresArray);
     }
 }
