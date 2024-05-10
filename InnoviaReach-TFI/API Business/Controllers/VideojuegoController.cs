@@ -1,4 +1,5 @@
 ﻿using API_Business.Request;
+using API_Business.Response;
 using AutoMapper;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
@@ -104,9 +105,10 @@ namespace API_Business.Controllers
         {
             try
             {
-                var resultado = await _videojuegoService.ObtenerVideojuegosYPlataformas();
+                var resultado = await _videojuegoService.ObtenerVideojuegos();
+                var response = _mapper.Map<List<VideojuegoResponse>>(resultado);
 
-                return Ok(resultado);
+                return Ok(response);
             }
             catch (Exception ex)
             {

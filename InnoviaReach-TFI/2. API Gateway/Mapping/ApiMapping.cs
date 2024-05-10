@@ -1,9 +1,11 @@
-﻿using Api.Request;
+﻿using _2._API.Response;
+using Api.Request;
 using Api.Request.Privileges;
 
 using AutoMapper;
 using Core.Domain.ApplicationModels;
 using Core.Domain.DTOs;
+using Core.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -37,6 +39,7 @@ namespace Api.Mapping
 
             CreateMap<ChangePasswordDto, ChangePasswordRequest>();
 
+            CreateMap<LogTableModel, LogTableResponse>();
         }
     }
 }

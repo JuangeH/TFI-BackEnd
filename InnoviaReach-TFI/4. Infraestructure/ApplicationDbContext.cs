@@ -1,4 +1,5 @@
 ﻿using Core.Domain.ApplicationModels;
+using Core.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,6 @@ namespace Infrastructure.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

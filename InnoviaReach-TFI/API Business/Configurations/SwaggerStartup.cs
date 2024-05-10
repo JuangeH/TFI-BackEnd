@@ -13,7 +13,7 @@ namespace Api.Configurations
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("InnoviaReachAPIBusinessSpecification", new OpenApiInfo { Title = "InnoviaReach API", Version = "1" });
+                c.SwaggerDoc("InnoviaReachAPIBusinessSpecification", new OpenApiInfo { Title = "InnoviaReach Business API", Version = "1" });
                 var securityScheme = new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",

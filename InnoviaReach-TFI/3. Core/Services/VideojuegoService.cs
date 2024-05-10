@@ -1,4 +1,5 @@
-﻿using Core.Business.Services;
+﻿using AutoMapper;
+using Core.Business.Services;
 using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
@@ -35,11 +36,11 @@ namespace _3._Core.Services
             _GeneroRepo = unitOfWork.GetRepository<IGeneroRepository>();
         }
 
-        public async Task<List<VideojuegoModel>> ObtenerVideojuegosYPlataformas()
+        public async Task<List<VideojuegoModel>> ObtenerVideojuegos()
         {
             try
             {
-                return (await _repository.Get(x => x.Nombre != "", includeProperties: "Plataforma")).ToList();
+                return (await _repository.Get(x => x.Nombre != "", includeProperties: "Plataforma, videojuegoEstiloModels, videojuegoEstiloModels.estiloModel, videojuegoGeneroModels, videojuegoGeneroModels.generoModel")).ToList();
 
             }
             catch (Exception ex)
