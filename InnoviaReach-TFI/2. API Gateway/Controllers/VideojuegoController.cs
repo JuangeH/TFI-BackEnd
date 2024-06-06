@@ -1,12 +1,16 @@
 ﻿using Api.Controllers;
+using Api.Request;
 using AutoMapper;
 using Core.Contracts.Data;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
+using Core.Domain.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Transversal.Helpers.JWT;
+using static System.Net.WebRequestMethods;
 
 namespace _2._API.Controllers
 {
@@ -17,6 +21,7 @@ namespace _2._API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger<VideojuegoController> _logger;
+        private string ApiBaseURL = "https://localhost:44309/";
 
         public VideojuegoController(
             IMapper mapper,
@@ -30,9 +35,11 @@ namespace _2._API.Controllers
         [Authorize]
         public async Task<IActionResult> RegistrarInformacion(SteamInfoRequest steamInfoRequest)
         {
-            string URL = ApiForumBaseURL + "Publicaciones/ObtenerPublicaciones";
-            var GenericApiResponse = await RequestHelper.GetRequest<List<PublicacionesResponse>>(URL);
-            return Ok(GenericApiResponse.Data);
+            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            string URL = ApiBaseURL + $"Videojuego/RegistrarInformacion/{userid}";
+            var GenericApiResponse = await RequestHelper.PostRequest<bool, SteamInfoRequest>(URL, steamInfoRequest);
+            return Ok();
         }
     }
 }

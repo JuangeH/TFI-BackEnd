@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZJOxAxbAh9G5SzAUwIeIH9BxdZjh+vGolUBqZbdfVHJqoSTPYvglIl7AD9NBFr8rZQCdjtz7smKrxP/19GGLyw==",
+  "dgSpecHash": "XzjuxMN/iRPIF77Zyqs4ltvc0SqWuCVg8yKm7VUxjpmeIJHlgyVLrytWbs4B6bGwh+g6lZYcwof7U7KY2Sg2TA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\4. Infraestructure\\Infraestructure.csproj",
   "expectedPackageFiles": [
@@ -10,7 +10,7 @@
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.10\\microsoft.aspnetcore.cryptography.internal.7.0.10.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.10\\microsoft.aspnetcore.cryptography.keyderivation.7.0.10.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
-    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.17\\microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\6.0.21\\microsoft.aspnetcore.identity.entityframeworkcore.6.0.21.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.mvc.abstractions\\2.2.0\\microsoft.aspnetcore.mvc.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.routing.abstractions\\2.2.0\\microsoft.aspnetcore.routing.abstractions.2.2.0.nupkg.sha512",
@@ -64,6 +64,7 @@
     "C:\\Users\\Juan\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.21.0\\system.identitymodel.tokens.jwt.6.21.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\system.io.pipelines\\5.0.2\\system.io.pipelines.5.0.2.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

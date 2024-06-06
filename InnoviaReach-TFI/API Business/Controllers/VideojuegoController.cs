@@ -113,11 +113,13 @@ namespace API_Business.Controllers
             }
         }
 
-        [HttpPost("RegistrarInformacion")]
-        public async Task<IActionResult> RegistrarInformacion(SteamInfoRequest steamInfoRequest)
+        [HttpPost("RegistrarInformacion/{userid}")]
+        public async Task<IActionResult> RegistrarInformacion(SteamInfoRequest steamInfoRequest, string userid)
         {
             try
             {
+                //VALIDAR NO REGISTRAR MÚLTIPLES VECES LA MISMA ADQUISICION/TIEMPO DE JUEGO
+
                 HttpClient httpClient = new HttpClient();
 
                 Root videojuegosAdquiridos = new Root();
@@ -165,8 +167,6 @@ namespace API_Business.Controllers
                             tiempoDeJuego.videojuego = videojuego;
                             tiempoDeJuego.CantidadMinutos = item.playtime_forever;
 
-                            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
                             await _videojuegoService.RegistrarVideojuego(videojuego, categoriesArray, genresArray);
 
                             await _adquisicionService.RegistrarAdquisicion(adquisicion, userid);
@@ -182,7 +182,7 @@ namespace API_Business.Controllers
 
                 }
 
-                return Ok();
+                return Ok(true);
             }
             catch (Exception ex)
             {

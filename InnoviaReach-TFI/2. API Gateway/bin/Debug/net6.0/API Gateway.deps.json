@@ -2254,7 +2254,9 @@
       },
       "Core.Domain/1.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.21"
+          "Microsoft.AspNetCore.Http.Features": "5.0.17",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.21",
+          "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "Core.Domain.dll": {}

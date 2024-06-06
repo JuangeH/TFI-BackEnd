@@ -2156,7 +2156,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.21"
+          "Microsoft.AspNetCore.Http.Features": "5.0.17",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.21",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/Core.Domain.dll": {}
@@ -2192,7 +2194,7 @@
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
           "Microsoft.Extensions.Configuration.Binder": "7.0.4",
           "Microsoft.Extensions.Identity.Core": "7.0.10",
-          "Newtonsoft.Json": "13.0.1",
+          "Newtonsoft.Json": "13.0.3",
           "Transversal.Helpers": "1.0.0"
         },
         "compile": {
