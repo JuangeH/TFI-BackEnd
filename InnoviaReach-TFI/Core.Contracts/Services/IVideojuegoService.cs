@@ -12,6 +12,7 @@ namespace Core.Contracts.Services
     public interface IVideojuegoService : IGenericService<VideojuegoModel>
     {
         public Task<List<VideojuegoModel>> ObtenerVideojuegos();
+        public Task<VideojuegoModel> ObtenerVideojuego(string name);
         public Task RegistrarVideojuego(VideojuegoModel videojuego, JArray categoriesArray, JArray genresArray);
     }
 }

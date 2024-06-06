@@ -120,7 +120,7 @@ namespace Api.Controllers
                         nameof(RefreshTokenService),
                         result.Issues);
                 }
-                return Ok(result);
+                return Ok(result.Data);
             }
             catch (Exception ex)
             {

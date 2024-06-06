@@ -25,6 +25,7 @@ namespace Core.Domain.Models
         public int Videojuego_ID { get; set; }
         public string Nombre { get; set; }
         public int Plataforma_ID { get; set; }
+        public int? Recomendaciones { get; set; }
         //public List<EstiloDeJuego> Estilos { get; set; }
         //public List<Genero> Generos { get; set; }
         //public List<Novedad> Novedades { get; set; }

@@ -15,9 +15,7 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Tiempo_ID);
 
-            builder.Property(x => x.CantidadHoras).HasColumnType("int").IsRequired();
-
-            builder.Property(x => x.UltimaFecha).HasColumnType("datetime").IsRequired();
+            builder.Property(x => x.CantidadMinutos).HasColumnType("int").IsRequired();
 
             builder.HasOne(x => x.usuario)
                   .WithMany(y => y.tiempoDeJuegoModel)

@@ -18,6 +18,8 @@ namespace _4._Infraestructure.TypeBuilders
 
             builder.Property(x => x.Nombre).HasColumnType("varchar(max)").IsRequired();
 
+            builder.Property(x => x.Recomendaciones).HasColumnType("int");
+
             builder.HasOne(x => x.Plataforma)
                    .WithMany(y => y.videojuegoModels).HasForeignKey(z => z.Plataforma_ID);
 

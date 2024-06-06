@@ -15,10 +15,6 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Adquisicion_id);
 
-            builder.Property(x => x.Descripcion).HasColumnType("varchar(50)").IsRequired();
-
-            builder.Property(x => x.Fecha).HasColumnType("datetime").IsRequired();
-
             builder.HasOne(x => x.usuario)
                   .WithMany(y => y.adquicionesModel)
                   .HasForeignKey(z => z.User_ID);

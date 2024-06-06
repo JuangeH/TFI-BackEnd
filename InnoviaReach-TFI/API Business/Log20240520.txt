@@ -1,0 +1,5 @@
+2024-05-20 06:02:02.239 -03:00 [ERR] Error while obtaining videogames.
+Newtonsoft.Json.JsonReaderException: Error reading JObject from JsonReader. Path '', line 0, position 0.
+   at Newtonsoft.Json.Linq.JObject.Load(JsonReader reader, JsonLoadSettings settings)
+   at Newtonsoft.Json.Linq.JObject.Parse(String json, JsonLoadSettings settings)
+   at API_Business.Controllers.VideojuegoController.RegistrarVideojuegos() in C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\Controllers\VideojuegoController.cs:line 68

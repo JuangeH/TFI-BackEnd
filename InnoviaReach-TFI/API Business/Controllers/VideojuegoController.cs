@@ -4,12 +4,15 @@ using AutoMapper;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Security.Claims;
 using static Google.Apis.Requests.BatchRequest;
 
 namespace API_Business.Controllers
@@ -22,17 +25,23 @@ namespace API_Business.Controllers
         private readonly ILogger<VideojuegoController> _logger;
         private readonly IVideojuegoService _videojuegoService;
         private readonly IPlataformaService _plataformaService;
+        private readonly IAdquisicionService _adquisicionService;
+        private readonly ITiempoDeJuegoService _tiempoDeJuegoService;
 
         public VideojuegoController(
             IMapper mapper,
             ILogger<VideojuegoController> logger,
             IVideojuegoService videojuegoService,
-            IPlataformaService plataformaService)
+            IPlataformaService plataformaService,
+            IAdquisicionService adquisicionService,
+            ITiempoDeJuegoService tiempoDeJuegoService)
         {
             _mapper = mapper;
             _logger = logger;
             _videojuegoService = videojuegoService;
             _plataformaService = plataformaService;
+            _adquisicionService = adquisicionService;
+            _tiempoDeJuegoService = tiempoDeJuegoService;
         }
 
         [HttpPost("RegistrarVideojuegos")]
@@ -41,25 +50,30 @@ namespace API_Business.Controllers
             try
             {
                 HttpClient httpClient = new HttpClient();
-                Application videojuegosSteam = new Application();
 
-                videojuegosSteam = await httpClient.GetFromJsonAsync<Application>("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
+                var videojuegosSteam = await httpClient.GetFromJsonAsync<Application>("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
+
+                if (videojuegosSteam?.applist?.apps == null)
+                {
+                    _logger.LogError("No se pudo obtener la lista de videojuegos de Steam.");
+                    return BadRequest("No se pudo obtener la lista de videojuegos de Steam.");
+                }
 
                 foreach (var item in videojuegosSteam.applist.apps)
                 {
                     var response = await httpClient.GetAsync("http://store.steampowered.com/api/appdetails?appids=" + item.appid);
                     string json = await response.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode)
+                    if (response.IsSuccessStatusCode && json != null)
                     {
                         // Parse the JSON string
                         JObject jsonObject = JObject.Parse(json);
 
                         // Extract values
-                        string type = null;
+                        string? type = null;
                         //type = (string)jsonObject[item.appid.ToString()]["data"]["type"];
 
-                        if (jsonObject != null && jsonObject[item.appid.ToString()] != null && jsonObject[item.appid.ToString()]["data"] != null && jsonObject[item.appid.ToString()]["data"]["type"] != null)
+                        if (jsonObject != null && jsonObject[item.appid.ToString()] != null && jsonObject[item.appid.ToString()]?["data"] != null && jsonObject[item.appid.ToString()]?["data"]?["type"] != null && jsonObject[item.appid.ToString()]?["data"]?["categories"] != null && jsonObject[item.appid.ToString()]?["data"]?["genres"] != null)
                         {
                             type = jsonObject[item.appid.ToString()]["data"]["type"].ToString();
                         }
@@ -71,15 +85,14 @@ namespace API_Business.Controllers
                         if (type == "game")
                         {
                             VideojuegoModel videojuego = new VideojuegoModel();
-                            videojuego.Nombre= jsonObject[item.appid.ToString()]["data"]["name"].ToString();
+                            videojuego.Nombre = jsonObject[item.appid.ToString()]["data"]["name"].ToString();
+                            videojuego.Recomendaciones = Convert.ToInt32(jsonObject[item.appid.ToString()]?["data"]?["recommendations"]?["total"]);
                             videojuego.Plataforma_ID = 1;
 
                             JArray categoriesArray = (JArray)jsonObject[item.appid.ToString()]["data"]["categories"];
                             JArray genresArray = (JArray)jsonObject[item.appid.ToString()]["data"]["genres"];
 
-                            //_videojuegoService.CreateAsync(videojuego);
-
-                            _videojuegoService.RegistrarVideojuego(videojuego, categoriesArray, genresArray);
+                            await _videojuegoService.RegistrarVideojuego(videojuego, categoriesArray, genresArray);
                         }
                     }
                     else
@@ -87,9 +100,87 @@ namespace API_Business.Controllers
                         // Si la solicitud no fue exitosa, maneja el error aquí
                     }
 
-                    
+
                 }
 
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("RegistrarInformacion")]
+        public async Task<IActionResult> RegistrarInformacion(SteamInfoRequest steamInfoRequest)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+
+                Root videojuegosAdquiridos = new Root();
+
+                videojuegosAdquiridos = await httpClient.GetFromJsonAsync<Root>("https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + steamInfoRequest.SteamAPIKey + "&steamid=" + steamInfoRequest.SteamID + "&format=json");
+
+
+                foreach (var item in videojuegosAdquiridos.response.games)
+                {
+                    var response = await httpClient.GetAsync("http://store.steampowered.com/api/appdetails?appids=" + item.appid);
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode && json != null)
+                    {
+                        // Parse the JSON string
+                        JObject jsonObject = JObject.Parse(json);
+
+                        // Extract values
+                        string? type = default;
+                        //type = (string)jsonObject[item.appid.ToString()]["data"]["type"];
+
+                        if (jsonObject != null && jsonObject[item.appid.ToString()] != null && jsonObject[item.appid.ToString()]?["data"] != null && jsonObject[item.appid.ToString()]?["data"]?["type"] != null && jsonObject[item.appid.ToString()]?["data"]?["categories"] != null && jsonObject[item.appid.ToString()]?["data"]?["genres"] != null)
+                        {
+                            type = jsonObject[item.appid.ToString()]["data"]["type"].ToString();
+                        }
+                        else
+                        {
+                            type = null;
+                        }
+
+                        if (type == "game")
+                        {
+                            VideojuegoModel videojuego = new VideojuegoModel();
+                            AdquisicionModel adquisicion = new AdquisicionModel();
+                            TiempoDeJuegoModel tiempoDeJuego = new TiempoDeJuegoModel();
+
+                            videojuego.Nombre = jsonObject[item.appid.ToString()]["data"]["name"].ToString();
+                            videojuego.Recomendaciones = Convert.ToInt32(jsonObject[item.appid.ToString()]?["data"]?["recommendations"]?["total"]);
+                            videojuego.Plataforma_ID = 1;
+
+                            JArray categoriesArray = (JArray)jsonObject[item.appid.ToString()]["data"]["categories"];
+                            JArray genresArray = (JArray)jsonObject[item.appid.ToString()]["data"]["genres"];
+
+                            adquisicion.videojuego = videojuego;
+                            tiempoDeJuego.videojuego = videojuego;
+                            tiempoDeJuego.CantidadMinutos = item.playtime_forever;
+
+                            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                            await _videojuegoService.RegistrarVideojuego(videojuego, categoriesArray, genresArray);
+
+                            await _adquisicionService.RegistrarAdquisicion(adquisicion, userid);
+
+                            await _tiempoDeJuegoService.RegistrarTiempoDeJuego(tiempoDeJuego, userid);
+
+                        }
+                    }
+                    else
+                    {
+                        // Si la solicitud no fue exitosa, maneja el error aquí
+                    }
+
+                }
 
                 return Ok();
             }
