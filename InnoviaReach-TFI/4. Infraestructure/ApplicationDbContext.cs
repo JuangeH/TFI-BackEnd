@@ -3,6 +3,7 @@ using Core.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using System.Threading;
@@ -13,9 +14,23 @@ namespace Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<Users,Privileges,string,IdentityUserClaim<string>, UsersPrivileges,IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
+        //public ApplicationDbContext()
+        //{
+
+        //}
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=InnoviaDB2;User ID=testuser;Password=1234;Current Language=Spanish;MultipleActiveResultSets=True;Integrated Security=True;TrustServerCertificate=True");
+        //    }
+        //}
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

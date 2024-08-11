@@ -22,6 +22,7 @@ namespace _4._Infraestructure.TypeBuilders
             builder.HasOne(x => x.videojuego)
                    .WithMany(y => y.adquisicionesModel)
                    .HasForeignKey(z => z.Videojuego_ID);
+                   //.OnDelete(DeleteBehavior.Restrict);
 
             builder.ToTable("Adquisicion");
         }

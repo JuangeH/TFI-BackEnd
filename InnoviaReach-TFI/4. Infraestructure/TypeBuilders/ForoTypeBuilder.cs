@@ -15,7 +15,15 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Foro_ID);
 
-            builder.Property(x => x.Descripcion).HasColumnType("varchar(50)").IsRequired();
+            builder.Property(x => x.Descripcion).HasColumnType("nvarchar(max)").IsRequired();
+
+            builder.Property(x => x.Titulo).HasColumnType("nvarchar(250)").IsRequired();
+
+            builder.Property(x => x.FechaCreado).HasColumnType("datetime").IsRequired();
+
+            builder.Property(x => x.Visitas).HasColumnType("int").IsRequired();
+
+            builder.Property(x => x.Activo).HasColumnType("bit").IsRequired();
 
             builder.HasOne(x => x.videojuego)
                    .WithMany(y => y.foroModels)

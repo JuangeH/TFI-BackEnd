@@ -39,7 +39,7 @@ namespace _2._API.Controllers
 
             string URL = ApiBaseURL + $"Videojuego/RegistrarInformacion/{userid}";
             var GenericApiResponse = await RequestHelper.PostRequest<bool, SteamInfoRequest>(URL, steamInfoRequest);
-            return Ok();
+            return Ok(GenericApiResponse);
         }
     }
 }
