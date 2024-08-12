@@ -17,6 +17,13 @@ namespace _3._Core.Services
         {
 
         }
-        public async Task<List<ForoModel>> ObtenerForosGenerales() => (await _repository.Get()).OrderByDescending(x => x.Visitas).ToList();
+        public async Task<List<ForoModel>> ObtenerForosGenerales()
+        {
+          var result = (await _repository.Get()).OrderByDescending(x => x.Visitas).ToList();
+
+            
+
+          return result;
+        }
     }
 }

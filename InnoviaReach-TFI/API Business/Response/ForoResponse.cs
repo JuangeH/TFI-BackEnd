@@ -9,6 +9,7 @@
         public DateTime FechaCreado { get; set; }
         public int Visitas { get; set; }
         public int Respuestas { get; set; }
-        public bool Activo { get; set; }
+        public decimal Calificacion { get; set; }
+
     }
 }
