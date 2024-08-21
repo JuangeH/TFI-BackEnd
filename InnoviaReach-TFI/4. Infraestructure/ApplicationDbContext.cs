@@ -14,21 +14,21 @@ namespace Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<Users,Privileges,string,IdentityUserClaim<string>, UsersPrivileges,IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
-        //public ApplicationDbContext()
-        //{
-
-        //}
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext()
         {
-        }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        }
+        //public ApplicationDbContext(DbContextOptions options) : base(options)
         //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=InnoviaDB2;User ID=testuser;Password=1234;Current Language=Spanish;MultipleActiveResultSets=True;Integrated Security=True;TrustServerCertificate=True");
-        //    }
         //}
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=InnoviaDB2;User ID=testuser;Password=1234;Current Language=Spanish;MultipleActiveResultSets=True;Integrated Security=True;TrustServerCertificate=True");
+            }
+        }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

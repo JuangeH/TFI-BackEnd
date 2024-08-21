@@ -21,9 +21,12 @@ namespace _4._Infraestructure.TypeBuilders
 
             builder.Property(x => x.FechaCreado).HasColumnType("datetime").IsRequired();
 
-            builder.Property(x => x.Visitas).HasColumnType("int").IsRequired();
-
             builder.Property(x => x.Activo).HasColumnType("bit").IsRequired();
+
+            builder.HasOne(x => x.usuario)
+                   .WithMany(y => y.foroModels)
+                   .HasForeignKey(z => z.User_ID)
+                   .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.videojuego)
                    .WithMany(y => y.foroModels)

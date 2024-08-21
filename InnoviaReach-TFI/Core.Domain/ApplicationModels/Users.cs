@@ -15,8 +15,10 @@ namespace Core.Domain.ApplicationModels
             tiempoDeJuegoModel = new HashSet<TiempoDeJuegoModel>();
             videojuegoInteresModel = new HashSet<VideojuegoInteresModel>();
             medioDePagoModels = new HashSet<MedioDePagoModel>();
-            foroUsuarioModels = new HashSet<ForoUsuarioModel>();
+            foroUsuarioVisitaModels = new HashSet<ForoUsuarioVisitaModel>();
+            foroUsuarioFavoritoModels = new HashSet<ForoUsuarioFavoritoModel>();
             comentarioModels = new HashSet<ComentarioModel>();
+            foroModels = new HashSet<ForoModel>();
         }
         public bool Active { get; set; }
         public UsersPrivileges UserPrivileges { get; set; }
@@ -35,7 +37,9 @@ namespace Core.Domain.ApplicationModels
         public ICollection<AdquisicionModel> adquicionesModel { get; set; }
         public ICollection<TiempoDeJuegoModel> tiempoDeJuegoModel { get; set; }
         public ICollection<VideojuegoInteresModel> videojuegoInteresModel { get; set; }
-        public ICollection<ForoUsuarioModel> foroUsuarioModels { get; set; }
+        public ICollection<ForoUsuarioVisitaModel> foroUsuarioVisitaModels { get; set; }
+        public ICollection<ForoUsuarioFavoritoModel> foroUsuarioFavoritoModels { get; set; }
         public ICollection<ComentarioModel> comentarioModels { get; set; }
+        public ICollection<ForoModel> foroModels { get; set; }
     }
 }

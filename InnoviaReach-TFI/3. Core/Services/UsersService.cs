@@ -241,6 +241,7 @@ namespace Core.Business.Services
             }
             //transform role tolowwer all items
 
+            var _suscripcionRepository = _unitOfWork.GetRepository<ISuscripcionUsuarioRepository>();
 
             var response = new LoginTokenDto
             {
@@ -250,7 +251,10 @@ namespace Core.Business.Services
                 ExpirationDate = _jwtBearerTokenHelper.GetExpirationDate(bearerToken),
                 UserName = user.UserName,
                 Email = user.Email,
-                RoleName = IsAdmin ? "Administrador" : role.FirstOrDefault()
+                RoleName = IsAdmin ? "Administrador" : role.FirstOrDefault(),
+
+                //MAS ADELANTE AL EXISTIR MULTIPLES SUSCRIPCIONES LA LOGICA DEBE CAMBIAR
+                Suscripcion=(await _suscripcionRepository.Get(x=>x.User_ID == user.Id,includeProperties: "Suscripcion")).FirstOrDefault()?.Suscripcion?.Descripcion ?? SuscripcionEnum.Basico.ToString()
             };
 
             result.Data = response;

@@ -289,7 +289,7 @@ namespace _4._Infraestructure.Migrations
                     b.ToTable("Foro", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioModel", b =>
+            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioVisitaModel", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -891,7 +891,7 @@ namespace _4._Infraestructure.Migrations
                     b.Navigation("videojuego");
                 });
 
-            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioModel", b =>
+            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioVisitaModel", b =>
                 {
                     b.HasOne("Core.Domain.Models.ForoModel", "foro")
                         .WithMany("foroUsuarioModels")

@@ -214,9 +214,17 @@ namespace _4._Infraestructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Comentario_ID"));
 
-                    b.Property<string>("Descripcion")
+                    b.Property<int?>("ComentarioPadre_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Contenido")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("Foro_ID")
                         .HasColumnType("int");
@@ -226,6 +234,8 @@ namespace _4._Infraestructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Comentario_ID");
+
+                    b.HasIndex("ComentarioPadre_ID");
 
                     b.HasIndex("Foro_ID");
 
@@ -273,44 +283,50 @@ namespace _4._Infraestructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("Videojuego_ID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Visitas")
-                        .HasColumnType("int");
-
                     b.HasKey("Foro_ID");
+
+                    b.HasIndex("User_ID");
 
                     b.HasIndex("Videojuego_ID");
 
                     b.ToTable("Foro", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioModel", b =>
+            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioFavoritoModel", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    b.Property<string>("User_ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Foro_ID")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Tipo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("User_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
+                    b.HasKey("User_ID", "Foro_ID");
 
                     b.HasIndex("Foro_ID");
 
-                    b.HasIndex("User_ID");
+                    b.ToTable("ForoUsuarioFavorito", (string)null);
+                });
 
-                    b.ToTable("ForoUsuario", (string)null);
+            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioVisitaModel", b =>
+                {
+                    b.Property<string>("User_ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Foro_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("User_ID", "Foro_ID");
+
+                    b.HasIndex("Foro_ID");
+
+                    b.ToTable("ForoUsuarioVisita", (string)null);
                 });
 
             modelBuilder.Entity("Core.Domain.Models.GeneroModel", b =>
@@ -860,6 +876,11 @@ namespace _4._Infraestructure.Migrations
 
             modelBuilder.Entity("Core.Domain.Models.ComentarioModel", b =>
                 {
+                    b.HasOne("Core.Domain.Models.ComentarioModel", "comentarioPadre")
+                        .WithMany("comentarioModels")
+                        .HasForeignKey("ComentarioPadre_ID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Core.Domain.Models.ForoModel", "foro")
                         .WithMany("comentarioModels")
                         .HasForeignKey("Foro_ID")
@@ -872,6 +893,8 @@ namespace _4._Infraestructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("comentarioPadre");
+
                     b.Navigation("foro");
 
                     b.Navigation("usuario");
@@ -879,25 +902,52 @@ namespace _4._Infraestructure.Migrations
 
             modelBuilder.Entity("Core.Domain.Models.ForoModel", b =>
                 {
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("foroModels")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
                         .WithMany("foroModels")
                         .HasForeignKey("Videojuego_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("usuario");
+
                     b.Navigation("videojuego");
                 });
 
-            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioModel", b =>
+            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioFavoritoModel", b =>
                 {
                     b.HasOne("Core.Domain.Models.ForoModel", "foro")
-                        .WithMany("foroUsuarioModels")
+                        .WithMany("foroUsuarioFavoritoModels")
                         .HasForeignKey("Foro_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
-                        .WithMany("foroUsuarioModels")
+                        .WithMany("foroUsuarioFavoritoModels")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("foro");
+
+                    b.Navigation("usuario");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.ForoUsuarioVisitaModel", b =>
+                {
+                    b.HasOne("Core.Domain.Models.ForoModel", "foro")
+                        .WithMany("foroUsuarioVisitaModels")
+                        .HasForeignKey("Foro_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("foroUsuarioVisitaModels")
                         .HasForeignKey("User_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1139,7 +1189,11 @@ namespace _4._Infraestructure.Migrations
 
                     b.Navigation("comentarioModels");
 
-                    b.Navigation("foroUsuarioModels");
+                    b.Navigation("foroModels");
+
+                    b.Navigation("foroUsuarioFavoritoModels");
+
+                    b.Navigation("foroUsuarioVisitaModels");
 
                     b.Navigation("medioDePagoModels");
 
@@ -1155,6 +1209,8 @@ namespace _4._Infraestructure.Migrations
 
             modelBuilder.Entity("Core.Domain.Models.ComentarioModel", b =>
                 {
+                    b.Navigation("comentarioModels");
+
                     b.Navigation("puntuacioModels");
                 });
 
@@ -1167,7 +1223,9 @@ namespace _4._Infraestructure.Migrations
                 {
                     b.Navigation("comentarioModels");
 
-                    b.Navigation("foroUsuarioModels");
+                    b.Navigation("foroUsuarioFavoritoModels");
+
+                    b.Navigation("foroUsuarioVisitaModels");
                 });
 
             modelBuilder.Entity("Core.Domain.Models.GeneroModel", b =>

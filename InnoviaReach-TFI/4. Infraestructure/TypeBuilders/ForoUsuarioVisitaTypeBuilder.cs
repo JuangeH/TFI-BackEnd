@@ -9,23 +9,21 @@ using System.Threading.Tasks;
 
 namespace _4._Infraestructure.TypeBuilders
 {
-    public class ForoUsuarioTypeBuilder : IEntityTypeConfiguration<ForoUsuarioModel>
+    public class ForoUsuarioVisitaTypeBuilder : IEntityTypeConfiguration<ForoUsuarioVisitaModel>
     {
-        public void Configure(EntityTypeBuilder<ForoUsuarioModel> builder)
+        public void Configure(EntityTypeBuilder<ForoUsuarioVisitaModel> builder)
         {
-            builder.HasKey(x => x.ID);
-
-            builder.Property(x => x.Tipo).HasColumnType("bit").IsRequired();
+            builder.HasKey(x => new {x.User_ID,x.Foro_ID});
 
             builder.HasOne(x => x.foro)
-                   .WithMany(y => y.foroUsuarioModels)
+                   .WithMany(y => y.foroUsuarioVisitaModels)
                    .HasForeignKey(z => z.Foro_ID);
 
             builder.HasOne(x => x.usuario)
-                   .WithMany(y => y.foroUsuarioModels)
+                   .WithMany(y => y.foroUsuarioVisitaModels)
                    .HasForeignKey(z => z.User_ID);
 
-            builder.ToTable("ForoUsuario");
+            builder.ToTable("ForoUsuarioVisita");
         }
     }
 }

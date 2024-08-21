@@ -1491,23 +1491,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {},
+    "C:\\Users\\Juan\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj",
+      "projectUniqueName": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj",
       "projectName": "Transversal.Extensions",
-      "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\obj\\",
+      "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj",
+      "packagesPath": "C:\\Users\\Juan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Juan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1516,15 +1516,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Helpers\\Transversal.Helpers.csproj": {
-              "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Helpers\\Transversal.Helpers.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Helpers\\Transversal.Helpers.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Helpers\\Transversal.Helpers.csproj"
             }
           }
         }
@@ -1580,7 +1579,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -10,6 +10,6 @@
         public int Visitas { get; set; }
         public int Respuestas { get; set; }
         public decimal Calificacion { get; set; }
-
+        public bool Creador { get; set; }
     }
 }

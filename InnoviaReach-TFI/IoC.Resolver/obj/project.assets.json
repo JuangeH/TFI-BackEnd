@@ -8381,23 +8381,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {},
+    "C:\\Users\\Juan\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\IoC.Resolver\\IoC.Resolver.csproj",
+      "projectUniqueName": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\IoC.Resolver\\IoC.Resolver.csproj",
       "projectName": "IoC.Resolver",
-      "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\IoC.Resolver\\IoC.Resolver.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\IoC.Resolver\\obj\\",
+      "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\IoC.Resolver\\IoC.Resolver.csproj",
+      "packagesPath": "C:\\Users\\Juan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\IoC.Resolver\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Juan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -8406,30 +8406,29 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\3. Core\\Core.Business.csproj": {
-              "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\3. Core\\Core.Business.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\3. Core\\Core.Business.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\3. Core\\Core.Business.csproj"
             },
-            "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\4. Infraestructure\\Infraestructure.csproj": {
-              "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\4. Infraestructure\\Infraestructure.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\4. Infraestructure\\Infraestructure.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\4. Infraestructure\\Infraestructure.csproj"
             },
-            "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj": {
-              "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Contracts\\Core.Contracts.csproj"
             },
-            "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.EmailService\\Transversal.EmailService.csproj": {
-              "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.EmailService\\Transversal.EmailService.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.EmailService\\Transversal.EmailService.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.EmailService\\Transversal.EmailService.csproj"
             },
-            "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj": {
-              "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.Extensions\\Transversal.Extensions.csproj"
             },
-            "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.StorageService\\Transversal.StorageService.csproj": {
-              "projectPath": "D:\\Repositorios-Pellen\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.StorageService\\Transversal.StorageService.csproj"
+            "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.StorageService\\Transversal.StorageService.csproj": {
+              "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Transversal.StorageService\\Transversal.StorageService.csproj"
             }
           }
         }
@@ -8469,7 +8468,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

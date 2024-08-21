@@ -13,5 +13,6 @@ namespace Core.Domain.DTOs
         public string RoleName { get; set; }
         public DateTime ValidFrom { get; set; }
         public DateTime ExpirationDate { get; set; }
+        public string Suscripcion { get; set; }
     }
 }

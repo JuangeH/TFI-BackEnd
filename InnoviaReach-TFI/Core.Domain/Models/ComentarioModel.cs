@@ -12,16 +12,20 @@ namespace Core.Domain.Models
         public ComentarioModel()
         {
             puntuacioModels = new HashSet<PuntuacionModel>();
+            comentarioModels = new HashSet<ComentarioModel>();
         }
-
+        public DateTime FechaCreacion { get; set; }
         public int Comentario_ID { get; set; }
-        public string Descripcion { get; set; }
+        public string Contenido { get; set; }
         public int Foro_ID { get; set; }
         public ForoModel foro { get; set; }
         public string User_ID { get; set; }
         public Users usuario { get; set; }
+        public int? ComentarioPadre_ID { get; set; }
+        public ComentarioModel comentarioPadre { get; set; }
 
         public ICollection<PuntuacionModel> puntuacioModels { get; set; }
+        public ICollection<ComentarioModel> comentarioModels { get; set; }
 
     }
 }
