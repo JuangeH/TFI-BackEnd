@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using API_Business.Response;
+using AutoMapper;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Helper;
@@ -34,6 +35,7 @@ namespace API_Business.Controllers
             try
             {
                 var result = await _foroService.ObtenerForosGenerales();
+                var response = _mapper.Map<List<ForoResponse>>(result);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -52,12 +52,17 @@ namespace Api.Mapping
             CreateMap<VideojuegoGeneroModel, VideojuegoGeneroResponse>()
                 .ForMember(dest => dest.genero, opt => opt.MapFrom(src => src.generoModel));
 
+
+            CreateMap<ComentarioModel, ComentarioResponse>()
+                .ForMember(dest => dest.Creador, opt => opt.MapFrom(src => src.usuario.UserName))
+                .ForMember(dest => dest.ComentarioPadre_Codigo, opt => opt.MapFrom(src => src.ComentarioPadre_ID));
+
             CreateMap<ForoModel, ForoResponse>()
                 .ForMember(dest => dest.NombreVideoJuego, opt => opt.MapFrom(src => src.videojuego.Nombre))
                 .ForMember(dest => dest.NombreUsuarioCreador, opt => opt.MapFrom(src => src.usuario.UserName))
                 .ForMember(dest => dest.Visitas, opt => opt.MapFrom(src => src.foroUsuarioVisitaModels.Count))
                 .ForMember(dest => dest.Titulo, opt => opt.MapFrom(src => src.Titulo))
-                .ForMember(dest => dest.Respuestas, opt => opt.MapFrom(src => src.comentarioModels.Count));
+                .ForMember(dest => dest.comentarios, opt => opt.MapFrom(src => src.comentarioModels));
         }
     }
 }

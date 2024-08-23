@@ -19,7 +19,7 @@ namespace _3._Core.Services
         }
         public async Task<List<ForoModel>> ObtenerForosGenerales()
         {
-          var result = (await _repository.Get(includeProperties: "foroUsuarioVisitaModels,comentarioModels")).OrderByDescending(x => x.foroUsuarioVisitaModels.Count).ToList();
+          var result = (await _repository.Get(includeProperties: "foroUsuarioVisitaModels,comentarioModels,videojuego,usuario")).OrderByDescending(x => x.foroUsuarioVisitaModels.Count).ToList();
 
           return result;
         }
