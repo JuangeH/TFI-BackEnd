@@ -10,5 +10,6 @@ namespace Core.Contracts.Services
     public interface IForoService : IGenericService<ForoModel>
     {
         public Task<List<ForoModel>> ObtenerForosGenerales();
+        public Task<ForoModel> ObtenerForo(int id);
     }
 }

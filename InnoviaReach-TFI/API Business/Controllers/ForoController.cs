@@ -1,4 +1,5 @@
-﻿using API_Business.Response;
+﻿using API_Business.Request;
+using API_Business.Response;
 using AutoMapper;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
@@ -17,15 +18,18 @@ namespace API_Business.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<ForoController> _logger;
         private readonly IForoService _foroService;
+        private readonly IComentarioService _comentarioService;
 
         public ForoController(
             IMapper mapper,
             ILogger<ForoController> logger,
-            IForoService foroService)
+            IForoService foroService,
+            IComentarioService comentarioService)
         {
             _mapper = mapper;
             _logger = logger;
             _foroService = foroService;
+            _comentarioService = comentarioService;
         }
 
         [HttpGet("ObtenerForosGenerales")]
@@ -36,7 +40,37 @@ namespace API_Business.Controllers
             {
                 var result = await _foroService.ObtenerForosGenerales();
                 var response = _mapper.Map<List<ForoResponse>>(result);
-                return Ok(result);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        [HttpGet("ObtenerComentariosPorForo")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObtenerComentariosPorForo(int ForoId)
+        {
+            try
+            {
+                var result = await _comentarioService.ObtenerComentariosPorForo(ForoId);
+                var response = _mapper.Map<List<ComentarioResponse>>(result);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost("CalificarComentario")]
+        public async Task<IActionResult> CalificarComentario([FromBody] CalificarComentarioRequest request)
+        {
+            try
+            {
+                var result = await _comentarioService.ObtenerComentariosPorForo(ForoId);
+                var response = _mapper.Map<List<ComentarioResponse>>(result);
+                return Ok(response);
             }
             catch (Exception ex)
             {

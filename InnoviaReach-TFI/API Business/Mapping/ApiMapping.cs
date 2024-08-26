@@ -55,14 +55,23 @@ namespace Api.Mapping
 
             CreateMap<ComentarioModel, ComentarioResponse>()
                 .ForMember(dest => dest.Creador, opt => opt.MapFrom(src => src.usuario.UserName))
-                .ForMember(dest => dest.ComentarioPadre_Codigo, opt => opt.MapFrom(src => src.ComentarioPadre_ID));
+                .ForMember(dest => dest.ComentarioPadre_Codigo, opt => opt.MapFrom(src => src.ComentarioPadre_ID))
+                .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.Comentario_ID))
+                .ForMember(dest => dest.Contenido, opt => opt.MapFrom(src => src.Contenido))
+                .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.FechaCreacion))
+                .ForMember(dest => dest.CantidadVotos, opt => opt.MapFrom(src => src.puntuacionModels.Count))
+                .ForMember(dest => dest.PromedioPuntaje, opt => opt.MapFrom(src => src.puntuacionModels.Any()
+                    ? src.puntuacionModels.Average(p => p.Puntaje)
+                    : 0.0)); 
 
             CreateMap<ForoModel, ForoResponse>()
                 .ForMember(dest => dest.NombreVideoJuego, opt => opt.MapFrom(src => src.videojuego.Nombre))
                 .ForMember(dest => dest.NombreUsuarioCreador, opt => opt.MapFrom(src => src.usuario.UserName))
                 .ForMember(dest => dest.Visitas, opt => opt.MapFrom(src => src.foroUsuarioVisitaModels.Count))
                 .ForMember(dest => dest.Titulo, opt => opt.MapFrom(src => src.Titulo))
-                .ForMember(dest => dest.comentarios, opt => opt.MapFrom(src => src.comentarioModels));
+                .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.Foro_ID))
+                .ForMember(dest => dest.CantidadComentarios, opt => opt.MapFrom(src => src.comentarioModels.Count));
+
         }
     }
 }

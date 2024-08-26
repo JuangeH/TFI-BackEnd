@@ -18,8 +18,13 @@ namespace _4._Infraestructure.TypeBuilders
             builder.Property(x => x.Puntaje).HasColumnType("int").IsRequired();
 
             builder.HasOne(x => x.comentario)
-                   .WithMany(y => y.puntuacioModels)
+                   .WithMany(y => y.puntuacionModels)
                    .HasForeignKey(z => z.Comentario_ID);
+
+            builder.HasOne(x => x.usuario)
+                .WithMany(y => y.puntuacionModels)
+                .HasForeignKey(z => z.User_ID)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.ToTable("Puntuacion");
         }

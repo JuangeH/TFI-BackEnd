@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using _2._API.Response;
+using AutoMapper;
 using Core.Domain.Helper;
 using Core.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,18 @@ namespace Api_Gateway.Controllers
             string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             string URL = ApiBaseURL + $"Foro/ObtenerForosGenerales/{userid}";
-            var GenericApiResponse = await RequestHelper.GetRequest<ForoModel>(URL);
+            var GenericApiResponse = await RequestHelper.GetRequest<List<ForoResponse>>(URL);
+            return Ok(GenericApiResponse);
+        }
+
+        [HttpGet("ObtenerComentariosPorForo")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObtenerComentariosPorForo(int ForoId)
+        {
+            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            string URL = ApiBaseURL + $"Foro/ObtenerComentariosPorForo?ForoId={ForoId}{userid}";
+            var GenericApiResponse = await RequestHelper.GetRequest<List<ComentarioResponse>>(URL);
             return Ok(GenericApiResponse);
         }
     }

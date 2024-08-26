@@ -11,7 +11,7 @@ namespace Core.Domain.Models
     {
         public ComentarioModel()
         {
-            puntuacioModels = new HashSet<PuntuacionModel>();
+            puntuacionModels = new HashSet<PuntuacionModel>();
             comentarioModels = new HashSet<ComentarioModel>();
         }
         public DateTime FechaCreacion { get; set; }
@@ -24,7 +24,7 @@ namespace Core.Domain.Models
         public int? ComentarioPadre_ID { get; set; }
         public ComentarioModel comentarioPadre { get; set; }
 
-        public ICollection<PuntuacionModel> puntuacioModels { get; set; }
+        public ICollection<PuntuacionModel> puntuacionModels { get; set; }
         public ICollection<ComentarioModel> comentarioModels { get; set; }
 
     }

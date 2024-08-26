@@ -473,9 +473,15 @@ namespace _4._Infraestructure.Migrations
                     b.Property<int>("Puntaje")
                         .HasColumnType("int");
 
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Puntuacion_ID");
 
                     b.HasIndex("Comentario_ID");
+
+                    b.HasIndex("User_ID");
 
                     b.ToTable("Puntuacion", (string)null);
                 });
@@ -990,12 +996,20 @@ namespace _4._Infraestructure.Migrations
             modelBuilder.Entity("Core.Domain.Models.PuntuacionModel", b =>
                 {
                     b.HasOne("Core.Domain.Models.ComentarioModel", "comentario")
-                        .WithMany("puntuacioModels")
+                        .WithMany("puntuacionModels")
                         .HasForeignKey("Comentario_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("puntuacionModels")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("comentario");
+
+                    b.Navigation("usuario");
                 });
 
             modelBuilder.Entity("Core.Domain.Models.ReseñaModel", b =>
@@ -1197,6 +1211,8 @@ namespace _4._Infraestructure.Migrations
 
                     b.Navigation("medioDePagoModels");
 
+                    b.Navigation("puntuacionModels");
+
                     b.Navigation("suscripcionUsuarioModel")
                         .IsRequired();
 
@@ -1211,7 +1227,7 @@ namespace _4._Infraestructure.Migrations
                 {
                     b.Navigation("comentarioModels");
 
-                    b.Navigation("puntuacioModels");
+                    b.Navigation("puntuacionModels");
                 });
 
             modelBuilder.Entity("Core.Domain.Models.EstiloModel", b =>

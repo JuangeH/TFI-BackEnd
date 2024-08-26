@@ -993,7 +993,7 @@ namespace _4._Infraestructure.Migrations
             modelBuilder.Entity("Core.Domain.Models.PuntuacionModel", b =>
                 {
                     b.HasOne("Core.Domain.Models.ComentarioModel", "comentario")
-                        .WithMany("puntuacioModels")
+                        .WithMany("puntuacionModels")
                         .HasForeignKey("Comentario_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1214,7 +1214,7 @@ namespace _4._Infraestructure.Migrations
                 {
                     b.Navigation("comentarioModels");
 
-                    b.Navigation("puntuacioModels");
+                    b.Navigation("puntuacionModels");
                 });
 
             modelBuilder.Entity("Core.Domain.Models.EstiloModel", b =>

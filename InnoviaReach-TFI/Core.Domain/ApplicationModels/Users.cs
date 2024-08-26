@@ -18,6 +18,7 @@ namespace Core.Domain.ApplicationModels
             foroUsuarioVisitaModels = new HashSet<ForoUsuarioVisitaModel>();
             foroUsuarioFavoritoModels = new HashSet<ForoUsuarioFavoritoModel>();
             comentarioModels = new HashSet<ComentarioModel>();
+            puntuacionModels = new HashSet<PuntuacionModel>();
             foroModels = new HashSet<ForoModel>();
         }
         public bool Active { get; set; }
@@ -40,6 +41,7 @@ namespace Core.Domain.ApplicationModels
         public ICollection<ForoUsuarioVisitaModel> foroUsuarioVisitaModels { get; set; }
         public ICollection<ForoUsuarioFavoritoModel> foroUsuarioFavoritoModels { get; set; }
         public ICollection<ComentarioModel> comentarioModels { get; set; }
+        public ICollection<PuntuacionModel> puntuacionModels { get; set; }
         public ICollection<ForoModel> foroModels { get; set; }
     }
 }
