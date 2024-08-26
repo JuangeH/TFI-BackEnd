@@ -68,9 +68,8 @@ namespace API_Business.Controllers
         {
             try
             {
-                var result = await _comentarioService.ObtenerComentariosPorForo(ForoId);
-                var response = _mapper.Map<List<ComentarioResponse>>(result);
-                return Ok(response);
+                var result = await _comentarioService.CalificarComentario(request);
+                return Ok(result);
             }
             catch (Exception ex)
             {

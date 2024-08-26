@@ -4,6 +4,6 @@
     {
         public int Comentario_ID { get; set; }
         public string User_ID { get; set; }
-        public int Puntuacion { get; set; }
+        public int Puntaje { get; set; }
     }
 }

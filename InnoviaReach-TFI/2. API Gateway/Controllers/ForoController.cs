@@ -1,4 +1,5 @@
 ﻿using _2._API.Response;
+using API_Business.Request;
 using AutoMapper;
 using Core.Domain.Helper;
 using Core.Domain.Models;
@@ -29,9 +30,7 @@ namespace Api_Gateway.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ObtenerForosGenerales()
         {
-            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            string URL = ApiBaseURL + $"Foro/ObtenerForosGenerales/{userid}";
+            string URL = ApiBaseURL + $"Foro/ObtenerForosGenerales";
             var GenericApiResponse = await RequestHelper.GetRequest<List<ForoResponse>>(URL);
             return Ok(GenericApiResponse);
         }
@@ -40,11 +39,27 @@ namespace Api_Gateway.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ObtenerComentariosPorForo(int ForoId)
         {
-            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            string URL = ApiBaseURL + $"Foro/ObtenerComentariosPorForo?ForoId={ForoId}{userid}";
+            string URL = ApiBaseURL + $"Foro/ObtenerComentariosPorForo?ForoId={ForoId}";
             var GenericApiResponse = await RequestHelper.GetRequest<List<ComentarioResponse>>(URL);
             return Ok(GenericApiResponse);
+        }
+
+        [HttpPost("CalificarComentario")]
+        public async Task<IActionResult> CalificarComentario([FromBody] CalificarComentarioRequest request)
+        {
+            try
+            {
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                request.User_ID = userid;
+
+                string URL = ApiBaseURL + $"Foro/CalificarComentario";
+                var GenericApiResponse = await RequestHelper.PostRequest<bool,CalificarComentarioRequest>(URL, request);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
