@@ -3,6 +3,7 @@ using API_Business.Request;
 using AutoMapper;
 using Core.Domain.Helper;
 using Core.Domain.Models;
+using Core.Domain.Request.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -59,6 +60,46 @@ namespace Api_Gateway.Controllers
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        [HttpPost("RegistrarComentario")]
+        public async Task<IActionResult> RegistrarComentario([FromBody] ComentarioRequest request)
+        {
+            try
+            {
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                request.User_ID = userid;
+
+                string URL = ApiBaseURL + $"Foro/RegistrarComentario";
+
+                var GenericApiResponse = await RequestHelper.PostRequest<bool, ComentarioRequest>(URL, request);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando registrar comentario");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("RegistrarForo")]
+        public async Task<IActionResult> RegistrarForo([FromBody] ForoRequest request)
+        {
+            try
+            {
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                request.User_ID = userid;
+
+                string URL = ApiBaseURL + $"Foro/RegistrarForo";
+
+                var GenericApiResponse = await RequestHelper.PostRequest<bool, ForoRequest>(URL, request);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando registrar foro");
+                return BadRequest(ex.Message);
             }
         }
     }

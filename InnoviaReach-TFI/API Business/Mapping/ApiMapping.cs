@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Domain.ApplicationModels;
 using Core.Domain.DTOs;
 using Core.Domain.Models;
+using Core.Domain.Response.Business;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -72,6 +73,9 @@ namespace Api.Mapping
                 .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.Foro_ID))
                 .ForMember(dest => dest.CantidadComentarios, opt => opt.MapFrom(src => src.comentarioModels.Count));
 
+            CreateMap<VideojuegoModel, VideojuegoForoReponse>()
+                .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
+                 .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.Videojuego_ID));
         }
     }
 }

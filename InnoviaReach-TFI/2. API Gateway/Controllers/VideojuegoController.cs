@@ -1,16 +1,20 @@
-﻿using Api.Controllers;
+﻿using _3._Core.Services;
+using Api.Controllers;
 using Api.Request;
+using API_Business.Request;
 using AutoMapper;
 using Core.Contracts.Data;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Helper;
+using Core.Domain.Response.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Transversal.Helpers.JWT;
 using static System.Net.WebRequestMethods;
+using SteamInfoRequest = API_Business.Request.SteamInfoRequest;
 
 namespace _2._API.Controllers
 {
@@ -40,6 +44,23 @@ namespace _2._API.Controllers
             string URL = ApiBaseURL + $"Videojuego/RegistrarInformacion/{userid}";
             var GenericApiResponse = await RequestHelper.PostRequest<bool, SteamInfoRequest>(URL, steamInfoRequest);
             return Ok(GenericApiResponse);
+        }
+
+        [HttpGet("ObtenerVideojuegosForo")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObtenerVideojuegosForo()
+        {
+            try
+            {
+                string URL = ApiBaseURL + $"Videojuego/ObtenerVideojuegosForo";
+                var GenericApiResponse = await RequestHelper.GetRequest<List<VideojuegoForoReponse>>(URL);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

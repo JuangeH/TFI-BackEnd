@@ -6,6 +6,7 @@ using AutoMapper;
 using Core.Domain.ApplicationModels;
 using Core.Domain.DTOs;
 using Core.Domain.Models;
+using Core.Domain.Response.Business;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,13 @@ namespace Api.Mapping
             CreateMap<ChangePasswordDto, ChangePasswordRequest>();
 
             CreateMap<LogTableModel, LogTableResponse>();
+
+            CreateMap<Users, UserResponse>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active))
+                .ForMember(dest => dest.Estilo_preferido, opt => opt.MapFrom(src => src.Estilo_preferido))
+                .ForMember(dest => dest.Genero_preferido, opt => opt.MapFrom(src => src.Genero_preferido));
         }
     }
 }

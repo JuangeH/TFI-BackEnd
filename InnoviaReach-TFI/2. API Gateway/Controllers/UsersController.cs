@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Api.Request;
 using Api.Request.Privileges;
 using Core.Domain.ApplicationModels;
+using Core.Domain.Helper;
+using Core.Domain.Response.Business;
 
 namespace Api.Controllers
 {
@@ -59,6 +61,30 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Error in DeleteUser" + ex.Message);
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpGet("ObtenerUsuarios")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObtenerUsuarios()
+        {
+            try
+            {
+                var result = await _usersService.GetAllAsync();
+                if (result is null)
+                {
+                    return Problem("No se encuentran usuarios");
+                }
+                else
+                {
+                    var response = _mapper.Map<List<UserResponse>>(result);
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al obtener usuarios" + ex.Message);
                 return Problem(ex.Message);
             }
         }

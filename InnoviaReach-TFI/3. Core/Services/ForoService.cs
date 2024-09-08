@@ -2,6 +2,7 @@
 using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Domain.Models;
+using Core.Domain.Request.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +28,24 @@ namespace _3._Core.Services
 
         public async Task<List<ForoModel>> ObtenerForosGenerales()
         {
-          var result = (await _repository.Get(includeProperties: "foroUsuarioVisitaModels, comentarioModels, videojuego,usuario")).OrderByDescending(x => x.foroUsuarioVisitaModels.Count).ToList();
+            var result = (await _repository.Get(includeProperties: "foroUsuarioVisitaModels, comentarioModels, videojuego,usuario")).OrderByDescending(x => x.foroUsuarioVisitaModels.Count).ToList();
 
-          return result;
+            return result;
+        }
+        public async Task RegistrarForo(ForoRequest foro)
+        {
+            try
+            {
+                await _repository.Insert(new ForoModel { User_ID = foro.User_ID, Videojuego_ID = foro.Videojuego_Codigo, Descripcion = foro.Descripcion, FechaCreado = foro.FechaCreado, Titulo=foro.Titulo, Activo=foro.Activo });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _unitOfWork.SaveChanges();
+            }
         }
     }
 }

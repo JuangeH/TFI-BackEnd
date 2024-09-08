@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Helper;
+using Core.Domain.Request.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -74,6 +75,35 @@ namespace API_Business.Controllers
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        [HttpPost("RegistrarComentario")]
+        public async Task<IActionResult> RegistrarComentario([FromBody] ComentarioRequest request)
+        {
+            try
+            {
+                await _comentarioService.RegistrarComentario(request);
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando registrar comentario.");
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("RegistrarForo")]
+        public async Task<IActionResult> RegistrarForo([FromBody] ForoRequest request)
+        {
+            try
+            {
+                await _foroService.RegistrarForo(request);
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando registrar foro");
+                return BadRequest(ex.Message);
             }
         }
     }

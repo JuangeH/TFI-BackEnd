@@ -40,8 +40,8 @@ namespace _3._Core.Services
         {
             try
             {
-                return (await _repository.Get(x => x.Nombre != "", includeProperties: "Plataforma, videojuegoEstiloModels, videojuegoEstiloModels.estiloModel, videojuegoGeneroModels, videojuegoGeneroModels.generoModel")).ToList();
-
+                //return (await _repository.Get(x => x.Nombre != "", includeProperties: "Plataforma, videojuegoEstiloModels, videojuegoEstiloModels.estiloModel, videojuegoGeneroModels, videojuegoGeneroModels.generoModel")).ToList();
+                return (await _repository.Get(x => x.Nombre != "")).ToList();
             }
             catch (Exception ex)
             {

@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
+using Core.Domain.Response.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -207,5 +208,23 @@ namespace API_Business.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("ObtenerVideojuegosForo")]
+        public async Task<IActionResult> ObtenerVideojuegosForo()
+        {
+            try
+            {
+                var resultado = await _videojuegoService.ObtenerVideojuegos();
+                var response = _mapper.Map<List<VideojuegoForoReponse>>(resultado);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
+

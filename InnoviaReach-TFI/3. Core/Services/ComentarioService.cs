@@ -3,6 +3,8 @@ using Core.Business.Services;
 using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Domain.Models;
+using Core.Domain.Request.Business;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,10 +58,36 @@ namespace _3._Core.Services
 
         public async Task<List<ComentarioModel>> ObtenerComentariosPorForo(int ForoId)
         {
-            var result = (await _repository.Get(x => x.Foro_ID == ForoId, includeProperties: "usuario, puntuacionModels")).ToList();
+            var result = (await _repository.Get(x => x.Foro_ID == ForoId, includeProperties: "usuario, puntuacionModels")).OrderByDescending(x => x.FechaCreacion).ToList();
 
 
             return result;
+        }
+
+        public async Task RegistrarComentario(ComentarioRequest comentario)
+        {
+            try
+            {
+                if (comentario.ComentarioPadre_Codigo is null)
+                {
+                    await _repository.Insert(new ComentarioModel { User_ID = comentario.User_ID, Foro_ID = comentario.Foro_Codigo, Contenido = comentario.Contenido, FechaCreacion = comentario.FechaCreacion });
+
+                }
+                else
+                {
+                    await _repository.Insert(new ComentarioModel { User_ID = comentario.User_ID, Foro_ID = comentario.Foro_Codigo, ComentarioPadre_ID = comentario.ComentarioPadre_Codigo, Contenido = comentario.Contenido, FechaCreacion = comentario.FechaCreacion });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _unitOfWork.SaveChanges();
+            }
         }
     }
 }

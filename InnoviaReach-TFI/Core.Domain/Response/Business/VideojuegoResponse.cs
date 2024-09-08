@@ -15,7 +15,5 @@ namespace API_Business.Response
         public string Nombre { get; set; }
         public PlataformaResponse Plataforma { get; set; }
 
-
-
     }
 }
