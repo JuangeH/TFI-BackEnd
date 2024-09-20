@@ -63,7 +63,7 @@ namespace Api.Mapping
                 .ForMember(dest => dest.CantidadVotos, opt => opt.MapFrom(src => src.puntuacionModels.Count))
                 .ForMember(dest => dest.PromedioPuntaje, opt => opt.MapFrom(src => src.puntuacionModels.Any()
                     ? src.puntuacionModels.Average(p => p.Puntaje)
-                    : 0.0)); 
+                    : 0.0));
 
             CreateMap<ForoModel, ForoResponse>()
                 .ForMember(dest => dest.NombreVideoJuego, opt => opt.MapFrom(src => src.videojuego.Nombre))
@@ -71,6 +71,11 @@ namespace Api.Mapping
                 .ForMember(dest => dest.Visitas, opt => opt.MapFrom(src => src.foroUsuarioVisitaModels.Count))
                 .ForMember(dest => dest.Titulo, opt => opt.MapFrom(src => src.Titulo))
                 .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.Foro_ID))
+                .ForMember(dest => dest.favorito, opt => opt.MapFrom(src => src.foroUsuarioFavoritoModels))
+
+                .ForMember(dest => dest.favorito, opt => opt.MapFrom((src, dest, _, context) =>
+                    src.foroUsuarioFavoritoModels.Any(f => f.User_ID == (string)context.Items["LoggedUserID"])))
+
                 .ForMember(dest => dest.CantidadComentarios, opt => opt.MapFrom(src => src.comentarioModels.Count));
 
             CreateMap<VideojuegoModel, VideojuegoForoReponse>()

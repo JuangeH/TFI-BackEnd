@@ -14,5 +14,6 @@ namespace Core.Contracts.Services
         public Task<List<VideojuegoModel>> ObtenerVideojuegos();
         public Task<VideojuegoModel> ObtenerVideojuego(string name);
         public Task RegistrarVideojuego(VideojuegoModel videojuego, JArray categoriesArray, JArray genresArray);
+        public Task<(List<VideojuegoModel> Videojuegos, int TotalRecords)> ObtenerVideojuegosCatalogo(int pageNumber, int pageSize);
     }
 }

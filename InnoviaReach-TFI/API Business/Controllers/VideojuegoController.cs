@@ -192,15 +192,23 @@ namespace API_Business.Controllers
             }
         }
 
-        [HttpGet("ObtenerVideojuegos")]
-        public async Task<IActionResult> ObtenerVideojuegos()
+        [HttpGet("ObtenerVideojuegosCatalogo")]
+        public async Task<IActionResult> ObtenerVideojuegosCatalogo(int pageNumber = 1, int pageSize = 20)
         {
             try
             {
-                var resultado = await _videojuegoService.ObtenerVideojuegos();
-                var response = _mapper.Map<List<VideojuegoResponse>>(resultado);
+                // Obtener los videojuegos paginados desde el servicio
+                var resultado = await _videojuegoService.ObtenerVideojuegosCatalogo(pageNumber, pageSize);
 
-                return Ok(response);
+                // Mapear a la respuesta esperada
+                var response = _mapper.Map<List<VideojuegoResponse>>(resultado.Videojuegos);
+
+                // Retornar también el total de registros
+                return Ok(new
+                {
+                    TotalRecords = resultado.TotalRecords,
+                    Videojuegos = response
+                });
             }
             catch (Exception ex)
             {

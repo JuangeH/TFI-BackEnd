@@ -13,5 +13,6 @@ namespace API_Business.Response
         public int Visitas { get; set; }
         public int CantidadComentarios { get; set; }
         public decimal Calificacion { get; set; }
+        public bool favorito { get; set; }
     }
 }

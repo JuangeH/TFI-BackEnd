@@ -36,6 +36,22 @@ namespace _3._Core.Services
             _GeneroRepo = unitOfWork.GetRepository<IGeneroRepository>();
         }
 
+        public async Task<(List<VideojuegoModel> Videojuegos, int TotalRecords)> ObtenerVideojuegosCatalogo(int pageNumber, int pageSize)
+        {
+            var query = (await _repository.Get(x => x.Nombre != "")).ToList(); // Aquí deberías ajustar según tu fuente de datos.
+
+            // Contar el total de registros
+            var totalRecords = query.Count;
+
+            // Obtener solo los registros para la página actual
+            var videojuegos = query
+                .Skip((pageNumber - 1) * pageSize) // Saltar los registros anteriores a la página
+                .Take(pageSize) // Tomar solo los registros de la página actual
+                .ToList();
+
+            return (videojuegos, totalRecords);
+        }
+
         public async Task<List<VideojuegoModel>> ObtenerVideojuegos()
         {
             try

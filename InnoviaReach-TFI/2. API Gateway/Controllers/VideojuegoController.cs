@@ -2,12 +2,14 @@
 using Api.Controllers;
 using Api.Request;
 using API_Business.Request;
+using API_Business.Response;
 using AutoMapper;
 using Core.Contracts.Data;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Helper;
 using Core.Domain.Response.Business;
+using Core.Domain.Response.Gateway;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -62,5 +64,27 @@ namespace _2._API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("ObtenerVideojuegosCatalogo")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObtenerVideojuegosCatalogo(int pageNumber = 1, int pageSize = 20)
+        {
+            try
+            {
+                // Construir la URL con los parámetros de paginación
+                string URL = ApiBaseURL + $"Videojuego/ObtenerVideojuegosCatalogo?pageNumber={pageNumber}&pageSize={pageSize}";
+
+                // Hacer la solicitud a la API interna usando los parámetros de paginación
+                var GenericApiResponse = await RequestHelper.GetRequest<PaginationResponse<VideojuegoForoReponse>>(URL);
+
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
