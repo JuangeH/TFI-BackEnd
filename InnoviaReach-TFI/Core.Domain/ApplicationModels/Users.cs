@@ -32,6 +32,7 @@ namespace Core.Domain.ApplicationModels
         public string Genero_preferido { get; set; }
         public bool Actualizaciones { get; set; }
         public bool Descuentos { get; set; }
+        public SteamAccountModel SteamAccountModel { get; set; }
         public SuscripcionUsuarioModel suscripcionUsuarioModel { get; set; }
         public ICollection<MedioDePagoModel> medioDePagoModels { get; set; }
         public ICollection<TrofeoModel> trofeosModel { get; set; }

@@ -71,7 +71,7 @@ namespace _3._Core.Services
             }
             finally
             {
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
             }
         }
     }

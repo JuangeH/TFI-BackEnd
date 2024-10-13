@@ -1,4 +1,5 @@
-﻿using API_Business.Request;
+﻿using _3._Core.Services;
+using API_Business.Request;
 using API_Business.Response;
 using AutoMapper;
 using Core.Contracts.Services;
@@ -22,18 +23,21 @@ namespace API_Business.Controllers
         private readonly ILogger<ForoController> _logger;
         private readonly IForoService _foroService;
         private readonly IComentarioService _comentarioService;
+        private readonly IForoUsuarioVisitaService _foroUsuarioVisitaService;
 
         public ForoController(
             IMapper mapper,
             ILogger<ForoController> logger,
             IForoService foroService,
-            IComentarioService comentarioService)
-        {
-            _mapper = mapper;
-            _logger = logger;
-            _foroService = foroService;
-            _comentarioService = comentarioService;
-        }
+            IComentarioService comentarioService,
+            IForoUsuarioVisitaService foroUsuarioVisitaService)
+            {
+                _mapper = mapper;
+                _logger = logger;
+                _foroService = foroService;
+                _comentarioService = comentarioService;
+                _foroUsuarioVisitaService = foroUsuarioVisitaService;
+            }
 
         [HttpGet("ObtenerForosGenerales")]
         [AllowAnonymous]
@@ -63,6 +67,21 @@ namespace API_Business.Controllers
                 var result = await _comentarioService.ObtenerComentariosPorForo(ForoId);
                 var response = _mapper.Map<List<ComentarioResponse>>(result);
                 return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost("RegistrarVisita")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegistrarVisita([FromBody] ForoUsuarioVisitaRequest request)
+        {
+            try
+            {
+                await _foroUsuarioVisitaService.RegistrarVisita(request.User_ID, request.Foro_ID);
+                return Ok();
             }
             catch (Exception ex)
             {

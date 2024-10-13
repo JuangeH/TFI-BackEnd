@@ -190,6 +190,15 @@ namespace _4._Infraestructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Adquisicion_id"));
 
+                    b.Property<int?>("CantidadLogros")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TiempoJuego")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TiempoJuegoReciente")
+                        .HasColumnType("int");
+
                     b.Property<string>("User_ID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -508,6 +517,45 @@ namespace _4._Infraestructure.Migrations
                     b.ToTable("Reseña", (string)null);
                 });
 
+            modelBuilder.Entity("Core.Domain.Models.SteamAccountModel", b =>
+                {
+                    b.Property<int>("SteamAccount_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SteamAccount_ID"));
+
+                    b.Property<string>("ApiKey")
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("avatarfull")
+                        .IsRequired()
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("personaname")
+                        .IsRequired()
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("profileurl")
+                        .IsRequired()
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("steamid")
+                        .IsRequired()
+                        .HasColumnType("varchar(max)");
+
+                    b.HasKey("SteamAccount_ID");
+
+                    b.HasIndex("User_ID")
+                        .IsUnique();
+
+                    b.ToTable("SteamAccount", (string)null);
+                });
+
             modelBuilder.Entity("Core.Domain.Models.SuscripcionModel", b =>
                 {
                     b.Property<int>("Suscripcion_ID")
@@ -727,6 +775,15 @@ namespace _4._Infraestructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Videojuego_ID"));
 
+                    b.Property<string>("Header_image")
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<int?>("Metacritic_score")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Metacritic_url")
+                        .HasColumnType("varchar(max)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("varchar(max)");
@@ -735,6 +792,9 @@ namespace _4._Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("Recomendaciones")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SteamAppid")
                         .HasColumnType("int");
 
                     b.HasKey("Videojuego_ID");
@@ -1023,6 +1083,17 @@ namespace _4._Infraestructure.Migrations
                     b.Navigation("Videojuego");
                 });
 
+            modelBuilder.Entity("Core.Domain.Models.SteamAccountModel", b =>
+                {
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "users")
+                        .WithOne("SteamAccountModel")
+                        .HasForeignKey("Core.Domain.Models.SteamAccountModel", "User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("users");
+                });
+
             modelBuilder.Entity("Core.Domain.Models.SuscripcionUsuarioModel", b =>
                 {
                     b.HasOne("Core.Domain.Models.SuscripcionModel", "Suscripcion")
@@ -1197,6 +1268,9 @@ namespace _4._Infraestructure.Migrations
 
             modelBuilder.Entity("Core.Domain.ApplicationModels.Users", b =>
                 {
+                    b.Navigation("SteamAccountModel")
+                        .IsRequired();
+
                     b.Navigation("UserRefreshTokens");
 
                     b.Navigation("adquicionesModel");

@@ -3,6 +3,7 @@ using _4._Infraestructure.MySQL;
 using _4._Infraestructure.Repositories;
 using Api.Configurations;
 using Api.Mapping;
+using API_Business.Background.Api.Background;
 using AutoMapper;
 using Core.Contracts.Data;
 using Core.Contracts.Repositories;
@@ -32,6 +33,7 @@ internal class Program
         #region Configure Basic Services
         IdentityModelEventSource.ShowPII = true;
         builder.Services.AddControllers();
+        builder.Services.AddTransient<IRecomendacionesService, RecomendacionesService>();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddHttpClient();
         #endregion
@@ -43,6 +45,7 @@ internal class Program
         builder.Services.ConfigureJwt(builder.Configuration);
         builder.Services.ConfigureLogger(builder?.Configuration);
         builder.Services.AddHttpContextAccessor();
+        builder.Services.AddHostedService<TasksResolver>();
         //builder.Services.TryAddScoped<SignInManager<Users>>();
         #endregion
 

@@ -14,5 +14,8 @@ namespace Core.Domain.Models
         public int Videojuego_ID { get; set; }
         public Users usuario { get; set; }
         public VideojuegoModel videojuego { get; set; }
+        public int TiempoJuego { get; set; }
+        public int? CantidadLogros { get; set; }
+        public int? TiempoJuegoReciente { get; set; }
     }
 }

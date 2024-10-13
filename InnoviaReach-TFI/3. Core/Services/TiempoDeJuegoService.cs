@@ -41,7 +41,7 @@ namespace _3._Core.Services
 
                 await _repository.Insert(tiempoDeJuegoModel);
 
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
             }
             catch (Exception ex)
             {

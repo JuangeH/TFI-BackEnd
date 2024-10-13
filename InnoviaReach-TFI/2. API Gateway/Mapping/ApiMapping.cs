@@ -7,6 +7,7 @@ using Core.Domain.ApplicationModels;
 using Core.Domain.DTOs;
 using Core.Domain.Models;
 using Core.Domain.Response.Business;
+using Core.Domain.Response.Gateway;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,12 @@ namespace Api.Mapping
                 .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active))
                 .ForMember(dest => dest.Estilo_preferido, opt => opt.MapFrom(src => src.Estilo_preferido))
                 .ForMember(dest => dest.Genero_preferido, opt => opt.MapFrom(src => src.Genero_preferido));
+
+            CreateMap<SteamAccountModel, SteamAccountResponse>()
+                .ForMember(dest => dest.steamid, opt => opt.MapFrom(src => src.steamid))
+                .ForMember(dest => dest.personaname, opt => opt.MapFrom(src => src.personaname))
+                .ForMember(dest => dest.avatarfull, opt => opt.MapFrom(src => src.avatarfull))
+                .ForMember(dest => dest.profileurl, opt => opt.MapFrom(src => src.profileurl));
         }
     }
 }

@@ -22,7 +22,13 @@ namespace _4._Infraestructure.TypeBuilders
             builder.HasOne(x => x.videojuego)
                    .WithMany(y => y.adquisicionesModel)
                    .HasForeignKey(z => z.Videojuego_ID);
-                   //.OnDelete(DeleteBehavior.Restrict);
+            //.OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(x => x.TiempoJuego).HasColumnType("int").IsRequired();
+
+            builder.Property(x => x.TiempoJuegoReciente).HasColumnType("int");
+
+            builder.Property(x => x.CantidadLogros).HasColumnType("int");
 
             builder.ToTable("Adquisicion");
         }

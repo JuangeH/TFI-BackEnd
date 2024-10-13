@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Transversal.EmailService.Configurations;
@@ -65,11 +66,11 @@ namespace _3._Core.Services
                 throw ex;
             }
         }
-        public async Task<VideojuegoModel> ObtenerVideojuego(string name)
+        public async Task<VideojuegoModel> ObtenerVideojuego(int SteamAppid)
         {
             try
             {
-                return (await _repository.GetOne(x => x.Nombre == name));
+                return (await _repository.Get(x => x.SteamAppid == SteamAppid)).FirstOrDefault();
 
             }
             catch (Exception ex)
@@ -79,18 +80,18 @@ namespace _3._Core.Services
             }
         }
 
-        public async Task RegistrarVideojuego(VideojuegoModel videojuego, JArray categoriesArray, JArray genresArray)
+        public async Task RegistrarVideojuegoEstiloGenero(VideojuegoModel videojuego, JArray categoriesArray, JArray genresArray)
         {
             try
             {
                 //VALIDAR QUE EL JUEGO NO ESTE REGISTRADO YA
-                var VideojuegoRegistrado = await ObtenerVideojuego(videojuego.Nombre);
+                var VideojuegoRegistrado = await ObtenerVideojuego(videojuego.SteamAppid);
 
                 if (VideojuegoRegistrado == null)
                 {
                     await _repository.Insert(videojuego);
 
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     var estilos = await _EstiloRepo.Get(x => x.Estilo_ID.ToString() != "");
                     var generos = await _GeneroRepo.Get(x => x.Genero_ID.ToString() != "");
@@ -128,12 +129,7 @@ namespace _3._Core.Services
                         }
                     }
 
-                    _unitOfWork.SaveChanges();
-                }
-                else
-                {
-
-
+                    await _unitOfWork.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
@@ -142,7 +138,61 @@ namespace _3._Core.Services
                 throw;
             }
 
-            
+
+        }
+
+        public async Task<VideojuegoModel> RegistrarObtenerVideojuego(int SteamAppid)
+        {
+            HttpClient httpClient = new HttpClient();
+            var response = await httpClient.GetAsync("http://store.steampowered.com/api/appdetails?appids=" + SteamAppid);
+            string json = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode && json != null)
+            {
+                // Parse the JSON string
+                JObject jsonObject = JObject.Parse(json);
+
+                // Extract values
+                string? type = null;
+                //type = (string)jsonObject[item.appid.ToString()]["data"]["type"];
+
+                if (jsonObject != null && jsonObject[SteamAppid.ToString()] != null && jsonObject[SteamAppid.ToString()]?["data"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["type"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["categories"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["genres"] != null)
+                {
+                    type = jsonObject[SteamAppid.ToString()]["data"]["type"].ToString();
+                }
+                else
+                {
+                    type = null;
+                }
+
+                if (type == "game")
+                {
+                    VideojuegoModel videojuego = new VideojuegoModel();
+                    videojuego.Nombre = jsonObject[SteamAppid.ToString()]["data"]["name"].ToString();
+                    videojuego.SteamAppid = SteamAppid;
+                    videojuego.Recomendaciones = Convert.ToInt32(jsonObject[SteamAppid.ToString()]?["data"]?["recommendations"]?["total"]);
+                    videojuego.Header_image = jsonObject[SteamAppid.ToString()]?["data"]?["header_image"]?.ToString();
+                    videojuego.Plataforma_ID = 1;
+                    videojuego.Metacritic_score = Convert.ToInt32(jsonObject[SteamAppid.ToString()]?["data"]?["metacritic"]?["score"]);
+                    videojuego.Metacritic_url = jsonObject[SteamAppid.ToString()]?["data"]?["metacritic"]?["url"]?.ToString();
+
+                    JArray categoriesArray = (JArray)jsonObject[SteamAppid.ToString()]["data"]["categories"];
+                    JArray genresArray = (JArray)jsonObject[SteamAppid.ToString()]["data"]["genres"];
+
+                    var videojuegoModel =  await ObtenerVideojuego(SteamAppid);
+                    if (videojuegoModel is null)
+                    {
+                        await RegistrarVideojuegoEstiloGenero(videojuego, categoriesArray, genresArray);
+                    }
+                    return videojuegoModel;
+                }
+
+                return null;
+            }
+            else
+            {
+                throw new Exception("Ocurrio una excepcion al llamar al servicio RegistrarObtenerVideojuego");
+            }
         }
     }
 }

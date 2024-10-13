@@ -2,6 +2,7 @@ using Api.Configurations;
 using Api.Mapping;
 using AutoMapper;
 using Core.Contracts.Data;
+using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;

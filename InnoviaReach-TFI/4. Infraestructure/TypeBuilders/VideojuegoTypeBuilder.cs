@@ -20,8 +20,16 @@ namespace _4._Infraestructure.TypeBuilders
 
             builder.Property(x => x.Recomendaciones).HasColumnType("int");
 
+            builder.Property(x => x.SteamAppid).HasColumnType("int").IsRequired();
+
+            builder.Property(x => x.Header_image).HasColumnType("varchar(max)");
+
+            builder.Property(x => x.Metacritic_score).HasColumnType("int");
+
+            builder.Property(x => x.Metacritic_url).HasColumnType("varchar(max)");
+
             builder.HasOne(x => x.Plataforma)
-                   .WithMany(y => y.videojuegoModels).HasForeignKey(z => z.Plataforma_ID);
+                       .WithMany(y => y.videojuegoModels).HasForeignKey(z => z.Plataforma_ID);
 
             builder.ToTable("Videojuego");
         }

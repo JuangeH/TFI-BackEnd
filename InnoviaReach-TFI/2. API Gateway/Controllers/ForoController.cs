@@ -123,5 +123,24 @@ namespace Api_Gateway.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("RegistrarVisita")]
+        public async Task<IActionResult> RegistrarVisita([FromBody] ForoUsuarioVisitaRequest request)
+        {
+            try
+            {
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                string URL = ApiBaseURL + $"Foro/RegistrarVisita";
+
+                var GenericApiResponse = await RequestHelper.PostRequest<bool, ForoUsuarioVisitaRequest>(URL, new ForoUsuarioVisitaRequest { Foro_ID = request.Foro_ID, User_ID = userid });
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando registrar visita");
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

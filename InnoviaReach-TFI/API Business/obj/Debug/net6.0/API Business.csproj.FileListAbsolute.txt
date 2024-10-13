@@ -5,54 +5,7 @@ C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\API Business.runtimeconfig.json
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\API Business.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\API Business.pdb
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.OpenApi.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.csproj.AssemblyReference.cache
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.AssemblyInfoInputs.cache
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.AssemblyInfo.cs
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.csproj.CoreCompileInputs.cache
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\staticwebassets.build.json
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\staticwebassets.development.json
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\scopedcss\bundle\API Business.styles.css
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.csproj.CopyComplete
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\refint\API Business.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.pdb
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.genruntimeconfig.cache
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\ref\API Business.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\AutoMapper.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Contracts.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Domain.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.Helpers.dll
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Contracts.pdb
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Domain.pdb
-C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.Helpers.pdb
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Azure.Core.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Azure.Identity.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Azure.Storage.Blobs.dll
@@ -68,19 +21,40 @@ C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Humanizer.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\MailKit.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Azure.Services.AppAuthentication.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Identity.Client.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Clients.ActiveDirectory.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\MimeKit.dll
@@ -100,9 +74,13 @@ C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Serilog.Sinks.MSSqlServer.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Serilog.Sinks.PeriodicBatching.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\StarkbankEcdsa.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\System.CodeDom.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\System.IO.Hashing.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\System.Memory.Data.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\System.Runtime.Caching.dll
@@ -125,14 +103,36 @@ C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Business.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Contracts.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Domain.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Infraestructure.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\IoC.Resolver.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.EmailService.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.Extensions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.Helpers.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.StorageService.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Infraestructure.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Contracts.pdb
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\IoC.Resolver.pdb
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Business.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Core.Domain.pdb
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.EmailService.pdb
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.Extensions.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.Helpers.pdb
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Transversal.StorageService.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.csproj.AssemblyReference.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.AssemblyInfoInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.AssemblyInfo.cs
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.csproj.CoreCompileInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\scopedcss\bundle\API Business.styles.css
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.csproj.CopyComplete
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\refint\API Business.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\API Business.genruntimeconfig.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\obj\Debug\net6.0\ref\API Business.dll

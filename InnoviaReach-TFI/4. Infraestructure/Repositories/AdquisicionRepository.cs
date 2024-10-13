@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.EntityFrameworkCore;
 
 namespace _4._Infraestructure.Repositories
 {
@@ -16,6 +18,13 @@ namespace _4._Infraestructure.Repositories
             : base(applicationDbContext)
         {
 
+        }
+
+        public async Task LimpiarJuegoReciente(string User_ID)
+        {
+            var juegos = this.Entities.Where(x => x.TiempoJuegoReciente!=null && x.User_ID==User_ID);
+            await juegos.ExecuteUpdateAsync(y => y.SetProperty(z => z.TiempoJuegoReciente, z => (int?)null));
+            await _context.SaveChangesAsync();
         }
     }
 }

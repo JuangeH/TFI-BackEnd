@@ -10,5 +10,6 @@ namespace Core.Contracts.Repositories
 {
     public interface IVideojuegoRepository : IGenericRepository<VideojuegoModel>
     {
+
     }
 }

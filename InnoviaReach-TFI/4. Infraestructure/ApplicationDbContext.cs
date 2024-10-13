@@ -14,14 +14,14 @@ namespace Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<Users,Privileges,string,IdentityUserClaim<string>, UsersPrivileges,IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
-        //public ApplicationDbContext()
-        //{
-
-        //}
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
 
+        //public ApplicationDbContext()
+        //{
+
+        //}
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    if (!optionsBuilder.IsConfigured)

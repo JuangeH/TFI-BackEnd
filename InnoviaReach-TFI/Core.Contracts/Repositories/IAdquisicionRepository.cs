@@ -9,5 +9,6 @@ namespace Core.Contracts.Repositories
 {
     public interface IAdquisicionRepository : IGenericRepository<AdquisicionModel>
     {
+       public Task LimpiarJuegoReciente(string User_ID);
     }
 }

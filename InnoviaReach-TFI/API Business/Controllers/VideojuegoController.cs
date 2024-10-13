@@ -1,4 +1,5 @@
-﻿using API_Business.Request;
+﻿using _3._Core.Services;
+using API_Business.Request;
 using API_Business.Response;
 using AutoMapper;
 using Core.Contracts.Services;
@@ -27,7 +28,7 @@ namespace API_Business.Controllers
         private readonly IVideojuegoService _videojuegoService;
         private readonly IPlataformaService _plataformaService;
         private readonly IAdquisicionService _adquisicionService;
-        private readonly ITiempoDeJuegoService _tiempoDeJuegoService;
+        private readonly ISteamAccountService _steamAccountService;
 
         public VideojuegoController(
             IMapper mapper,
@@ -35,14 +36,14 @@ namespace API_Business.Controllers
             IVideojuegoService videojuegoService,
             IPlataformaService plataformaService,
             IAdquisicionService adquisicionService,
-            ITiempoDeJuegoService tiempoDeJuegoService)
+            ISteamAccountService steamAccountService)
         {
             _mapper = mapper;
             _logger = logger;
             _videojuegoService = videojuegoService;
             _plataformaService = plataformaService;
             _adquisicionService = adquisicionService;
-            _tiempoDeJuegoService = tiempoDeJuegoService;
+            _steamAccountService = steamAccountService;
         }
 
         [HttpPost("RegistrarVideojuegos")]
@@ -62,46 +63,7 @@ namespace API_Business.Controllers
 
                 foreach (var item in videojuegosSteam.applist.apps)
                 {
-                    var response = await httpClient.GetAsync("http://store.steampowered.com/api/appdetails?appids=" + item.appid);
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    if (response.IsSuccessStatusCode && json != null)
-                    {
-                        // Parse the JSON string
-                        JObject jsonObject = JObject.Parse(json);
-
-                        // Extract values
-                        string? type = null;
-                        //type = (string)jsonObject[item.appid.ToString()]["data"]["type"];
-
-                        if (jsonObject != null && jsonObject[item.appid.ToString()] != null && jsonObject[item.appid.ToString()]?["data"] != null && jsonObject[item.appid.ToString()]?["data"]?["type"] != null && jsonObject[item.appid.ToString()]?["data"]?["categories"] != null && jsonObject[item.appid.ToString()]?["data"]?["genres"] != null)
-                        {
-                            type = jsonObject[item.appid.ToString()]["data"]["type"].ToString();
-                        }
-                        else
-                        {
-                            type = null;
-                        }
-
-                        if (type == "game")
-                        {
-                            VideojuegoModel videojuego = new VideojuegoModel();
-                            videojuego.Nombre = jsonObject[item.appid.ToString()]["data"]["name"].ToString();
-                            videojuego.Recomendaciones = Convert.ToInt32(jsonObject[item.appid.ToString()]?["data"]?["recommendations"]?["total"]);
-                            videojuego.Plataforma_ID = 1;
-
-                            JArray categoriesArray = (JArray)jsonObject[item.appid.ToString()]["data"]["categories"];
-                            JArray genresArray = (JArray)jsonObject[item.appid.ToString()]["data"]["genres"];
-
-                            await _videojuegoService.RegistrarVideojuego(videojuego, categoriesArray, genresArray);
-                        }
-                    }
-                    else
-                    {
-                        // Si la solicitud no fue exitosa, maneja el error aquí
-                    }
-
-
+                    await _videojuegoService.RegistrarObtenerVideojuego(item.appid);
                 }
 
 
@@ -117,73 +79,37 @@ namespace API_Business.Controllers
         [HttpPost("RegistrarInformacion/{userid}")]
         public async Task<IActionResult> RegistrarInformacion(SteamInfoRequest steamInfoRequest, string userid)
         {
+            if (string.IsNullOrEmpty(steamInfoRequest.SteamAPIKey))
+            {
+                steamInfoRequest.SteamAPIKey = "DB87EDFDEF1A6EC905BD4F1F51B2377A";
+            }
             try
             {
-                //VALIDAR NO REGISTRAR MÚLTIPLES VECES LA MISMA ADQUISICION/TIEMPO DE JUEGO
-
                 HttpClient httpClient = new HttpClient();
 
-                Root videojuegosAdquiridos = new Root();
+                //STEAM ACCOUNT
+                SteamAccountModel steamAccount = new SteamAccountModel();
 
-                videojuegosAdquiridos = await httpClient.GetFromJsonAsync<Root>("https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + steamInfoRequest.SteamAPIKey + "&steamid=" + steamInfoRequest.SteamID + "&format=json");
+                steamAccount.steamid = steamInfoRequest.SteamID;
+                steamAccount.User_ID = userid;
 
+                var steamAccountResponse = await httpClient.GetAsync("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + steamInfoRequest.SteamAPIKey + "&steamids=" + steamInfoRequest.SteamID);
+                string steamAccountjson = await steamAccountResponse.Content.ReadAsStringAsync();
+                JObject steamAccountsObject = JObject.Parse(steamAccountjson);
 
-                foreach (var item in videojuegosAdquiridos.response.games)
-                {
-                    var response = await httpClient.GetAsync("http://store.steampowered.com/api/appdetails?appids=" + item.appid);
-                    string json = await response.Content.ReadAsStringAsync();
+                steamAccount.avatarfull = steamAccountsObject["response"]["players"][0]["avatarfull"].ToString();
+                steamAccount.profileurl = steamAccountsObject["response"]["players"][0]["profileurl"].ToString();
+                steamAccount.personaname = steamAccountsObject["response"]["players"][0]["personaname"].ToString();
 
-                    if (response.IsSuccessStatusCode && json != null)
-                    {
-                        // Parse the JSON string
-                        JObject jsonObject = JObject.Parse(json);
+                await _steamAccountService.RegistrarUsuario(steamAccount);
+                //STEAM ACCOUNT
 
-                        // Extract values
-                        string? type = default;
-                        //type = (string)jsonObject[item.appid.ToString()]["data"]["type"];
+                //VALIDAR NO REGISTRAR MÚLTIPLES VECES LA MISMA ADQUISICION/TIEMPO DE JUEGO
 
-                        if (jsonObject != null && jsonObject[item.appid.ToString()] != null && jsonObject[item.appid.ToString()]?["data"] != null && jsonObject[item.appid.ToString()]?["data"]?["type"] != null && jsonObject[item.appid.ToString()]?["data"]?["categories"] != null && jsonObject[item.appid.ToString()]?["data"]?["genres"] != null)
-                        {
-                            type = jsonObject[item.appid.ToString()]["data"]["type"].ToString();
-                        }
-                        else
-                        {
-                            type = null;
-                        }
-
-                        if (type == "game")
-                        {
-                            VideojuegoModel videojuego = new VideojuegoModel();
-                            AdquisicionModel adquisicion = new AdquisicionModel();
-                            TiempoDeJuegoModel tiempoDeJuego = new TiempoDeJuegoModel();
-
-                            videojuego.Nombre = jsonObject[item.appid.ToString()]["data"]["name"].ToString();
-                            videojuego.Recomendaciones = Convert.ToInt32(jsonObject[item.appid.ToString()]?["data"]?["recommendations"]?["total"]);
-                            videojuego.Plataforma_ID = 1;
-
-                            JArray categoriesArray = (JArray)jsonObject[item.appid.ToString()]["data"]["categories"];
-                            JArray genresArray = (JArray)jsonObject[item.appid.ToString()]["data"]["genres"];
-
-                            adquisicion.videojuego = videojuego;
-                            tiempoDeJuego.videojuego = videojuego;
-                            tiempoDeJuego.CantidadMinutos = item.playtime_forever;
-
-                            await _videojuegoService.RegistrarVideojuego(videojuego, categoriesArray, genresArray);
-
-                            await _adquisicionService.RegistrarAdquisicion(adquisicion, userid);
-
-                            await _tiempoDeJuegoService.RegistrarTiempoDeJuego(tiempoDeJuego, userid);
-
-                        }
-                    }
-                    else
-                    {
-                        // Si la solicitud no fue exitosa, maneja el error aquí
-                    }
-
-                }
-
-                return Ok(true);
+                await _adquisicionService.ActualizarRegistrarAdquisiciones(steamInfoRequest, userid);
+                await _adquisicionService.ActualizarJugadoReciente(steamInfoRequest, userid);
+                
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -233,6 +159,157 @@ namespace API_Business.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }
 
+//[HttpPost("RegistrarInformacion/{userid}")]
+//public async Task<IActionResult> RegistrarInformacion(SteamInfoRequest steamInfoRequest, string userid)
+//{
+//    try
+//    {
+//        HttpClient httpClient = new HttpClient();
+
+//        //STEAM ACCOUNT
+//        SteamAccountModel steamAccount = new SteamAccountModel();
+
+//        steamAccount.steamid = steamInfoRequest.SteamID;
+//        steamAccount.User_ID = userid;
+
+//        var steamAccountResponse = await httpClient.GetAsync("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + steamInfoRequest.SteamAPIKey + "&steamids=" + steamInfoRequest.SteamID);
+//        string steamAccountjson = await steamAccountResponse.Content.ReadAsStringAsync();
+//        JObject steamAccountsObject = JObject.Parse(steamAccountjson);
+
+//        steamAccount.avatarfull = steamAccountsObject["response"]["players"][0]["avatarfull"].ToString();
+//        steamAccount.profileurl = steamAccountsObject["response"]["players"][0]["profileurl"].ToString();
+//        steamAccount.personaname = steamAccountsObject["response"]["players"][0]["personaname"].ToString();
+
+//        await _steamAccountService.RegistrarUsuario(steamAccount);
+//        //STEAM ACCOUNT
+
+//        //VALIDAR NO REGISTRAR MÚLTIPLES VECES LA MISMA ADQUISICION/TIEMPO DE JUEGO
+
+//        Root videojuegosAdquiridos = new Root();
+
+//        videojuegosAdquiridos = await httpClient.GetFromJsonAsync<Root>("https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + steamInfoRequest.SteamAPIKey + "&steamid=" + steamInfoRequest.SteamID + "&format=json");
+
+//        var recentlyPlayedGamesResponse = await httpClient.GetAsync("https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=" + steamInfoRequest.SteamAPIKey + "&steamid=" + steamInfoRequest.SteamID + "&format=json");
+//        string recentlyPlayedGamesjson = await recentlyPlayedGamesResponse.Content.ReadAsStringAsync();
+//        JObject recentlyPlayedGamesObject = JObject.Parse(recentlyPlayedGamesjson);
+
+//        Dictionary<string, string> excepciones = new Dictionary<string, string>();
+
+//        foreach (var item in videojuegosAdquiridos.response.games)
+//        {
+//            try
+//            {
+//                var response = await httpClient.GetAsync("http://store.steampowered.com/api/appdetails?appids=" + item.appid);
+//                var playerSummariesResponse = await httpClient.GetAsync("http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=" + item.appid + "&key=" + steamInfoRequest.SteamAPIKey + "&steamid=" + steamInfoRequest.SteamID);
+
+//                string json = await response.Content.ReadAsStringAsync();
+//                string playerSummariesjson = await playerSummariesResponse.Content.ReadAsStringAsync();
+
+//                if (response.IsSuccessStatusCode && json != null)
+//                {
+//                    // Parse the JSON string
+//                    JObject jsonObject = JObject.Parse(json);
+//                    JObject playerSummariesjsonObject = JObject.Parse(playerSummariesjson);
+
+//                    // Extract values
+//                    string? type = default;
+//                    //type = (string)jsonObject[item.appid.ToString()]["data"]["type"];
+
+//                    if (jsonObject != null && jsonObject[item.appid.ToString()] != null && jsonObject[item.appid.ToString()]?["data"] != null && jsonObject[item.appid.ToString()]?["data"]?["type"] != null && jsonObject[item.appid.ToString()]?["data"]?["categories"] != null && jsonObject[item.appid.ToString()]?["data"]?["genres"] != null)
+//                    {
+//                        type = jsonObject[item.appid.ToString()]["data"]["type"].ToString();
+//                    }
+//                    else
+//                    {
+//                        type = null;
+//                    }
+
+//                    if (type == "game")
+//                    {
+//                        VideojuegoModel videojuego = new VideojuegoModel();
+//                        AdquisicionModel adquisicion = new AdquisicionModel();
+
+//                        videojuego.Nombre = jsonObject[item.appid.ToString()]["data"]["name"].ToString();
+//                        videojuego.SteamAppid = item.appid;
+//                        videojuego.Recomendaciones = Convert.ToInt32(jsonObject[item.appid.ToString()]?["data"]?["recommendations"]?["total"]);
+//                        videojuego.Header_image = jsonObject[item.appid.ToString()]["data"]["header_image"].ToString();
+//                        videojuego.Plataforma_ID = 1;
+
+//                        if (jsonObject[item.appid.ToString()]?["data"]?["metacritic"] != null)
+//                        {
+//                            videojuego.Metacritic_score = Convert.ToInt32(jsonObject[item.appid.ToString()]?["data"]?["metacritic"]?["score"]);
+//                            videojuego.Metacritic_url = jsonObject[item.appid.ToString()]?["data"]?["metacritic"]?["url"]?.ToString();
+//                        }
+//                        else
+//                        {
+//                            videojuego.Metacritic_score = 0;
+//                            videojuego.Metacritic_url = "";
+//                        }
+
+//                        JArray categoriesArray = (JArray)jsonObject[item.appid.ToString()]["data"]["categories"];
+//                        JArray genresArray = (JArray)jsonObject[item.appid.ToString()]["data"]["genres"];
+
+//                        if (jsonObject[item.appid.ToString()]?["data"]?["metacritic"] != null)
+//                        {
+//                            videojuego.Metacritic_score = Convert.ToInt32(jsonObject[item.appid.ToString()]?["data"]?["metacritic"]?["score"]);
+//                            videojuego.Metacritic_url = jsonObject[item.appid.ToString()]?["data"]?["metacritic"]?["url"]?.ToString();
+//                        }
+//                        else
+//                        {
+//                            videojuego.Metacritic_score = 0;
+//                            videojuego.Metacritic_url = "";
+//                        }
+
+//                        if (Convert.ToBoolean(playerSummariesjsonObject["playerstats"]["success"]))
+//                        {
+//                            if (playerSummariesjsonObject["playerstats"]["achievements"] != null)
+//                            {
+//                                adquisicion.CantidadLogros = playerSummariesjsonObject["playerstats"]["achievements"].Count();
+//                            }
+//                            else
+//                                adquisicion.CantidadLogros = 0;
+//                        }
+//                        else
+//                            adquisicion.CantidadLogros = 0;
+
+
+//                        foreach (var recentGame in recentlyPlayedGamesObject["response"]["games"].ToList())
+//                        {
+//                            if (Convert.ToInt32(recentGame["appid"]) == item.appid)
+//                            {
+//                                adquisicion.TiempoJuegoReciente = Convert.ToInt32(recentGame["playtime_forever"]);
+//                            }
+//                        }
+
+//                        adquisicion.TiempoJuego = item.playtime_forever;
+
+//                        await _videojuegoService.RegistrarVideojuegoEstiloGenero(videojuego, categoriesArray, genresArray);
+
+//                        await _adquisicionService.RegistrarAdquisicion(adquisicion, userid, item.appid);
+
+//                    }
+//                }
+//                else
+//                {
+//                    // Si la solicitud no fue exitosa, maneja el error aquí
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                excepciones.Add(item.appid.ToString(), ex.Message);
+//            }
+
+//        }
+
+//        return Ok(excepciones);
+//    }
+//    catch (Exception ex)
+//    {
+//        _logger.LogError(ex, "Error while obtaining videogames.");
+//        return BadRequest(ex.Message);
+//    }
+//}

@@ -13,6 +13,8 @@ using Api.Request.Privileges;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Helper;
 using Core.Domain.Response.Business;
+using System.Security.Claims;
+using Core.Domain.Response.Gateway;
 
 namespace Api.Controllers
 {
@@ -28,19 +30,22 @@ namespace Api.Controllers
         private readonly IUsersPrivilegesService _userPrivilegesService;
         private readonly IUsersService _usersService;
         private readonly IPrivilegesService _privilegesService;
+        private readonly ISteamAccountService _steamAccountService;
 
         public UsersController(
             IMapper mapper,
             ILogger<UserManagementController> logger,
             IUsersPrivilegesService userPrivilegesService,
             IUsersService usersService,
-            IPrivilegesService privilegesService)
+            IPrivilegesService privilegesService,
+            ISteamAccountService steamAccountService)
         {
             _mapper = mapper;
             _logger = logger;
             _userPrivilegesService = userPrivilegesService;
             _usersService = usersService;
             _privilegesService = privilegesService;
+            _steamAccountService = steamAccountService;
         }
 
         [HttpDelete]
@@ -79,6 +84,30 @@ namespace Api.Controllers
                 else
                 {
                     var response = _mapper.Map<List<UserResponse>>(result);
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al obtener usuarios" + ex.Message);
+                return Problem(ex.Message);
+            }
+        }
+        [HttpGet("ValidarSteamAccount")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ValidarSteamAccount()
+        {
+            try
+            {
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var result = await _steamAccountService.ValidarSteamAccount(userid);
+                if (result is null)
+                {
+                    return Problem("No se encuentran usuarios");
+                }
+                else
+                {
+                    var response = _mapper.Map<SteamAccountResponse>(result);
                     return Ok(response);
                 }
             }
