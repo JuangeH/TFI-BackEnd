@@ -84,53 +84,52 @@ namespace _3._Core.Services
         {
             try
             {
-                //VALIDAR QUE EL JUEGO NO ESTE REGISTRADO YA
-                var VideojuegoRegistrado = await ObtenerVideojuego(videojuego.SteamAppid);
+                await _repository.Insert(videojuego);
 
-                if (VideojuegoRegistrado == null)
+                await _unitOfWork.SaveChangesAsync();
+
+                var estilos = await _EstiloRepo.Get(x => x.Estilo_ID.ToString() != "");
+                var generos = await _GeneroRepo.Get(x => x.Genero_ID.ToString() != "");
+
+                foreach (var item in categoriesArray.ToList())
                 {
-                    await _repository.Insert(videojuego);
+                    var estiloMatch = estilos.ToList().FirstOrDefault(x => x.Descripcion == item["description"].ToString());
 
-                    await _unitOfWork.SaveChangesAsync();
-
-                    var estilos = await _EstiloRepo.Get(x => x.Estilo_ID.ToString() != "");
-                    var generos = await _GeneroRepo.Get(x => x.Genero_ID.ToString() != "");
-
-                    foreach (var item in categoriesArray.ToList())
+                    if (estiloMatch is null)
                     {
-                        foreach (var item2 in estilos)
-                        {
-                            if (item["description"].ToString() == item2.Descripcion)
-                            {
-                                _videojuegoEstiloModel = new VideojuegoEstiloModel();
+                        await _EstiloRepo.Insert(estiloMatch = new EstiloModel { Descripcion = item["description"].ToString() });
 
-                                _videojuegoEstiloModel.Videojuego_ID = videojuego.Videojuego_ID;
-                                _videojuegoEstiloModel.Estilo_ID = item2.Estilo_ID;
-
-
-                                await _videojuegoEstiloRepo.Insert(_videojuegoEstiloModel);
-                            }
-                        }
-                    }
-                    foreach (var item in genresArray.ToList())
-                    {
-                        foreach (var item2 in generos)
-                        {
-                            if (item["description"].ToString() == item2.Descripcion)
-                            {
-                                _videojuegoGeneroModel = new VideojuegoGeneroModel();
-
-                                _videojuegoGeneroModel.Videojuego_ID = videojuego.Videojuego_ID;
-                                _videojuegoGeneroModel.Genero_ID = item2.Genero_ID;
-
-
-                                await _videojuegoGeneroRepo.Insert(_videojuegoGeneroModel);
-                            }
-                        }
+                        await _unitOfWork.SaveChangesAsync();
                     }
 
-                    await _unitOfWork.SaveChangesAsync();
+                    _videojuegoEstiloModel = new VideojuegoEstiloModel();
+
+                    _videojuegoEstiloModel.Videojuego_ID = videojuego.Videojuego_ID;
+                    _videojuegoEstiloModel.Estilo_ID = estiloMatch.Estilo_ID;
+
+                    await _videojuegoEstiloRepo.Insert(_videojuegoEstiloModel);
                 }
+                foreach (var item in genresArray.ToList())
+                {
+                    var generoMatch = generos.ToList().FirstOrDefault(x => x.Descripcion == item["description"].ToString());
+
+                    if (generoMatch is null)
+                    {
+                        await _GeneroRepo.Insert(generoMatch = new GeneroModel { Descripcion = item["description"].ToString() });
+
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+
+                    _videojuegoGeneroModel = new VideojuegoGeneroModel();
+
+                    _videojuegoGeneroModel.Videojuego_ID = videojuego.Videojuego_ID;
+                    _videojuegoGeneroModel.Genero_ID = generoMatch.Genero_ID;
+
+                    await _videojuegoGeneroRepo.Insert(_videojuegoGeneroModel);
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+                
             }
             catch (Exception ex)
             {
@@ -143,55 +142,62 @@ namespace _3._Core.Services
 
         public async Task<VideojuegoModel> RegistrarObtenerVideojuego(int SteamAppid)
         {
-            HttpClient httpClient = new HttpClient();
-            var response = await httpClient.GetAsync("http://store.steampowered.com/api/appdetails?appids=" + SteamAppid);
-            string json = await response.Content.ReadAsStringAsync();
-
-            if (response.IsSuccessStatusCode && json != null)
+            try
             {
-                // Parse the JSON string
-                JObject jsonObject = JObject.Parse(json);
+                HttpClient httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("http://store.steampowered.com/api/appdetails?appids=" + SteamAppid);
+                string json = await response.Content.ReadAsStringAsync();
 
-                // Extract values
-                string? type = null;
-                //type = (string)jsonObject[item.appid.ToString()]["data"]["type"];
-
-                if (jsonObject != null && jsonObject[SteamAppid.ToString()] != null && jsonObject[SteamAppid.ToString()]?["data"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["type"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["categories"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["genres"] != null)
+                if (response.IsSuccessStatusCode && json != null)
                 {
-                    type = jsonObject[SteamAppid.ToString()]["data"]["type"].ToString();
+                    // Parse the JSON string
+                    JObject jsonObject = JObject.Parse(json);
+
+                    // Extract values
+                    string? type = null;
+                    //type = (string)jsonObject[item.appid.ToString()]["data"]["type"];
+
+                    if (jsonObject != null && jsonObject[SteamAppid.ToString()] != null && jsonObject[SteamAppid.ToString()]?["data"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["type"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["categories"] != null && jsonObject[SteamAppid.ToString()]?["data"]?["genres"] != null)
+                    {
+                        type = jsonObject[SteamAppid.ToString()]["data"]["type"].ToString();
+                    }
+                    else
+                    {
+                        type = null;
+                    }
+
+                    if (type == "game")
+                    {
+                        VideojuegoModel videojuego = new VideojuegoModel();
+                        videojuego.Nombre = jsonObject[SteamAppid.ToString()]["data"]["name"].ToString();
+                        videojuego.SteamAppid = SteamAppid;
+                        videojuego.Recomendaciones = Convert.ToInt32(jsonObject[SteamAppid.ToString()]?["data"]?["recommendations"]?["total"]);
+                        videojuego.Header_image = jsonObject[SteamAppid.ToString()]?["data"]?["header_image"]?.ToString();
+                        videojuego.Plataforma_ID = 1;
+                        videojuego.Metacritic_score = Convert.ToInt32(jsonObject[SteamAppid.ToString()]?["data"]?["metacritic"]?["score"]);
+                        videojuego.Metacritic_url = jsonObject[SteamAppid.ToString()]?["data"]?["metacritic"]?["url"]?.ToString();
+
+                        JArray categoriesArray = (JArray)jsonObject[SteamAppid.ToString()]["data"]["categories"];
+                        JArray genresArray = (JArray)jsonObject[SteamAppid.ToString()]["data"]["genres"];
+
+                        var videojuegoModel = await ObtenerVideojuego(SteamAppid);
+                        if (videojuegoModel is null)
+                        {
+                            await RegistrarVideojuegoEstiloGenero(videojuego, categoriesArray, genresArray);
+                        }
+                        return videojuegoModel;
+                    }
+
+                    return null;
                 }
                 else
                 {
-                    type = null;
+                    throw new Exception("Ocurrio una excepcion al llamar al servicio RegistrarObtenerVideojuego");
                 }
-
-                if (type == "game")
-                {
-                    VideojuegoModel videojuego = new VideojuegoModel();
-                    videojuego.Nombre = jsonObject[SteamAppid.ToString()]["data"]["name"].ToString();
-                    videojuego.SteamAppid = SteamAppid;
-                    videojuego.Recomendaciones = Convert.ToInt32(jsonObject[SteamAppid.ToString()]?["data"]?["recommendations"]?["total"]);
-                    videojuego.Header_image = jsonObject[SteamAppid.ToString()]?["data"]?["header_image"]?.ToString();
-                    videojuego.Plataforma_ID = 1;
-                    videojuego.Metacritic_score = Convert.ToInt32(jsonObject[SteamAppid.ToString()]?["data"]?["metacritic"]?["score"]);
-                    videojuego.Metacritic_url = jsonObject[SteamAppid.ToString()]?["data"]?["metacritic"]?["url"]?.ToString();
-
-                    JArray categoriesArray = (JArray)jsonObject[SteamAppid.ToString()]["data"]["categories"];
-                    JArray genresArray = (JArray)jsonObject[SteamAppid.ToString()]["data"]["genres"];
-
-                    var videojuegoModel =  await ObtenerVideojuego(SteamAppid);
-                    if (videojuegoModel is null)
-                    {
-                        await RegistrarVideojuegoEstiloGenero(videojuego, categoriesArray, genresArray);
-                    }
-                    return videojuegoModel;
-                }
-
-                return null;
             }
-            else
+            catch (Exception)
             {
-                throw new Exception("Ocurrio una excepcion al llamar al servicio RegistrarObtenerVideojuego");
+                throw;
             }
         }
     }

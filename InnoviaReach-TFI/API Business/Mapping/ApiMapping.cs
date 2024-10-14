@@ -81,6 +81,9 @@ namespace Api.Mapping
             CreateMap<VideojuegoModel, VideojuegoForoReponse>()
                 .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
                  .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.Videojuego_ID));
+
+          
+
         }
     }
 }

@@ -66,7 +66,6 @@ namespace API_Business.Controllers
                     await _videojuegoService.RegistrarObtenerVideojuego(item.appid);
                 }
 
-
                 return Ok();
             }
             catch (Exception ex)

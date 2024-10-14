@@ -54,11 +54,20 @@ namespace _3._Core.Services
                         {
                             var adquisicion = (await _repository.Get(x => x.Videojuego_ID == videojuego.Videojuego_ID && x.User_ID == userid)).FirstOrDefault();
 
-                            adquisicion.TiempoJuegoReciente = Convert.ToInt32(recentGame["playtime_forever"]);
 
-                            await _repository.Update(adquisicion);
+                            if (adquisicion != null)
+                            {
+                                adquisicion.TiempoJuegoReciente = Convert.ToInt32(recentGame["playtime_forever"]);
 
-                            await _unitOfWork.SaveChangesAsync();
+                                await _repository.Update(adquisicion);
+
+                                await _unitOfWork.SaveChangesAsync();
+                            }
+                            else
+                            {
+                                //AGREGAR METODO DE REGISTRAR ACTUALIZAR ADQUISICIONES
+
+                            }
                         }
                     }
                     catch (Exception)
