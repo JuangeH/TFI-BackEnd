@@ -79,7 +79,7 @@ namespace Api.Controllers
 
                 _logger.LogInformation($"New user with UserName: {registerRequest.FirstName + string.Empty + registerRequest.LastName} has been registered succesfully.");
 
-                return Ok(user.Id);
+                return Ok();
             }
             catch (Exception ex)
             {

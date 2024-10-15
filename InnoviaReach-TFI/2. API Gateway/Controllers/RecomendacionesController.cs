@@ -1,4 +1,5 @@
-﻿using Core.Contracts.Services;
+﻿using _2._API.Response;
+using Core.Contracts.Services;
 using Core.Domain.Helper;
 using Core.Domain.Models;
 using Core.Domain.Request.Business;
@@ -14,26 +15,23 @@ namespace _2._API.Controllers
     [Route("[controller]")]
     public class RecomendacionesController : ControllerBase
     {
-        private readonly IRecomendacionesService _recomendacionesService;
         private string ApiBaseURL = "https://localhost:44309/";
         private readonly ILogger<RecomendacionesController> _logger;
 
         public RecomendacionesController(
-             ILogger<RecomendacionesController> logger,
-            IRecomendacionesService recomendacionesService)
+             ILogger<RecomendacionesController> logger)
         {
-            _recomendacionesService = recomendacionesService;
             _logger = logger;
         }
 
-        [HttpGet("ObtenerRecomendaciones")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ObtenerRecomendaciones()
+        [HttpGet("ObtenerRecomendacionesForoVisitado")]
+        public async Task<IActionResult> ObtenerRecomendacionesForoVisitado()
         {
             try
             {
-                string URL = ApiBaseURL + $"Recomendaciones/ObtenerRecomendaciones";
-                var GenericApiResponse = await RequestHelper.GetRequest<List<ForoModel>>(URL);
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string URL = ApiBaseURL + $"Recomendaciones/ObtenerRecomendacionesForoVisitado?User_ID={userid}";
+                var GenericApiResponse = await RequestHelper.GetRequest<List<ForoResponse>>(URL);
                 return Ok(GenericApiResponse);
             }
             catch (Exception ex)
