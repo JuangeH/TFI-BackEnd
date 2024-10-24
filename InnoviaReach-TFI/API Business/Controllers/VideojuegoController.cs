@@ -159,6 +159,20 @@ namespace API_Business.Controllers
             }
         }
 
+        [HttpPost("RegistrarInfoStream/{juegoID}")]
+        public async Task<IActionResult> RegistrarInfoStream(int juegoID)
+        {
+            try
+            {
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
 
