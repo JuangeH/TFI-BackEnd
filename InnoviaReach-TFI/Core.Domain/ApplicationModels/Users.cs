@@ -20,6 +20,9 @@ namespace Core.Domain.ApplicationModels
             comentarioModels = new HashSet<ComentarioModel>();
             puntuacionModels = new HashSet<PuntuacionModel>();
             foroModels = new HashSet<ForoModel>();
+            usuarioVisitaModels = new HashSet<UsuarioVisitaModel>();
+            recomendacionUsuarioModels = new HashSet<RecomendacionUsuarioModel>();
+            recomendacionVideojuegoModels = new HashSet<RecomendacionVideojuegoModel>();
         }
         public bool Active { get; set; }
         public UsersPrivileges UserPrivileges { get; set; }
@@ -32,6 +35,10 @@ namespace Core.Domain.ApplicationModels
         public string Genero_preferido { get; set; }
         public bool Actualizaciones { get; set; }
         public bool Descuentos { get; set; }
+        public int? ClusterID { get; set; }
+        public string? GameGenresJson { get; set; }
+        public string? GameTagsJson { get; set; }
+        public string? GameHistoryJson { get; set; }
         public SteamAccountModel SteamAccountModel { get; set; }
         public SuscripcionUsuarioModel suscripcionUsuarioModel { get; set; }
         public ICollection<MedioDePagoModel> medioDePagoModels { get; set; }
@@ -44,5 +51,8 @@ namespace Core.Domain.ApplicationModels
         public ICollection<ComentarioModel> comentarioModels { get; set; }
         public ICollection<PuntuacionModel> puntuacionModels { get; set; }
         public ICollection<ForoModel> foroModels { get; set; }
+        public ICollection<UsuarioVisitaModel> usuarioVisitaModels { get; set; }
+        public ICollection<RecomendacionUsuarioModel> recomendacionUsuarioModels { get; set; }
+        public ICollection<RecomendacionVideojuegoModel> recomendacionVideojuegoModels { get; set; }
     }
 }

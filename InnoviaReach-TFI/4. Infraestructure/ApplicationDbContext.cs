@@ -26,7 +26,7 @@ namespace Infrastructure.Data
         //{
         //    if (!optionsBuilder.IsConfigured)
         //    {
-        //        optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=InnoviaDB2;User ID=testuser;Password=1234;Current Language=Spanish;MultipleActiveResultSets=True;Integrated Security=True;TrustServerCertificate=True");
+        //        optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=InnoviaDB3;User ID=testuser;Password=1234;Current Language=Spanish;MultipleActiveResultSets=True;Integrated Security=True;TrustServerCertificate=True");
         //    }
         //}
 

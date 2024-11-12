@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,9 @@ namespace Core.Domain.Models
             videojuegoGeneroModels = new HashSet<VideojuegoGeneroModel>();
         }
         public ICollection<VideojuegoGeneroModel> videojuegoGeneroModels { get; set; }
-        public string Descripcion { get; set; }
         public int Genero_ID { get; set; }
+        public int GenreRawgID { get; set; }
+        public string Nombre { get; set; }
+        public string Slug { get; set; }
     }
 }

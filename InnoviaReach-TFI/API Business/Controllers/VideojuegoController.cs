@@ -2,9 +2,12 @@
 using API_Business.Request;
 using API_Business.Response;
 using AutoMapper;
+using Azure.Storage.Blobs.Models;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
+using Core.Domain.Models.Nueva_Base;
+using Core.Domain.Request.Gateway;
 using Core.Domain.Response.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +18,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using static Google.Apis.Requests.BatchRequest;
 
 namespace API_Business.Controllers
@@ -29,6 +33,7 @@ namespace API_Business.Controllers
         private readonly IPlataformaService _plataformaService;
         private readonly IAdquisicionService _adquisicionService;
         private readonly ISteamAccountService _steamAccountService;
+        private readonly IUsuarioVisitaService _usuarioVisitaService;
 
         public VideojuegoController(
             IMapper mapper,
@@ -36,7 +41,8 @@ namespace API_Business.Controllers
             IVideojuegoService videojuegoService,
             IPlataformaService plataformaService,
             IAdquisicionService adquisicionService,
-            ISteamAccountService steamAccountService)
+            ISteamAccountService steamAccountService,
+            IUsuarioVisitaService usuarioVisitaService)
         {
             _mapper = mapper;
             _logger = logger;
@@ -44,6 +50,62 @@ namespace API_Business.Controllers
             _plataformaService = plataformaService;
             _adquisicionService = adquisicionService;
             _steamAccountService = steamAccountService;
+            _usuarioVisitaService = usuarioVisitaService;
+        }
+
+        [HttpPost("RegistrarVideojuegosRAWG")]
+        public async Task<IActionResult> RegistrarVideojuegosRAWG()
+        {
+            try
+            {
+                int pagina = 362;
+                do
+                {
+                    // URL de la API de RAWG con tu clave de API (asegúrate de reemplazar 'TU_CLAVE_API')
+                    string apiUrl = "https://api.rawg.io/api/games?key=6c43806ec84d4f09a9ac4c221d783da2&page=" + pagina;
+
+                    // Crear un HttpClient
+                    using (HttpClient httpClient = new HttpClient())
+                    {
+                        // Realizar la solicitud GET a la API de RAWG
+                        HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+                        // Verificar si la respuesta fue exitosa
+                        if (response.IsSuccessStatusCode)
+                        {
+                            // Leer el contenido de la respuesta como string
+                            string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                            // Deserializar el JSON a la clase RawgApiResponse
+                            RawgApiResponse apiResponse = JsonConvert.DeserializeObject<RawgApiResponse>(jsonResponse);
+
+                            // Acceder a la lista de videojuegos
+                            List<VideojuegoRAWG> videojuegos = apiResponse.Results;
+
+                            // Aquí puedes procesar la lista de videojuegos y guardar los datos en la base de datos
+                            // Por ejemplo, puedes iterar sobre cada videojuego y guardarlo
+                            foreach (var videojuego in videojuegos)
+                            {
+                                // Lógica para guardar el videojuego en la base de datos
+                                // Puedes llamar a un servicio que realice la inserción en la base de datos aquí
+                                // Por ejemplo: _miServicioDeBaseDeDatos.GuardarVideojuego(videojuego);
+                                await _videojuegoService.RegistrarObtenerVideojuego(videojuego);
+                            }
+                            pagina++;
+                        }
+                        else
+                        {
+                            // Si la respuesta no fue exitosa, retornar el mensaje de error
+                            return Ok();
+                        }
+                    }
+                } while (true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("RegistrarVideojuegos")]
@@ -63,7 +125,7 @@ namespace API_Business.Controllers
 
                 foreach (var item in videojuegosSteam.applist.apps)
                 {
-                    await _videojuegoService.RegistrarObtenerVideojuego(item.appid);
+                    //await _videojuegoService.RegistrarObtenerVideojuego(item.appid);
                 }
 
                 return Ok();
@@ -107,7 +169,7 @@ namespace API_Business.Controllers
 
                 await _adquisicionService.ActualizarRegistrarAdquisiciones(steamInfoRequest, userid);
                 await _adquisicionService.ActualizarJugadoReciente(steamInfoRequest, userid);
-                
+
                 return Ok();
             }
             catch (Exception ex)
@@ -147,7 +209,7 @@ namespace API_Business.Controllers
         {
             try
             {
-                var resultado = await _videojuegoService.ObtenerVideojuegos();
+                var resultado = await _videojuegoService.ObtenerVideojuegosForo();
                 var response = _mapper.Map<List<VideojuegoForoReponse>>(resultado);
 
                 return Ok(response);
@@ -169,6 +231,30 @@ namespace API_Business.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost("RegistrarVisita/{username}")]
+        public async Task<IActionResult> RegistrarVista(string username, UsuarioVisitaRequest usuarioVisitaRequest)
+        {
+            try
+            {
+                UsuarioVisitaModel visita = new UsuarioVisitaModel();
+
+                string videojuegoNormalizado = Regex.Replace(usuarioVisitaRequest.videojuego, @"[^a-zA-Z0-9\s]", "")
+                                     .Replace(' ', '-')
+                                     .ToLower();
+                visita.Fecha = DateTime.Now;
+
+                await _usuarioVisitaService.RegistrarVista(visita, videojuegoNormalizado, username);
+
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while registering visit.");
                 return BadRequest(ex.Message);
             }
         }

@@ -48,7 +48,9 @@ namespace _3._Core.Services
 
                     try
                     {
-                        var videojuego = await _videojuegoService.RegistrarObtenerVideojuego(Convert.ToInt32(recentGame["appid"]));
+                        //var videojuego = await _videojuegoService.RegistrarObtenerVideojuego(Convert.ToInt32(recentGame["appid"]));
+
+                        VideojuegoModel videojuego = default;
 
                         if (videojuego != null)
                         {
@@ -100,7 +102,9 @@ namespace _3._Core.Services
                 {
                     try
                     {
-                        var videojuego = await _videojuegoService.RegistrarObtenerVideojuego(item.appid);
+                        //var videojuego = await _videojuegoService.RegistrarObtenerVideojuego(item.appid);
+
+                        string videojuego = default;
 
                         if (videojuego != null)
                         {
@@ -157,7 +161,7 @@ namespace _3._Core.Services
         {
             try
             {
-                var videojuego = (await _videojuegoRepository.Get(x => x.SteamAppid == appid)).FirstOrDefault();
+                var videojuego = (await _videojuegoRepository.Get(x => x.AppRawgId == appid)).FirstOrDefault();
 
                 if (videojuego != null)
                 {

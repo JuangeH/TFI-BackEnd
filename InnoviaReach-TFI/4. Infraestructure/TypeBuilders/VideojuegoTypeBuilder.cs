@@ -18,18 +18,23 @@ namespace _4._Infraestructure.TypeBuilders
 
             builder.Property(x => x.Nombre).HasColumnType("varchar(max)").IsRequired();
 
-            builder.Property(x => x.Recomendaciones).HasColumnType("int");
+            builder.Property(x => x.AppRawgId).HasColumnType("int");
 
-            builder.Property(x => x.SteamAppid).HasColumnType("int").IsRequired();
+            builder.Property(x => x.Slug).HasColumnType("varchar(max)");
 
-            builder.Property(x => x.Header_image).HasColumnType("varchar(max)");
+            builder.Property(x => x.Nombre).HasColumnType("varchar(max)");
 
-            builder.Property(x => x.Metacritic_score).HasColumnType("int");
+            builder.Property(x => x.FechaSalida).HasColumnType("datetime");
 
-            builder.Property(x => x.Metacritic_url).HasColumnType("varchar(max)");
+            builder.Property(x => x.CaracteristicasVector).HasColumnType("varchar(max)").IsRequired(false);
 
-            builder.HasOne(x => x.Plataforma)
-                       .WithMany(y => y.videojuegoModels).HasForeignKey(z => z.Plataforma_ID);
+            builder.Property(x => x.ClusterID).HasColumnType("int").IsRequired(false);
+
+            builder.Property(x => x.Imagen).HasColumnType("varchar(max)").IsRequired(false);
+
+            builder.Property(x => x.Rating).HasColumnType("float");
+
+            builder.Property(x => x.Metacritic).HasColumnType("int").IsRequired(false);
 
             builder.ToTable("Videojuego");
         }

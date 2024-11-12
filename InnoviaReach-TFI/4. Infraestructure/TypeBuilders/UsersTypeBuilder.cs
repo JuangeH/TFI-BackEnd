@@ -27,6 +27,14 @@ namespace Infrastructure.Data.TypeBuilders
 
             builder.Property(x => x.Actualizaciones).HasColumnType("bit").IsRequired();
 
+            builder.Property(x => x.ClusterID).HasColumnType("int").IsRequired(false); 
+
+            builder.Property(x => x.GameGenresJson).HasColumnType("varchar(max)").IsRequired(false);
+
+            builder.Property(x => x.GameTagsJson).HasColumnType("varchar(max)").IsRequired(false);
+
+            builder.Property(x => x.GameHistoryJson).HasColumnType("varchar(max)").IsRequired(false);
+
             builder.ToTable("Users");
         }
     }

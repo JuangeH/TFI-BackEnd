@@ -33,7 +33,7 @@ internal class Program
         #region Configure Basic Services
         IdentityModelEventSource.ShowPII = true;
         builder.Services.AddControllers();
-        builder.Services.AddTransient<IRecomendacionesService, RecomendacionesService>();
+        builder.Services.AddTransient<IRecomendacionService, RecomendacionService>();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddHttpClient();
         #endregion

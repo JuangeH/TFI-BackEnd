@@ -8,11 +8,15 @@ using Core.Contracts.Data;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Helper;
+using Core.Domain.Models;
+using Core.Domain.Request.Gateway;
 using Core.Domain.Response.Business;
 using Core.Domain.Response.Gateway;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing.Printing;
 using System.Security.Claims;
 using Transversal.Helpers.JWT;
 using static System.Net.WebRequestMethods;
@@ -82,6 +86,30 @@ namespace _2._API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("RegistrarVista/{username}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegistrarVista(string username, string videojuego)
+        {
+            try
+            {
+                UsuarioVisitaRequest usuarioVisitaRequest = new UsuarioVisitaRequest();
+                usuarioVisitaRequest.videojuego = videojuego;
+
+                // Construir la URL con los parámetros de paginación
+                string URL = ApiBaseURL + $"Videojuego/RegistrarVisita/{username}";
+
+                // Hacer la solicitud a la API interna usando los parámetros de paginación
+                var GenericApiResponse = await RequestHelper.PostRequest<bool, UsuarioVisitaRequest>(URL, usuarioVisitaRequest);
+
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while registering visits.");
                 return BadRequest(ex.Message);
             }
         }
