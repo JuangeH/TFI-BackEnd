@@ -135,10 +135,10 @@ namespace _3._Core.Services
         //-----------------------------------------------------------------------------------------------------------------------
 
         #region RECOMENDACIONES-ELEMENTOS COMUNES
-        // Clase auxiliar para almacenar el resultado del clustering
+        // Clases auxiliares para almacenar los resultados del clustering
         public class PredictedCluster
         {
-            public uint PredictedLabel { get; set; } // Cambiar de int a uint
+            public uint PredictedLabel { get; set; }
             [VectorType] public float[] CaracteristicasVector { get; set; }
             public float[] ReducedFeatures { get; set; }
         }
@@ -148,30 +148,6 @@ namespace _3._Core.Services
             public uint PredictedLabel { get; set; }
             [VectorType] public float[] Features { get; set; }
         }
-        //private int EncontrarMejorNumeroDeClusters(IDataView data, string featuresColumnName, int minK, int maxK)
-        //{
-        //    int mejorK = minK;
-        //    double mejorSSE = double.MaxValue;
-
-        //    for (int k = minK; k <= maxK; k++)
-        //    {
-        //        var pipeline = mlContext.Clustering.Trainers.KMeans(featuresColumnName, numberOfClusters: k);
-        //        var model = pipeline.Fit(data);
-        //        var predictions = model.Transform(data);
-
-        //        // Evaluar el modelo para calcular la suma de errores cuadráticos (SSE)
-        //        var metrics = mlContext.Clustering.Evaluate(predictions);
-        //        double currentSSE = metrics.AverageDistance;
-
-        //        if (currentSSE < mejorSSE)
-        //        {
-        //            mejorSSE = currentSSE;
-        //            mejorK = k;
-        //        }
-        //    }
-
-        //    return mejorK;
-        //}
 
         #endregion
 
@@ -184,7 +160,7 @@ namespace _3._Core.Services
 
             // 2. Transformar texto a vector de características y aplicar reducción de dimensionalidad (PCA)
             int sqrtCount = (int)Math.Sqrt(juegos.Count);
-            int pcaDimensions = Math.Min(50, sqrtCount * 2); // Elige la cantidad de dimensiones a reducir, ajusta según necesidad
+            int pcaDimensions = Math.Min(50, sqrtCount * 2);
 
             var pipeline = mlContext.Transforms.Text.FeaturizeText("CaracteristicasVector", "Caracteristicas")
                 .Append(mlContext.Transforms.ProjectToPrincipalComponents("ReducedFeatures", "CaracteristicasVector", rank: pcaDimensions))
@@ -199,7 +175,7 @@ namespace _3._Core.Services
             for (int i = 0; i < juegos.Count; i++)
             {
                 juegos[i].ClusterID = Convert.ToInt32(clusters[i].PredictedLabel);
-                juegos[i].CaracteristicasVector = clusters[i].ReducedFeatures; // Usa ReducedFeatures en lugar de CaracteristicasVector
+                juegos[i].CaracteristicasVector = clusters[i].ReducedFeatures;
             }
 
             //5.Actualizar la base de datos
@@ -313,7 +289,6 @@ namespace _3._Core.Services
             var schemaDefinition = SchemaDefinition.Create(typeof(UsuarioClusterDataModel));
             schemaDefinition["GenresVector"].ColumnType = new VectorDataViewType(NumberDataViewType.Single, longitudGeneros);
             schemaDefinition["TagsVector"].ColumnType = new VectorDataViewType(NumberDataViewType.Single, longitudTags);
-
 
             // Transformar los perfiles
             TransformarPerfiles(perfilesUsuarios, vocabularioGeneros, vocabularioTags);
@@ -433,7 +408,7 @@ namespace _3._Core.Services
             // Crear un diccionario de juegos recomendados
             var recomendaciones = new Dictionary<string, int>();
 
-            foreach (var usuarioSimilar in usuariosSimilares.Take(5)) // Limitar a los 5 usuarios más similares
+            foreach (var usuarioSimilar in usuariosSimilares.Take(5))
             {
                 foreach (var juego in usuarioSimilar.Usuario.GameHistory)
                 {
@@ -571,68 +546,6 @@ namespace _3._Core.Services
 
             return userProfiles;
         }
-
-
-        //private UsuarioClusterModel ConstruirDatosUsuario(Users user, List<string> genreKeys, List<string> tagKeys)
-        //{
-        //    var gameGenres = new Dictionary<string, float>();
-        //    var gameTags = new Dictionary<string, float>();
-        //    var gameHistory = new List<string>();
-
-        //    foreach (var visita in user.usuarioVisitaModels)
-        //    {
-        //        var videojuego = visita.Videojuego;
-
-        //        // Agregar al historial de juegos
-        //        if (!gameHistory.Contains(videojuego.Nombre))
-        //        {
-        //            gameHistory.Add(videojuego.Nombre);
-        //        }
-
-        //        // Contabilizar géneros
-        //        foreach (var genero in videojuego.videojuegoGeneroModels)
-        //        {
-        //            var nombreGenero = genero.generoModel.Nombre;
-        //            if (gameGenres.ContainsKey(nombreGenero))
-        //                gameGenres[nombreGenero]++;
-        //            else
-        //                gameGenres[nombreGenero] = 1;
-        //        }
-
-        //        // Contabilizar etiquetas
-        //        foreach (var tag in videojuego.videojuegoTagModels)
-        //        {
-        //            var nombreTag = tag.tagModel.Nombre;
-        //            if (gameTags.ContainsKey(nombreTag))
-        //                gameTags[nombreTag]++;
-        //            else
-        //                gameTags[nombreTag] = 1;
-        //        }
-        //    }
-
-        //    // Convertir diccionarios a vectores
-        //    var gameGenresVector = ConvertToVector(gameGenres, genreKeys);
-        //    var gameTagsVector = ConvertToVector(gameTags, tagKeys);
-
-        //    return new UsuarioClusterModel
-        //    {
-        //        UserId = user.Id,
-        //        GameGenresVector = gameGenresVector,
-        //        GameTagsVector = gameTagsVector,
-        //        GameHistory = gameHistory
-        //    };
-        //}
-        //private float[] ConvertToVector(Dictionary<string, float> data, List<string> keys)
-        //{
-        //    var vector = new float[keys.Count];
-        //    for (int i = 0; i < keys.Count; i++)
-        //    {
-        //        vector[i] = data.ContainsKey(keys[i]) ? data[keys[i]] : 0;
-        //    }
-        //    return vector;
-        //}
-
-
 
         #endregion
 
