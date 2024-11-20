@@ -154,3 +154,17 @@ C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\runtimes\win-arm64\native\LdaNative.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\runtimes\win-x64\native\LdaNative.dll
 C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\runtimes\win-x86\native\LdaNative.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\AWSSDK.Core.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\AWSSDK.SecurityToken.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\DnsClient.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\MongoDB.Bson.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\MongoDB.Driver.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\MongoDB.Driver.Core.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\MongoDB.Libmongocrypt.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Serilog.Sinks.MongoDB.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\SharpCompress.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\Snappier.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\ZstdSharp.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\Juan\Desktop\Repositorios\TFI-BackEnd\InnoviaReach-TFI\API Business\bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll

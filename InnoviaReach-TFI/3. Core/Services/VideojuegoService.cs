@@ -6,6 +6,7 @@ using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
 using Core.Domain.Models.Nueva_Base;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
@@ -67,16 +68,15 @@ namespace _3._Core.Services
 
         public async Task<(List<VideojuegoModel> Videojuegos, int TotalRecords)> ObtenerVideojuegosCatalogo(int pageNumber, int pageSize)
         {
-            var query = (await _repository.Get(x => x.Nombre != "")).ToList(); // Aquí deberías ajustar según tu fuente de datos.
+            // Obtener el total de registros directamente de la base de datos
+            var totalRecords = await _repository.TableNoTracking.CountAsync(x => x.Nombre != "");
 
-            // Contar el total de registros
-            var totalRecords = query.Count;
-
-            // Obtener solo los registros para la página actual
-            var videojuegos = query
-                .Skip((pageNumber - 1) * pageSize) // Saltar los registros anteriores a la página
-                .Take(pageSize) // Tomar solo los registros de la página actual
-                .ToList();
+            // Obtener solo los registros para la página actual, aplicando paginación
+            var videojuegos = await _repository.TableNoTracking
+                .Where(x => x.Nombre != "")
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             return (videojuegos, totalRecords);
         }

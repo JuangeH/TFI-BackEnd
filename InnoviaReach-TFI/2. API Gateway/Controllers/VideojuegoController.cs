@@ -45,11 +45,21 @@ namespace _2._API.Controllers
         [Authorize]
         public async Task<IActionResult> RegistrarInformacion(SteamInfoRequest steamInfoRequest)
         {
-            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            try
+            {
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            string URL = ApiBaseURL + $"Videojuego/RegistrarInformacion/{userid}";
-            var GenericApiResponse = await RequestHelper.PostRequest<bool, SteamInfoRequest>(URL, steamInfoRequest);
-            return Ok(GenericApiResponse);
+                string URL = ApiBaseURL + $"Videojuego/RegistrarInformacion/{userid}";
+                var GenericApiResponse = await RequestHelper.PostRequest<bool, SteamInfoRequest>(URL, steamInfoRequest);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            
         }
 
         [HttpGet("ObtenerVideojuegosForo")]

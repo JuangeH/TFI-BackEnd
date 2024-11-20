@@ -32,10 +32,18 @@ namespace Api_Gateway.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ObtenerForosGenerales()
         {
-            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            string URL = ApiBaseURL + $"Foro/ObtenerForosGenerales?User_ID={userid}";
-            var GenericApiResponse = await RequestHelper.GetRequest<List<ForoResponse>>(URL);
-            return Ok(GenericApiResponse);
+            try
+            {
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string URL = ApiBaseURL + $"Foro/ObtenerForosGenerales?User_ID={userid}";
+                var GenericApiResponse = await RequestHelper.GetRequest<List<ForoResponse>>(URL);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         [HttpGet("ObtenerComentariosPorForo")]

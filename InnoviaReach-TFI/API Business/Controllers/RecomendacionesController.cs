@@ -16,13 +16,15 @@ namespace API_Business.Controllers
         private readonly IRecomendacionService _recomendacionesService;
         private readonly IVideojuegoService _videojuegoService;
         private readonly IMapper _mapper;
+        private readonly ILogger<RecomendacionesController> _logger;    
 
         public RecomendacionesController(
-            IRecomendacionService recomendacionesService, IMapper mapper, IVideojuegoService videojuegoService)
+            IRecomendacionService recomendacionesService, IMapper mapper, IVideojuegoService videojuegoService, ILogger<RecomendacionesController> logger)
         {
             _recomendacionesService = recomendacionesService;
             _mapper = mapper;
             _videojuegoService = videojuegoService;
+            _logger = logger;
         }
 
         [HttpGet("ObtenerRecomendacionesForoVisitado")]
@@ -51,8 +53,10 @@ namespace API_Business.Controllers
 
                 ////var videojuegos = _mapper.Map<List<VideojuegoClusterModel>>(await _videojuegoService.ObtenerVideojuegos());
                 //var videojuego = await _videojuegoService.ObtenerVideojuego(appid);
+                _logger.LogInformation("Hola Mundo");
 
-                await _recomendacionesService.GenerarRecomendacionesColaborativas(userID);
+
+                //await _recomendacionesService.GenerarRecomendacionesColaborativas(userID);
 
                 //await _recomendacionesService.GenerarRecomendaciones(videojuego);
 
