@@ -16,8 +16,11 @@ namespace Core.Contracts.Services
         public Task<VideojuegoModel> ObtenerVideojuego(int SteamAppid);
         public Task<VideojuegoModel> RegistrarObtenerVideojuego(VideojuegoRAWG videojuego);
         public Task RegistrarVideojuegoEstiloGenero(VideojuegoModel videojuego, List<RatingModel> ratings, List<GeneroModel> generos, List<TiendaModel> tiendas, List<TagModel> tags, List<PlataformaModel> plataformaModels);
+        public Task AgregarDescripcion();
         public Task<(List<VideojuegoModel> Videojuegos, int TotalRecords)> ObtenerVideojuegosCatalogo(int pageNumber, int pageSize);
         public Task<List<VideojuegoModel>> ObtenerVideojuegosForo();
+        public Task<List<VideojuegoModel>> BuscarVideojuegosForo(string nombre, int pageSize);
+        public Task<VideojuegoModel> ObtenerVideojuegoPorNombre(string nombre);
 
     }
 }

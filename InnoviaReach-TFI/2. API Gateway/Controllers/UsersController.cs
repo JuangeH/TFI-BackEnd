@@ -15,6 +15,7 @@ using Core.Domain.Helper;
 using Core.Domain.Response.Business;
 using System.Security.Claims;
 using Core.Domain.Response.Gateway;
+using _3._Core.Services;
 
 namespace Api.Controllers
 {
@@ -115,6 +116,22 @@ namespace Api.Controllers
             {
                 _logger.LogError($"Error al obtener usuarios" + ex.Message);
                 return Problem(ex.Message);
+            }
+        }
+        [HttpGet("ObtenerUsuario")]
+        public async Task<IActionResult> ObtenerUsuario(string UserName)
+        {
+            try
+            {
+                var resultado = await _usersService.GetUserAsync(UserName);
+                var response = _mapper.Map<UserConfigResponse>(resultado);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -15,6 +15,9 @@ namespace Core.Domain.Models.Nueva_Base
         [JsonProperty("slug")]
         public string Slug { get; set; }
 
+        [JsonProperty("description")]
+        public string Descripcion { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
 

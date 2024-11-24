@@ -15,5 +15,6 @@ namespace Core.Contracts.Services
         public Task<List<ComentarioModel>> ObtenerComentariosPorForo(int ForoId);
         public Task<bool> CalificarComentario(CalificarComentarioRequest request);
         public Task RegistrarComentario(ComentarioRequest comentario);
+        public Task EliminarComentario(int id);
     }
 }

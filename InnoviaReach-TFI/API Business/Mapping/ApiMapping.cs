@@ -83,6 +83,22 @@ namespace Api.Mapping
                 .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
                  .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.Videojuego_ID));
 
+            CreateMap<VideojuegoModel, VideojuegoCatalogoResponse>()
+                .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
+                .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.AppRawgId))
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
+                .ForMember(dest => dest.Imagen, opt => opt.MapFrom(src => src.Imagen));
+
+            CreateMap<VideojuegoModel, VideojuegoCatalogoDetalleResponse>()
+                .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
+                .ForMember(dest => dest.Imagen, opt => opt.MapFrom(src => src.Imagen))
+                .ForMember(dest => dest.Descripcion, opt => opt.MapFrom(src => src.Descripcion))
+                .ForMember(dest => dest.FechaSalida, opt => opt.MapFrom(src => src.FechaSalida))
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.videojuegoTagModels.Select(vt => vt.tagModel.Nombre)))
+                .ForMember(dest => dest.Generos, opt => opt.MapFrom(src => src.videojuegoGeneroModels.Select(vg => vg.generoModel.Nombre)))
+                .ForMember(dest => dest.Plataformas, opt => opt.MapFrom(src => src.videojuegoPlataformaModels.Select(vp => vp.plataformaModel.Nombre)))
+                .ForMember(dest => dest.Tiendas, opt => opt.MapFrom(src => src.videojuegoTiendaModels.Select(vt => vt.tiendaModel.Dominio)));
+
             CreateMap<Genre, GeneroModel>()
                  .ForMember(dest => dest.GenreRawgID, opt => opt.MapFrom(src => src.Id))
                  .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Name))

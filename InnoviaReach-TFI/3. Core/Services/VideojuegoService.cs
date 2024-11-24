@@ -5,15 +5,18 @@ using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
 using Core.Domain.Models.Nueva_Base;
+using MailKit.Search;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Transversal.EmailService.Configurations;
 using Transversal.EmailService.Factory;
@@ -102,6 +105,24 @@ namespace _3._Core.Services
             }
         }
 
+        public async Task<List<VideojuegoModel>> BuscarVideojuegosForo(string nombre, int pageSize)
+        {
+            try
+            {
+                var videojuegos = await _repository.TableNoTracking
+                   .Where(v => v.Nombre.ToLower().Contains(nombre.ToLower()))
+                   .Take(pageSize)
+                   .ToListAsync();
+
+                return videojuegos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public async Task<List<VideojuegoModel>> ObtenerVideojuegosForo()
         {
             try
@@ -122,7 +143,7 @@ namespace _3._Core.Services
         {
             try
             {
-                return (await _repository.Get(x => x.AppRawgId == RawgAppId)).FirstOrDefault();
+                return (await _repository.Get(x => x.AppRawgId == RawgAppId, includeProperties: "videojuegoPlataformaModels, videojuegoPlataformaModels.plataformaModel, videojuegoGeneroModels, videojuegoGeneroModels.generoModel, videojuegoTiendaModels, videojuegoTiendaModels.tiendaModel, videojuegoTagModels, videojuegoTagModels.tagModel")).FirstOrDefault();
 
             }
             catch (Exception ex)
@@ -131,6 +152,93 @@ namespace _3._Core.Services
                 throw ex;
             }
         }
+        public async Task<VideojuegoModel> ObtenerVideojuegoPorNombre(string nombre)
+        {
+            try
+            {
+                return (await _repository.Get(x => x.Nombre == nombre, includeProperties: "videojuegoPlataformaModels, videojuegoPlataformaModels.plataformaModel, videojuegoGeneroModels, videojuegoGeneroModels.generoModel, videojuegoTiendaModels, videojuegoTiendaModels.tiendaModel, videojuegoTagModels, videojuegoTagModels.tagModel")).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task AgregarDescripcion()
+        {
+            var videojuegos = (await _repository.Get(x => x.Nombre != "")).ToList();
+
+            foreach (var item in videojuegos)
+            {
+                string apiUrl = "https://api.rawg.io/api/games/"+item.AppRawgId+"?key=6c43806ec84d4f09a9ac4c221d783da2";
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonResponse = await response.Content.ReadAsStringAsync();
+                        VideojuegoRAWG apiResponse = JsonConvert.DeserializeObject<VideojuegoRAWG>(jsonResponse);
+                        var traduccion = Regex.Replace(apiResponse.Descripcion, "<.*?>", string.Empty).Trim();
+                        item.Descripcion = traduccion;
+                        await _repository.Update(item);
+
+                        await _unitOfWork.SaveChangesAsync();
+
+                    }
+                }
+            }   
+        }
+
+        public async Task<string> TranslateText(string text, string targetLanguage = "es")
+        {
+            string url = "https://libretranslate.com/translate";
+
+            // Verifica que los datos cumplan con los requisitos de la API
+            var requestBody = new
+            {
+                q = text, // Texto a traducir
+                source = "en", // Idioma original
+                target = targetLanguage, // Idioma objetivo
+                format = "text" // Formato del texto
+            };
+
+            // Crear el cliente HTTP
+            using var client = new HttpClient();
+
+            // Serializar el cuerpo de la solicitud a JSON
+            var jsonContent = new StringContent(
+                System.Text.Json.JsonSerializer.Serialize(requestBody),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            // Hacer la solicitud POST
+            var response = await client.PostAsync(url, jsonContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Leer y procesar la respuesta
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<LibreTranslateResponse>(jsonResponse);
+                return result?.TranslatedText ?? "Error: Traducción no disponible";
+            }
+            else
+            {
+                // Manejar errores de la API
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al traducir: {response.StatusCode} - {errorResponse}");
+            }
+        }
+
+        public class LibreTranslateResponse
+        {
+            public string TranslatedText { get; set; }
+        }
+
+
 
         public async Task RegistrarVideojuegoEstiloGenero(VideojuegoModel videojuego, List<RatingModel> ratings, List<GeneroModel> generos, List<TiendaModel> tiendas, List<TagModel> tags, List<PlataformaModel> plataformas)
         {
@@ -261,6 +369,7 @@ namespace _3._Core.Services
                     videojuegoMod.Imagen = videojuego.BackgroundImage;
                     videojuegoMod.Rating = videojuego.Rating;
                     videojuegoMod.Metacritic = videojuego.Metacritic;
+                    videojuegoMod.Descripcion = videojuego.Descripcion;
 
                     ratingModels = new List<RatingModel>();
                     generoModels = new List<GeneroModel>();

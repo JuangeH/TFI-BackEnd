@@ -113,20 +113,22 @@ namespace API_Business.Controllers
         {
             try
             {
-                HttpClient httpClient = new HttpClient();
+                //HttpClient httpClient = new HttpClient();
 
-                var videojuegosSteam = await httpClient.GetFromJsonAsync<Application>("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
+                //var videojuegosSteam = await httpClient.GetFromJsonAsync<Application>("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
 
-                if (videojuegosSteam?.applist?.apps == null)
-                {
-                    _logger.LogError("No se pudo obtener la lista de videojuegos de Steam.");
-                    return BadRequest("No se pudo obtener la lista de videojuegos de Steam.");
-                }
+                //if (videojuegosSteam?.applist?.apps == null)
+                //{
+                //    _logger.LogError("No se pudo obtener la lista de videojuegos de Steam.");
+                //    return BadRequest("No se pudo obtener la lista de videojuegos de Steam.");
+                //}
 
-                foreach (var item in videojuegosSteam.applist.apps)
-                {
-                    //await _videojuegoService.RegistrarObtenerVideojuego(item.appid);
-                }
+                //foreach (var item in videojuegosSteam.applist.apps)
+                //{
+                //    //await _videojuegoService.RegistrarObtenerVideojuego(item.appid);
+                //}
+
+                await _videojuegoService.AgregarDescripcion();
 
                 return Ok();
             }
@@ -136,6 +138,24 @@ namespace API_Business.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("BuscarVideojuegosForo")]
+        public async Task<IActionResult> BuscarVideojuegosForo(string nombre, int pageSize)
+        {
+            try
+            {
+                var resultado = await _videojuegoService.BuscarVideojuegosForo(nombre, pageSize);
+                var response = _mapper.Map<List<VideojuegoForoReponse>>(resultado);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpPost("RegistrarInformacion/{userid}")]
         public async Task<IActionResult> RegistrarInformacion(SteamInfoRequest steamInfoRequest, string userid)
@@ -188,7 +208,7 @@ namespace API_Business.Controllers
                 var resultado = await _videojuegoService.ObtenerVideojuegosCatalogo(pageNumber, pageSize);
 
                 // Mapear a la respuesta esperada
-                var response = _mapper.Map<List<VideojuegoResponse>>(resultado.Videojuegos);
+                var response = _mapper.Map<List<VideojuegoCatalogoResponse>>(resultado.Videojuegos);
 
                 // Retornar también el total de registros
                 return Ok(new
@@ -217,6 +237,38 @@ namespace API_Business.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("ObtenerVideojuegoForo")]
+        public async Task<IActionResult> ObtenerVideojuegoForo(string nombre)
+        {
+            try
+            {
+                var resultado = await _videojuegoService.ObtenerVideojuegoPorNombre(nombre);
+                var response = _mapper.Map<VideojuegoForoReponse>(resultado);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("ObtenerVideojuegoDetalleCatalogo")]
+        public async Task<IActionResult> ObtenerVideojuegoDetalleCatalogo(string nombre)
+        {
+            try
+            {
+                var resultado = await _videojuegoService.ObtenerVideojuegoPorNombre(nombre);
+                var response = _mapper.Map<VideojuegoCatalogoDetalleResponse>(resultado);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogame.");
                 return BadRequest(ex.Message);
             }
         }

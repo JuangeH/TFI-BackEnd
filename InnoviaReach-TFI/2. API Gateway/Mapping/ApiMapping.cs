@@ -55,6 +55,14 @@ namespace Api.Mapping
                 .ForMember(dest => dest.personaname, opt => opt.MapFrom(src => src.personaname))
                 .ForMember(dest => dest.avatarfull, opt => opt.MapFrom(src => src.avatarfull))
                 .ForMember(dest => dest.profileurl, opt => opt.MapFrom(src => src.profileurl));
+
+            CreateMap<Users, UserConfigResponse>()
+               .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.UserName))
+               .ForMember(dest => dest.Mail, opt => opt.MapFrom(src => src.Email))
+               .ForMember(dest => dest.Telefono, opt => opt.MapFrom(src => src.PhoneNumber))
+               .ForMember(dest => dest.Idioma, opt => opt.MapFrom(src => src.Idioma))
+               .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Active))
+               .ForMember(dest => dest.Contraseña, opt => opt.Ignore());
         }
     }
 }

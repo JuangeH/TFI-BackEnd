@@ -146,5 +146,34 @@ namespace API_Business.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpDelete("EliminarForo")]
+        public async Task<IActionResult> EliminarForo(int ForoId)
+        {
+            try
+            {
+                await _foroService.EliminarForo(ForoId);
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando guardar foro");
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("EliminarComentario")]
+        public async Task<IActionResult> EliminarComentario(int ComentarioId)
+        {
+            try
+            {
+                await _comentarioService.EliminarComentario(ComentarioId);
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando guardar foro");
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

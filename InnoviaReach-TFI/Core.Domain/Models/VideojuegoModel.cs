@@ -42,6 +42,7 @@ namespace Core.Domain.Models
         public int? Metacritic { get; set; }
         public int? ClusterID { get; set; }
         public string? CaracteristicasVector { get; set; }
+        public string Descripcion { get; set; }
 
         //public List<EstiloDeJuego> Estilos { get; set; }
         //public List<Genero> Generos { get; set; }

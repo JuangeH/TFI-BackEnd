@@ -110,8 +110,11 @@ namespace Core.Business.Services
         public async Task<List<Users>> GetUsersAsync()
         {
             return (await _repository.Get()).ToList();            
-        }       
-        
+        }
+        public async Task<Users> GetUserAsync(string UserName)
+        {
+            return (await _repository.Get(x => x.UserName == UserName)).FirstOrDefault();
+        }
 
         public async Task<IGenericResult<LoginTokenDto>> LoginUserAsync(string email, string password)
         {

@@ -15,6 +15,7 @@ namespace Core.Contracts.Services
         public Task<ForoModel> ObtenerForo(int id);
         public Task RegistrarForo(ForoRequest foro);
         public Task GestionarForoFavorito(GuardarForoRequest foro);
+        public Task EliminarForo(int id);
 
     }
 }

@@ -74,5 +74,21 @@ namespace _3._Core.Services
                 await _unitOfWork.SaveChangesAsync();
             }
         }
+        public async Task EliminarForo(int id)
+        {
+            try
+            {
+                var result = (await _repository.GetOne(x => x.Foro_ID == id));
+                await _repository.Delete(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+        }
     }
 }

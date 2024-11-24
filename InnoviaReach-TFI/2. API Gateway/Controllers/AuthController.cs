@@ -58,10 +58,10 @@ namespace Api.Controllers
                 Users user = _mapper.Map<Users>(registerRequest);
                 
                 //AGREGO ESTO PORQUE SINO DE BASE LO CARGA EN FALSE
-                user.Active = true;
+                //user.Active = true;
                 user.Actualizaciones = true;
                 user.Descuentos = true;
-                user.EmailConfirmed = true;
+                //user.EmailConfirmed = true;
 
                 var result = await _usersService.CreateUserAsync(user, registerRequest.Password);
                 if (!result.Data.IsRegistred)

@@ -1,10 +1,12 @@
 ﻿using _2._API.Response;
 using API_Business.Request;
 using AutoMapper;
+using Core.Domain.ApplicationModels;
 using Core.Domain.Helper;
 using Core.Domain.Models;
 using Core.Domain.Request.Business;
 using Core.Domain.Request.Gateway;
+using Core.Domain.Response.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -147,6 +149,37 @@ namespace Api_Gateway.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error intentando registrar visita");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("EliminarForo")]
+        public async Task<IActionResult> EliminarForo(int ForoId)
+        {
+            try
+            {
+                string URL = ApiBaseURL + $"Foro/EliminarForo?ForoId={ForoId}";
+                var GenericApiResponse = await RequestHelper.DeleteRequest<bool>(URL);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando eliminar foro");
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("EliminarComentario")]
+        public async Task<IActionResult> EliminarComentario(int ComentarioId)
+        {
+            try
+            {
+                string URL = ApiBaseURL + $"Foro/EliminarComentario?ComentarioId={ComentarioId}";
+                var GenericApiResponse = await RequestHelper.DeleteRequest<bool>(URL);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error intentando eliminar comentario");
                 return BadRequest(ex.Message);
             }
         }

@@ -12,6 +12,7 @@ using Core.Domain.Models;
 using Core.Domain.Request.Gateway;
 using Core.Domain.Response.Business;
 using Core.Domain.Response.Gateway;
+using MailKit.Search;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
@@ -89,7 +90,7 @@ namespace _2._API.Controllers
                 string URL = ApiBaseURL + $"Videojuego/ObtenerVideojuegosCatalogo?pageNumber={pageNumber}&pageSize={pageSize}";
 
                 // Hacer la solicitud a la API interna usando los parámetros de paginación
-                var GenericApiResponse = await RequestHelper.GetRequest<PaginationResponse<VideojuegoForoReponse>>(URL);
+                var GenericApiResponse = await RequestHelper.GetRequest<PaginationResponse<VideojuegoCatalogoResponse>>(URL);
 
                 return Ok(GenericApiResponse);
             }
@@ -120,6 +121,62 @@ namespace _2._API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while registering visits.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ObtenerVideojuegoDetalleCatalogo")]
+        [Authorize]
+        public async Task<IActionResult> ObtenerVideojuegoDetalleCatalogo(string nombre)
+        {
+            try
+            {
+                // Construir la URL con los parámetros de paginación
+                string URL = ApiBaseURL + $"Videojuego/ObtenerVideojuegoDetalleCatalogo?nombre={nombre}";
+
+                // Hacer la solicitud a la API interna usando los parámetros de paginación
+                var GenericApiResponse = await RequestHelper.GetRequest<VideojuegoCatalogoDetalleResponse>(URL);
+
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("BuscarVideojuegoForo")]
+        public async Task<IActionResult> BuscarVideojuegosForo(string nombre, int pageSize)
+        {
+            try
+            {
+                // Construir la URL con los parámetros de paginación
+                string URL = ApiBaseURL + $"Videojuego/BuscarVideojuegosForo?nombre={nombre}&pageSize={pageSize}";
+
+                // Hacer la solicitud a la API interna usando los parámetros de paginación
+                var GenericApiResponse = await RequestHelper.GetRequest<List<VideojuegoForoReponse>>(URL);
+
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("ObtenerVideojuegoForo")]
+        public async Task<IActionResult> ObtenerVideojuegoForo(string nombre)
+        {
+            try
+            {
+                string URL = ApiBaseURL + $"Videojuego/ObtenerVideojuegoForo?nombre={nombre}";
+                var GenericApiResponse = await RequestHelper.GetRequest<VideojuegoForoReponse>(URL);
+                return Ok(GenericApiResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while obtaining videogames.");
                 return BadRequest(ex.Message);
             }
         }

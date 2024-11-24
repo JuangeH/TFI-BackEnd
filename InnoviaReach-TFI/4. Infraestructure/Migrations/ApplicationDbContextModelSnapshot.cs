@@ -1001,6 +1001,9 @@ namespace _4._Infraestructure.Migrations
                     b.Property<int?>("ClusterID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("varchar(max)");
+
                     b.Property<DateTime?>("FechaSalida")
                         .HasColumnType("datetime");
 

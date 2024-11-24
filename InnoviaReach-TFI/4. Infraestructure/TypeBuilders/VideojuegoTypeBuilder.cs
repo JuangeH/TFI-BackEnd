@@ -36,6 +36,8 @@ namespace _4._Infraestructure.TypeBuilders
 
             builder.Property(x => x.Metacritic).HasColumnType("int").IsRequired(false);
 
+            builder.Property(x => x.Descripcion).HasColumnType("varchar(max)").IsRequired(false);
+
             builder.ToTable("Videojuego");
         }
     }
