@@ -11,29 +11,10 @@ namespace Infrastructure.Data.TypeBuilders
     {
         public void Configure(EntityTypeBuilder<Users> builder)
         {
-            //builder.HasKey(x => x.Id);
 
-            //builder.Property(x => x.Active)
-            //       .IsRequired();
+            builder.Property(x => x.CommunityBanned).HasColumnType("boolean").IsRequired();
 
             builder.Ignore(x => x.UserPrivileges);
-            //       .WithMany(x => x.PrivilegesUsers);
-
-            builder.Property(x => x.Estilo_preferido).HasColumnType("varchar(50)").IsRequired();
-
-            builder.Property(x => x.Genero_preferido).HasColumnType("varchar(50)").IsRequired();
-
-            builder.Property(x => x.Descuentos).HasColumnType("bit").IsRequired();
-
-            builder.Property(x => x.Actualizaciones).HasColumnType("bit").IsRequired();
-
-            builder.Property(x => x.ClusterID).HasColumnType("int").IsRequired(false); 
-
-            builder.Property(x => x.GameGenresJson).HasColumnType("varchar(max)").IsRequired(false);
-
-            builder.Property(x => x.GameTagsJson).HasColumnType("varchar(max)").IsRequired(false);
-
-            builder.Property(x => x.GameHistoryJson).HasColumnType("varchar(max)").IsRequired(false);
 
             builder.ToTable("Users");
         }

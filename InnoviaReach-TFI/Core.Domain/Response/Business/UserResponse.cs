@@ -11,7 +11,5 @@ namespace Core.Domain.Response.Business
         public string UserName { get; set; }
         public string Email { get; set; }
         public bool Active { get; set; }
-        public string Estilo_preferido { get; set; }
-        public string Genero_preferido { get; set; }
     }
 }

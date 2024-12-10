@@ -25,9 +25,9 @@ namespace _3._Core.Services
                 return (await _repository.Get(x => x.Genero_ID.ToString() != "")).ToList();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw new Exception($"Error al obtener generos");
             }
         }
 

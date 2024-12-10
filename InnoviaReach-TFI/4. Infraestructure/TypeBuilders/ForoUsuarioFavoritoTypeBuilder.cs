@@ -16,12 +16,14 @@ namespace _4._Infraestructure.TypeBuilders
             builder.HasKey(x => new { x.User_ID, x.Foro_ID });
 
             builder.HasOne(x => x.foro)
-                   .WithMany(y => y.foroUsuarioFavoritoModels)
-                   .HasForeignKey(z => z.Foro_ID);
+                .WithMany(y => y.foroUsuarioFavoritoModels)
+                .HasForeignKey(z => z.Foro_ID)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.usuario)
-                   .WithMany(y => y.foroUsuarioFavoritoModels)
-                   .HasForeignKey(z => z.User_ID);
+                .WithMany(y => y.foroUsuarioFavoritoModels)
+                .HasForeignKey(z => z.User_ID)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.ToTable("ForoUsuarioFavorito");
         }

@@ -14,13 +14,22 @@ namespace _4._Infraestructure.TypeBuilders
         public void Configure(EntityTypeBuilder<RatingModel> builder)
         {
             builder.HasKey(x => x.Rating_ID);
-            // Definir propiedades
-            builder.Property(x => x.Titulo).HasColumnType("varchar(max)").IsRequired();
-            builder.Property(x => x.CantidadVotos).HasColumnType("int").IsRequired();
-            builder.Property(x => x.Porcentaje).HasColumnType("float").IsRequired();
+
+            builder.Property(x => x.Titulo)
+                .HasColumnType("text")
+                .IsRequired();
+
+            builder.Property(x => x.CantidadVotos)
+                .HasColumnType("integer")
+                .IsRequired();
+
+            builder.Property(x => x.Porcentaje)
+                .HasColumnType("double precision")
+                .IsRequired();
+
             builder.HasOne(x => x.Videojuego)
-                   .WithMany(y => y.ratingModels)
-                   .HasForeignKey(z => z.Videojuego_ID);
+                .WithMany(y => y.ratingModels)
+                .HasForeignKey(z => z.Videojuego_ID);
 
             builder.ToTable("Rating");
         }

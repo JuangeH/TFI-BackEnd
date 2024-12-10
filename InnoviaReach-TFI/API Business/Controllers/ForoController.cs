@@ -40,7 +40,6 @@ namespace API_Business.Controllers
             }
 
         [HttpGet("ObtenerForosGenerales")]
-        [AllowAnonymous]
         public async Task<IActionResult> ObtenerForosGenerales(string user_id)
         {
             try
@@ -59,7 +58,6 @@ namespace API_Business.Controllers
         }
 
         [HttpGet("ObtenerComentariosPorForo")]
-        [AllowAnonymous]
         public async Task<IActionResult> ObtenerComentariosPorForo(int ForoId)
         {
             try
@@ -113,8 +111,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando registrar comentario.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
         [HttpPost("RegistrarForo")]
@@ -127,8 +124,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando registrar foro");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 
@@ -142,8 +138,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando guardar foro");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
         [HttpDelete("EliminarForo")]
@@ -156,8 +151,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando guardar foro");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
         [HttpDelete("EliminarComentario")]
@@ -170,8 +164,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando guardar foro");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 

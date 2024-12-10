@@ -23,22 +23,15 @@ namespace Core.Domain.ApplicationModels
             usuarioVisitaModels = new HashSet<UsuarioVisitaModel>();
             recomendacionUsuarioModels = new HashSet<RecomendacionUsuarioModel>();
             recomendacionVideojuegoModels = new HashSet<RecomendacionVideojuegoModel>();
+            usuarioBaneadoModels = new HashSet<UsuarioBaneadoModel>();
         }
         public bool Active { get; set; }
+        public bool CommunityBanned { get; set; }
         public UsersPrivileges UserPrivileges { get; set; }
         public virtual ICollection<RefreshToken> UserRefreshTokens { get; set; }
 
         //Agrego propiedades personalizadas
-
         public string Idioma { get; set; }
-        public string Estilo_preferido { get; set; }
-        public string Genero_preferido { get; set; }
-        public bool Actualizaciones { get; set; }
-        public bool Descuentos { get; set; }
-        public int? ClusterID { get; set; }
-        public string? GameGenresJson { get; set; }
-        public string? GameTagsJson { get; set; }
-        public string? GameHistoryJson { get; set; }
         public SteamAccountModel SteamAccountModel { get; set; }
         public SuscripcionUsuarioModel suscripcionUsuarioModel { get; set; }
         public ICollection<MedioDePagoModel> medioDePagoModels { get; set; }
@@ -54,5 +47,8 @@ namespace Core.Domain.ApplicationModels
         public ICollection<UsuarioVisitaModel> usuarioVisitaModels { get; set; }
         public ICollection<RecomendacionUsuarioModel> recomendacionUsuarioModels { get; set; }
         public ICollection<RecomendacionVideojuegoModel> recomendacionVideojuegoModels { get; set; }
+        public ICollection<UsuarioJuegoPerfilModel> usuarioJuegoPerfilModels { get; set; }
+        public ICollection<UsuarioBaneadoModel> usuarioBaneadoModels { get; set; }
+        public ICollection<UsuarioBaneadoModel> usuarioBaneadoAdminModels { get; set; }
     }
 }

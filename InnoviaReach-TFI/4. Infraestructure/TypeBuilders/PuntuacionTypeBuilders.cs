@@ -15,11 +15,13 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Puntuacion_ID);
 
-            builder.Property(x => x.Puntaje).HasColumnType("int").IsRequired();
+            builder.Property(x => x.Puntaje)
+                .HasColumnType("integer")
+                .IsRequired();
 
             builder.HasOne(x => x.comentario)
-                   .WithMany(y => y.puntuacionModels)
-                   .HasForeignKey(z => z.Comentario_ID);
+                .WithMany(y => y.puntuacionModels)
+                .HasForeignKey(z => z.Comentario_ID);
 
             builder.HasOne(x => x.usuario)
                 .WithMany(y => y.puntuacionModels)

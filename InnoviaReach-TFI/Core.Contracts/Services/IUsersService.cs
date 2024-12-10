@@ -20,7 +20,7 @@ namespace Core.Contracts.Services
         public Task<LoginTokenDto> GenerateRefreshToken(Users user, string token);
         public Task<bool> DeleteUserAsync(string id);
         public Task<Users> GetUserAsync(string UserName);
-
-
+        public Task UpdateCulture(string Culture, string User_ID);
+        public Task<Users> GetCulture(string User_ID);
     }
 }

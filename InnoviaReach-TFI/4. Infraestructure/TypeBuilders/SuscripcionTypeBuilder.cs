@@ -15,7 +15,9 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Suscripcion_ID);
 
-            builder.Property(x => x.Descripcion).HasColumnType("varchar(50)").IsRequired();
+            builder.Property(x => x.Descripcion)
+                .HasColumnType("varchar(50)") 
+                .IsRequired();
 
             builder.ToTable("Suscripcion");
         }

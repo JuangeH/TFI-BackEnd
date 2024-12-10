@@ -14,11 +14,18 @@ namespace _4._Infraestructure.TypeBuilders
         public void Configure(EntityTypeBuilder<GeneroModel> builder)
         {
             builder.HasKey(x => x.Genero_ID);
-            // Definir propiedades
-            builder.Property(x => x.Nombre).HasColumnType("varchar(max)").IsRequired();
-            builder.Property(x => x.Slug).HasColumnType("varchar(max)").IsRequired();
-            builder.Property(x => x.GenreRawgID).HasColumnType("int").IsRequired();
 
+            builder.Property(x => x.Nombre)
+                .HasColumnType("text")
+                .IsRequired();
+
+            builder.Property(x => x.Slug)
+                .HasColumnType("text")
+                .IsRequired();
+
+            builder.Property(x => x.GenreRawgID)
+                .HasColumnType("integer")
+                .IsRequired();
 
             builder.ToTable("Genero");
         }

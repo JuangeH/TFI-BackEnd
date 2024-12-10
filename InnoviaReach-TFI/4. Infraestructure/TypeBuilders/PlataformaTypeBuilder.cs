@@ -14,9 +14,18 @@ namespace _4._Infraestructure.TypeBuilders
         public void Configure(EntityTypeBuilder<PlataformaModel> builder)
         {
             builder.HasKey(x => x.Plataforma_ID);
-            builder.Property(x => x.PlatformRawgID).HasColumnType("int").IsRequired();
-            builder.Property(x => x.Nombre).HasColumnType("varchar(max)").IsRequired();
-            builder.Property(x => x.Slug).HasColumnType("varchar(max)").IsRequired();
+
+            builder.Property(x => x.PlatformRawgID)
+                .HasColumnType("integer")
+                .IsRequired();
+
+            builder.Property(x => x.Nombre)
+                .HasColumnType("text")
+                .IsRequired();
+
+            builder.Property(x => x.Slug)
+                .HasColumnType("text")
+                .IsRequired();
 
             builder.ToTable("Plataforma");
         }

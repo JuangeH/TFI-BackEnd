@@ -14,26 +14,30 @@ namespace _4._Infraestructure.TypeBuilders
     {
         public void Configure(EntityTypeBuilder<RecomendacionUsuarioModel> builder)
         {
-            // Clave primaria
             builder.HasKey(x => x.RecomendacionId);
 
-            // Columnas con tipo de datos y requisitos
-            builder.Property(x => x.Frecuencia).HasColumnType("int").IsRequired();
-            builder.Property(x => x.TipoRecomendacion).HasColumnType("nvarchar(MAX)").IsRequired();
-            builder.Property(x => x.FechaRecomendacion).HasColumnType("datetime").IsRequired();
+            builder.Property(x => x.Frecuencia)
+                .HasColumnType("integer")
+                .IsRequired();
 
-            // Definición de relaciones (si es necesario en tu modelo)
-            builder.HasOne<Users>() // Relación con Users
-                   .WithMany()
-                   .HasForeignKey(x => x.UserId)
-                   .OnDelete(DeleteBehavior.NoAction);
+            builder.Property(x => x.TipoRecomendacion)
+                .HasColumnType("text")
+                .IsRequired();
 
-            builder.HasOne<VideojuegoModel>() // Relación con VideojuegoModel para VideojuegoRecomendadoId
-                   .WithMany()
-                   .HasForeignKey(x => x.VideojuegoRecomendadoId)
-                   .OnDelete(DeleteBehavior.NoAction);
+            builder.Property(x => x.FechaRecomendacion)
+                .HasColumnType("timestamp with time zone")
+                .IsRequired();
 
-            // Nombre de la tabla
+            builder.HasOne(x => x.usuario)
+                .WithMany(y => y.recomendacionUsuarioModels)
+                .HasForeignKey(z => z.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.videojuego)
+                .WithMany(y => y.recomendacionUsuarioModels)
+                .HasForeignKey(z => z.VideojuegoRecomendadoId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.ToTable("RecomendacionUsuario");
         }
     }

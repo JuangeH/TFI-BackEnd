@@ -15,19 +15,33 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Medio_ID);
 
-            builder.Property(x => x.Cod_Postal).HasColumnType("int").IsRequired();
-            builder.Property(x => x.Cod_Verificador).HasColumnType("int").IsRequired();
-            builder.Property(x => x.Direccion).HasColumnType("varchar(50)").IsRequired();
-            builder.Property(x => x.Estado).HasColumnType("bit").IsRequired();
-            builder.Property(x => x.Numero).HasColumnType("int").IsRequired();
+            builder.Property(x => x.Cod_Postal)
+                .HasColumnType("integer")
+                .IsRequired();
+
+            builder.Property(x => x.Cod_Verificador)
+                .HasColumnType("integer")
+                .IsRequired();
+
+            builder.Property(x => x.Direccion)
+                .HasColumnType("varchar(50)")
+                .IsRequired();
+
+            builder.Property(x => x.Estado)
+                .HasColumnType("boolean")
+                .IsRequired();
+
+            builder.Property(x => x.Numero)
+                .HasColumnType("integer")
+                .IsRequired();
 
             builder.HasOne(x => x.usuario)
-                   .WithMany(y => y.medioDePagoModels)
-                   .HasForeignKey(z => z.User_ID);
+                .WithMany(y => y.medioDePagoModels)
+                .HasForeignKey(z => z.User_ID);
 
             builder.HasOne(x => x.tipoPago)
-                   .WithMany(y => y._mediosPagoModel)
-                   .HasForeignKey(z => z.TipoPago_ID);
+                .WithMany(y => y._mediosPagoModel)
+                .HasForeignKey(z => z.TipoPago_ID);
 
             builder.ToTable("MedioDePago");
         }

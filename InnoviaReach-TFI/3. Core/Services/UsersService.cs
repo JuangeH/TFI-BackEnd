@@ -158,7 +158,7 @@ namespace Core.Business.Services
                     throw new Exception("UserNotExist");
                 }
 
-                var result = await _userManager.ResetPasswordAsync(user, changePasswordDto.Token, changePasswordDto.Password);
+                var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
                 if (!result.Succeeded)
                 {
                     throw new Exception(result.Errors.ToString("\n"));
@@ -168,8 +168,7 @@ namespace Core.Business.Services
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw ex; 
             }
         }
 
@@ -263,6 +262,33 @@ namespace Core.Business.Services
             result.Data = response;
             return result;
         }
+
+        public async Task UpdateCulture(string Culture, string User_ID)
+        {
+            try
+            {
+                var user = (await _repository.Get(x => x.Id == User_ID)).FirstOrDefault();
+
+                if (user is not null)
+                {
+                    user.Idioma = Culture;
+                    await _repository.Update(user);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public async Task<Users> GetCulture(string User_ID)
+        {
+            var user = (await _repository.Get(x => x.Id == User_ID)).FirstOrDefault();
+            return user;
+        }
+
+
 
         #endregion
     }

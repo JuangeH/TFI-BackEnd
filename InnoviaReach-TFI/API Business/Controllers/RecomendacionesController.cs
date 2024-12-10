@@ -1,7 +1,9 @@
 ﻿using API_Business.Response;
 using AutoMapper;
 using Core.Contracts.Services;
+using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
+using Core.Domain.Response.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -44,23 +46,27 @@ namespace API_Business.Controllers
             }
         }
 
-        [HttpGet("ObtenerRecomendacionesVisita")]
-        public async Task<IActionResult> ObtenerRecomendacionesVisita(string userID)
+        [HttpGet("ObtenerForosRecomendadosVisita")]
+        public async Task<IActionResult> ObtenerForosRecomendadosVisita(string Usuario_ID)
         {
             try
             {
-                //appid = 989185;
+                var recomendaciones = _mapper.Map<List<ForoResponse>>(await _recomendacionesService.ObtenerForosRecPorVisitas(Usuario_ID));
+                return Ok(recomendaciones);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
-                ////var videojuegos = _mapper.Map<List<VideojuegoClusterModel>>(await _videojuegoService.ObtenerVideojuegos());
-                //var videojuego = await _videojuegoService.ObtenerVideojuego(appid);
-                _logger.LogInformation("Hola Mundo");
-
-
-                //await _recomendacionesService.GenerarRecomendacionesColaborativas(userID);
-
-                //await _recomendacionesService.GenerarRecomendaciones(videojuego);
-
-                return Ok();
+        [HttpGet("ObtenerForosRecomendadosForosFav")]
+        public async Task<IActionResult> ObtenerForosRecomendadosForosFav(string Usuario_ID)
+        {
+            try
+            {
+                var recomendaciones = _mapper.Map<List<ForoResponse>>(await _recomendacionesService.ObtenerForosRecPorFavoritos(Usuario_ID));
+                return Ok(recomendaciones);
 
             }
             catch (Exception ex)
@@ -68,28 +74,61 @@ namespace API_Business.Controllers
                 throw;
             }
         }
-        //[HttpGet("ObtenerRecomendacionesHistorialVisita")]
-        //public async Task<IActionResult> ObtenerRecomendacionesHistorialVisita()
-        //{
-        //    try
-        //    {
-        //        appid = 3498;
 
-        //        var videojuegos = _mapper.Map<List<VideojuegoClusterModel>>(await _videojuegoService.ObtenerVideojuegos());
-        //        var videojuego = videojuegos.FirstOrDefault(v => v.AppRawgId == appid);
+        [HttpGet("ObtenerForosRecomendadosColab")]
+        public async Task<IActionResult> ObtenerForosRecomendadosColab(string Usuario_ID)
+        {
+            try
+            {
+                var recomendaciones = _mapper.Map<List<ForoResponse>>(await _recomendacionesService.ObtenerForosRecColaborativos(Usuario_ID));
+                return Ok(recomendaciones);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
-        //        _recomendacionesService.CrearClusters(videojuegos);
+        [HttpGet("ObtenerRecomendacionesIndividuales")]
+        public async Task<IActionResult> ObtenerRecomendacionesIndividuales(string Usuario_ID)
+        {
+            try
+            {
+                List<RecomendacionVideojuegoResponse> recomendaciones = new List<RecomendacionVideojuegoResponse>();
 
-        //        var result = _recomendacionesService.GenerarRecomendaciones(videojuegos, videojuego);
-        //        var resultado = _mapper.Map<List<VideojuegoModel>>(result);
+                var recVis = _mapper.Map<List<RecomendacionVideojuegoResponse>>(await _recomendacionesService.ObtenerRecomendacionesVisitas(Usuario_ID)); 
+                var recForFav = _mapper.Map<List<RecomendacionVideojuegoResponse>>(await _recomendacionesService.ObtenerRecomendacionesForosFav(Usuario_ID));
+                recomendaciones.AddRange(recVis);
+                recomendaciones.AddRange(recForFav);
 
-        //        return Ok(resultado);
+                return Ok(recomendaciones);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw;
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet("ObtenerRecomendacionesColaborativas")]
+        public async Task<IActionResult> ObtenerRecomendacionesColaborativas(string Usuario_ID)
+        {
+            try
+            {
+                List<RecomendacionUsuarioResponse> recomendaciones = new List<RecomendacionUsuarioResponse>();
+
+                var recVis = _mapper.Map<List<RecomendacionUsuarioResponse>>(await _recomendacionesService.ObtenerRecomendacionesColabVisitas(Usuario_ID));
+                var recForFav = _mapper.Map<List<RecomendacionUsuarioResponse>>(await _recomendacionesService.ObtenerRecomendacionesColabForosFav(Usuario_ID));
+                recomendaciones.AddRange(recVis);
+                recomendaciones.AddRange(recForFav);
+
+                return Ok(recomendaciones);
+
+            }
+            catch (Exception ex)
+            {
+                throw;;
+            }
+        }
     }
 }

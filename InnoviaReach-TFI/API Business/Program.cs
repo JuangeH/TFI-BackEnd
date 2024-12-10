@@ -1,3 +1,4 @@
+using _2._API.Middleware;
 using _3._Core.Services;
 using _4._Infraestructure.MySQL;
 using _4._Infraestructure.Repositories;
@@ -143,6 +144,7 @@ internal class Program
 
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
 

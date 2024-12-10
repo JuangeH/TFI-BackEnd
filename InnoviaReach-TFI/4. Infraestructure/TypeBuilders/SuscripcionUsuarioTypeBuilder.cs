@@ -16,12 +16,12 @@ namespace _4._Infraestructure.TypeBuilders
             builder.HasKey(x => x.ID);
 
             builder.HasOne(x => x.Suscripcion)
-                   .WithMany(y => y.suscripcionUsrdModels)
-                   .HasForeignKey(z => z.Suscripcion_ID);
+                .WithMany(y => y.suscripcionUsrdModels)
+                .HasForeignKey(z => z.Suscripcion_ID);
 
             builder.HasOne(x => x.Usuario)
-                   .WithOne(y => y.suscripcionUsuarioModel)
-                   .HasForeignKey<SuscripcionUsuarioModel>(z => z.User_ID);
+                .WithOne(y => y.suscripcionUsuarioModel)
+                .HasForeignKey<SuscripcionUsuarioModel>(z => z.User_ID);
 
             builder.ToTable("SuscripcionUsuario");
         }

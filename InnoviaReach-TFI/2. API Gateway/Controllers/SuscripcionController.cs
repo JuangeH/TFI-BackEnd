@@ -26,7 +26,6 @@ namespace _2._API.Controllers
         }
 
         [HttpGet("ValidarSuscripcion")]
-        [AllowAnonymous]
         public async Task<IActionResult> ValidarSuscripcion()
         {
             try
@@ -38,6 +37,7 @@ namespace _2._API.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Error al validar suscripción");
                 return BadRequest(ex.Message);
             }
         }
@@ -53,8 +53,8 @@ namespace _2._API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando guardar favorito");
-                return BadRequest(ex.Message);
+                _logger.LogError(ex, "Error al actualizar suscripción del usuario");
+                return BadRequest(new {ex.Message});
             }
         }
     }

@@ -173,6 +173,28 @@ namespace Api.Mapping
             CreateMap<VideojuegoClusterModel, VideojuegoModel>()
             .ForMember(dest => dest.AppRawgId, opt => opt.MapFrom(src => src.AppRawgId))
             .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre));
+
+            CreateMap<RecomendacionVideojuegoModel, RecomendacionVideojuegoResponse>()
+            .ForMember(dest => dest.VideojuegoReferencia,
+                       opt => opt.MapFrom(src => src.videojuegoReferencia.Nombre)) // Mapeo al nombre del videojuego de referencia
+            .ForMember(dest => dest.VideojuegoRecomendado,
+                       opt => opt.MapFrom(src => src.videojuegoRecomendado.Nombre)) // Mapeo al nombre del videojuego recomendado
+            .ForMember(dest => dest.VideojuegoRecomendadoImagen,
+                       opt => opt.MapFrom(src => src.videojuegoRecomendado.Imagen)) // Mapeo a la imagen del videojuego recomendado
+            .ForMember(dest => dest.TipoRecomendacion,
+                       opt => opt.MapFrom(src => src.TipoRecomendacion)); // Mapeo a la imagen del videojuego recomendado
+
+            CreateMap<RecomendacionUsuarioModel, RecomendacionUsuarioResponse>()
+            .ForMember(dest => dest.VideojuegoRecomendado,
+                       opt => opt.MapFrom(src => src.videojuego.Nombre)) // Mapea el nombre del videojuego recomendado
+            .ForMember(dest => dest.VideojuegoRecomendadoImagen,
+                       opt => opt.MapFrom(src => src.videojuego.Imagen))
+            .ForMember(dest => dest.TipoRecomendacion,
+                       opt => opt.MapFrom(src => src.TipoRecomendacion)); // Mapea la imagen del videojuego recomendado
+
+
+
+
         }
         private string ConcatenarCaracteristicas(VideojuegoModel src)
         {

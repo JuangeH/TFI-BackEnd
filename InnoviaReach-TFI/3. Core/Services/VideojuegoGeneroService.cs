@@ -2,6 +2,7 @@
 using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Domain.Models;
+using Core.Domain.Request.Gateway;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,16 @@ namespace _3._Core.Services
 
         public async Task RegistrarGeneneroVid(VideojuegoGeneroModel videojuegoGeneroModel)
         {
-            await _repository.Insert(videojuegoGeneroModel);
+            try
+            {
+                await _repository.Insert(videojuegoGeneroModel);
+            }
+            catch (Exception)
+            {
+
+                throw new Exception($"Error al registrar genero");
+            }
+            
         }
     }
 }

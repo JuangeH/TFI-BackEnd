@@ -1,4 +1,5 @@
-﻿using Core.Contracts.Services;
+﻿using Core.Business.Services;
+using Core.Contracts.Services;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API_Business.Background
@@ -32,31 +33,26 @@ namespace API_Business.Background
 
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    // Se ejecuta cada 5 minutos
-                    if (DateTime.Now.Minute % 30 == 0 && _lastExecution.Minute != DateTime.Now.Minute)
+                    if (DateTime.Now.Hour == 2 && DateTime.Now.Minute == 0 && _lastExecution.Date != DateTime.Now.Date)
                     {
                         _lastExecution = DateTime.Now;
-                        _logger.LogInformation($"Updating adquisicion table at {DateTime.Now}");
+                        _logger.LogInformation($"Starting daily tasks at {DateTime.Now}");
+
                         using var scope = _serviceProvider.CreateScope();
+                        var recomendacionService = scope.ServiceProvider.GetRequiredService<IRecomendacionService>();
 
-                        var adquisicionService = scope.ServiceProvider.GetRequiredService<IAdquisicionService>();
-                        var steamAccountService = scope.ServiceProvider.GetRequiredService<ISteamAccountService>();
-
-                        foreach (var steamAccount in await steamAccountService.GetAllAsync())
+                        try
                         {
-                            try
-                            {
-                                var steamInfoRequest = new Request.SteamInfoRequest();
-                                steamInfoRequest.SteamAPIKey = String.IsNullOrEmpty(steamAccount.ApiKey) ? "DB87EDFDEF1A6EC905BD4F1F51B2377A":steamAccount.ApiKey;
-                                steamInfoRequest.SteamID = steamAccount.steamid;
-                                //await adquisicionService.ActualizarRegistrarAdquisiciones(steamInfoRequest, steamAccount.User_ID);
-                                await adquisicionService.ActualizarJugadoReciente(steamInfoRequest, steamAccount.User_ID);
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogError(ex,$"Error in user:{steamAccount.User_ID}");
-                                continue;                            
-                            }
+                            // Crear clusters de usuarios
+                            await recomendacionService.CrearClustersUsuarios();
+                            _logger.LogInformation("Clusters de usuarios creados exitosamente");
+
+                            await recomendacionService.GenerarRecomendacionesColaborativas();
+                            _logger.LogInformation($"Recomendaciones generadas para el usuario");
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Error ejecutando las tareas diarias");
                         }
                     }
 

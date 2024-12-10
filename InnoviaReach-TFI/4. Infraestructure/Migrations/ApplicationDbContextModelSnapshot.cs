@@ -89,18 +89,12 @@ namespace _4._Infraestructure.Migrations
                         .HasColumnType("bit")
                         .HasAnnotation("DefaultValueSql", true);
 
-                    b.Property<bool>("Actualizaciones")
+                    b.Property<bool>("CommunityBanned")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("ClusterID")
-                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Descuentos")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -108,23 +102,6 @@ namespace _4._Infraestructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Estilo_preferido")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("GameGenresJson")
-                        .HasColumnType("varchar(max)");
-
-                    b.Property<string>("GameHistoryJson")
-                        .HasColumnType("varchar(max)");
-
-                    b.Property<string>("GameTagsJson")
-                        .HasColumnType("varchar(max)");
-
-                    b.Property<string>("Genero_preferido")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Idioma")
                         .IsRequired()
@@ -574,22 +551,11 @@ namespace _4._Infraestructure.Migrations
                     b.Property<int>("VideojuegoRecomendadoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Videojuego_ID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("usuarioId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("RecomendacionId");
 
                     b.HasIndex("UserId");
 
                     b.HasIndex("VideojuegoRecomendadoId");
-
-                    b.HasIndex("Videojuego_ID");
-
-                    b.HasIndex("usuarioId");
 
                     b.ToTable("RecomendacionUsuario", (string)null);
                 });
@@ -864,6 +830,72 @@ namespace _4._Infraestructure.Migrations
                     b.HasIndex("Videojuego_ID");
 
                     b.ToTable("Trofeo", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.UsuarioBaneadoModel", b =>
+                {
+                    b.Property<int>("Baneo_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Baneo_ID"));
+
+                    b.Property<DateTime>("FechaDeBaneo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Motivo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<string>("UserAdmin_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Baneo_ID");
+
+                    b.HasIndex("UserAdmin_ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.ToTable("UsuarioBaneado", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.UsuarioJuegoPerfilModel", b =>
+                {
+                    b.Property<int>("Perfil_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Perfil_ID"));
+
+                    b.Property<int?>("ClusterID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GameGenresJson")
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("GameHistoryJson")
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("GameTagsJson")
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("TipoRecomendacion")
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Perfil_ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.ToTable("UsuarioJuegoPerfil", (string)null);
                 });
 
             modelBuilder.Entity("Core.Domain.Models.UsuarioVisitaModel", b =>
@@ -1379,28 +1411,16 @@ namespace _4._Infraestructure.Migrations
 
             modelBuilder.Entity("Core.Domain.Models.RecomendacionUsuarioModel", b =>
                 {
-                    b.HasOne("Core.Domain.ApplicationModels.Users", null)
-                        .WithMany()
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
+                        .WithMany("recomendacionUsuarioModels")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Core.Domain.Models.VideojuegoModel", null)
-                        .WithMany()
-                        .HasForeignKey("VideojuegoRecomendadoId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Core.Domain.Models.VideojuegoModel", "videojuego")
                         .WithMany("recomendacionUsuarioModels")
-                        .HasForeignKey("Videojuego_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuario")
-                        .WithMany("recomendacionUsuarioModels")
-                        .HasForeignKey("usuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("VideojuegoRecomendadoId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("usuario");
@@ -1512,6 +1532,36 @@ namespace _4._Infraestructure.Migrations
                     b.Navigation("usuario");
 
                     b.Navigation("videojuego");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.UsuarioBaneadoModel", b =>
+                {
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuarioAdmin")
+                        .WithMany("usuarioBaneadoAdminModels")
+                        .HasForeignKey("UserAdmin_ID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "usuarioBaneado")
+                        .WithMany("usuarioBaneadoModels")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("usuarioAdmin");
+
+                    b.Navigation("usuarioBaneado");
+                });
+
+            modelBuilder.Entity("Core.Domain.Models.UsuarioJuegoPerfilModel", b =>
+                {
+                    b.HasOne("Core.Domain.ApplicationModels.Users", "User")
+                        .WithMany("usuarioJuegoPerfilModels")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Domain.Models.UsuarioVisitaModel", b =>
@@ -1725,6 +1775,12 @@ namespace _4._Infraestructure.Migrations
                     b.Navigation("tiempoDeJuegoModel");
 
                     b.Navigation("trofeosModel");
+
+                    b.Navigation("usuarioBaneadoAdminModels");
+
+                    b.Navigation("usuarioBaneadoModels");
+
+                    b.Navigation("usuarioJuegoPerfilModels");
 
                     b.Navigation("usuarioVisitaModels");
 

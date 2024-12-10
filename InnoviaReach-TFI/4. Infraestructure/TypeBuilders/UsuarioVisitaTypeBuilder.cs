@@ -9,21 +9,23 @@ using System.Threading.Tasks;
 
 namespace _4._Infraestructure.TypeBuilders
 {
-    internal class UsuarioVisitaTypeBuilder : IEntityTypeConfiguration<UsuarioVisitaModel>
+    public class UsuarioVisitaTypeBuilder : IEntityTypeConfiguration<UsuarioVisitaModel>
     {
         public void Configure(EntityTypeBuilder<UsuarioVisitaModel> builder)
         {
             builder.HasKey(x => x.Visita_ID);
 
             builder.HasOne(x => x.Videojuego)
-                   .WithMany(y => y.usuarioVisitaModels)
-                   .HasForeignKey(z => z.Videojuego_ID);
+                .WithMany(y => y.usuarioVisitaModels)
+                .HasForeignKey(z => z.Videojuego_ID);
 
             builder.HasOne(x => x.Usuario)
-                   .WithMany(y => y.usuarioVisitaModels)
-                   .HasForeignKey(z => z.User_ID);
+                .WithMany(y => y.usuarioVisitaModels)
+                .HasForeignKey(z => z.User_ID);
 
-            builder.Property(x => x.Fecha).HasColumnType("datetime");
+            builder.Property(x => x.Fecha)
+                .HasColumnType("timestamp with time zone")
+                .IsRequired();
 
             builder.ToTable("UsuarioVisita");
         }

@@ -14,7 +14,7 @@ namespace Core.Domain.Models
         public int VideojuegoReferenciaId { get; set; } // ID del videojuego de referencia
         public int VideojuegoRecomendadoId { get; set; } // ID del videojuego recomendado
         public float Similitud { get; set; } // Puntuación de similitud
-        public string TipoRecomendacion { get; set; } = "Contenido"; // Tipo de recomendación
+        public string TipoRecomendacion { get; set; } // Tipo de recomendación
         public DateTime FechaRecomendacion { get; set; } = DateTime.UtcNow;
         public Users usuario { get; set; }
         public VideojuegoModel videojuegoReferencia { get; set; }

@@ -115,9 +115,10 @@ namespace Api.Controllers
 
                 return Ok(privileges);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                _logger.LogError(ex, $"Error intentando obterner privilegios");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -135,10 +136,10 @@ namespace Api.Controllers
                 }
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _logger.LogError(ex, $"Error intentando asignar privilegios");
+                return BadRequest(ex.Message);
             }
         }
         
@@ -176,10 +177,11 @@ namespace Api.Controllers
 
                 return Ok(users);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex, $"Error intentando obterner usuarios");
+                return BadRequest(ex.Message);
             }
         }
 

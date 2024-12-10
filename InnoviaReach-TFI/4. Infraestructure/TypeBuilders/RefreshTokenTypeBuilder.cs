@@ -12,21 +12,22 @@ namespace Infrastructure.Data.TypeBuilders
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             builder.HasKey(x => x.Id);
-            
+
             builder.Property(x => x.Id)
-                   .ValueGeneratedOnAdd();
-            
+                .ValueGeneratedOnAdd();
+
             builder.Property(x => x.Token)
-                   .IsRequired()
-                   .IsUnicode(false)
-                   .HasMaxLength(100);
+                .IsRequired()
+                .HasColumnType("varchar(100)")
+                .HasMaxLength(100);
 
             builder.Property(x => x.Expires)
-                   .IsRequired();
-            
+                .HasColumnType("timestamp with time zone")
+                .IsRequired();
+
             builder.HasOne(x => x.Users)
-                   .WithMany(x => x.UserRefreshTokens)
-                   .HasForeignKey(x => x.UserId);
+                .WithMany(x => x.UserRefreshTokens)
+                .HasForeignKey(x => x.UserId);
 
             builder.ToTable("RefreshTokens");
         }

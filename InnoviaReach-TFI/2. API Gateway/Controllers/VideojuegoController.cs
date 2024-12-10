@@ -54,13 +54,11 @@ namespace _2._API.Controllers
                 var GenericApiResponse = await RequestHelper.PostRequest<bool, SteamInfoRequest>(URL, steamInfoRequest);
                 return Ok(GenericApiResponse);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _logger.LogError(ex, $"Error intentando registrar información de Steam");
+                return BadRequest(ex.Message);
             }
-
-            
         }
 
         [HttpGet("ObtenerVideojuegosForo")]
@@ -75,7 +73,7 @@ namespace _2._API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
+                _logger.LogError(ex, "Error al obtener videojuegos por foro");
                 return BadRequest(ex.Message);
             }
         }
@@ -96,7 +94,7 @@ namespace _2._API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
+                _logger.LogError(ex, "Error al obtener videojuegos del catálogo");
                 return BadRequest(ex.Message);
             }
         }
@@ -120,7 +118,7 @@ namespace _2._API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while registering visits.");
+                _logger.LogError(ex, $"Error al registrar visita de foro del usuario {username}");
                 return BadRequest(ex.Message);
             }
         }
@@ -141,7 +139,7 @@ namespace _2._API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
+                _logger.LogError(ex, $"Error al obtener detalle del videojuego {nombre}");
                 return BadRequest(ex.Message);
             }
         }
@@ -151,17 +149,15 @@ namespace _2._API.Controllers
         {
             try
             {
-                // Construir la URL con los parámetros de paginación
                 string URL = ApiBaseURL + $"Videojuego/BuscarVideojuegosForo?nombre={nombre}&pageSize={pageSize}";
 
-                // Hacer la solicitud a la API interna usando los parámetros de paginación
                 var GenericApiResponse = await RequestHelper.GetRequest<List<VideojuegoForoReponse>>(URL);
 
                 return Ok(GenericApiResponse);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
+                _logger.LogError(ex, "Error al obtener videojuegos");
                 return BadRequest(ex.Message);
             }
         }
@@ -176,7 +172,7 @@ namespace _2._API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
+                _logger.LogError(ex, "Error al obtener videojuegos");
                 return BadRequest(ex.Message);
             }
         }

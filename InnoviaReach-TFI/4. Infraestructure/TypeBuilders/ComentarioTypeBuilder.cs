@@ -16,12 +16,12 @@ namespace _4._Infraestructure.TypeBuilders
             builder.HasKey(x => x.Comentario_ID);
 
             builder.Property(x => x.Contenido)
-                .HasColumnType("nvarchar(max)")
+                .HasColumnType("text") 
                 .IsRequired();
 
             builder.Property(x => x.FechaCreacion)
-                .HasColumnType("datetime")
-                .HasDefaultValueSql("GETDATE()")
+                .HasColumnType("timestamp with time zone")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .IsRequired();
 
             builder.HasOne(x => x.foro)

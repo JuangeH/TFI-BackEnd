@@ -5,6 +5,7 @@ using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
 using Core.Domain.Models.Nueva_Base;
+using Core.Domain.Request.Gateway;
 using MailKit.Search;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -71,17 +72,24 @@ namespace _3._Core.Services
 
         public async Task<(List<VideojuegoModel> Videojuegos, int TotalRecords)> ObtenerVideojuegosCatalogo(int pageNumber, int pageSize)
         {
-            // Obtener el total de registros directamente de la base de datos
-            var totalRecords = await _repository.TableNoTracking.CountAsync(x => x.Nombre != "");
+            try
+            {
+                // Obtener el total de registros directamente de la base de datos
+                var totalRecords = await _repository.TableNoTracking.CountAsync(x => x.Nombre != "");
 
-            // Obtener solo los registros para la página actual, aplicando paginación
-            var videojuegos = await _repository.TableNoTracking
-                .Where(x => x.Nombre != "")
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+                // Obtener solo los registros para la página actual, aplicando paginación
+                var videojuegos = await _repository.TableNoTracking
+                    .Where(x => x.Nombre != "")
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
 
-            return (videojuegos, totalRecords);
+                return (videojuegos, totalRecords);
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error al obtener videojuegos del catálogo");
+            }
         }
 
         public async Task<List<VideojuegoModel>> ObtenerVideojuegos()
@@ -98,10 +106,9 @@ namespace _3._Core.Services
 
                 return videojuegos;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw new Exception($"Error al obtener videojuegos");
             }
         }
 
@@ -116,9 +123,9 @@ namespace _3._Core.Services
 
                 return videojuegos;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw new Exception($"Error al buscar videojuegos por foro");
             }
         }
 
@@ -132,10 +139,9 @@ namespace _3._Core.Services
 
                 return videojuegos;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw new Exception($"Error al obtener videojuegos por foro");
             }
         }
 
@@ -146,10 +152,9 @@ namespace _3._Core.Services
                 return (await _repository.Get(x => x.AppRawgId == RawgAppId, includeProperties: "videojuegoPlataformaModels, videojuegoPlataformaModels.plataformaModel, videojuegoGeneroModels, videojuegoGeneroModels.generoModel, videojuegoTiendaModels, videojuegoTiendaModels.tiendaModel, videojuegoTagModels, videojuegoTagModels.tagModel")).FirstOrDefault();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw new Exception($"Error al obtener videojuego");
             }
         }
         public async Task<VideojuegoModel> ObtenerVideojuegoPorNombre(string nombre)
@@ -159,37 +164,43 @@ namespace _3._Core.Services
                 return (await _repository.Get(x => x.Nombre == nombre, includeProperties: "videojuegoPlataformaModels, videojuegoPlataformaModels.plataformaModel, videojuegoGeneroModels, videojuegoGeneroModels.generoModel, videojuegoTiendaModels, videojuegoTiendaModels.tiendaModel, videojuegoTagModels, videojuegoTagModels.tagModel")).FirstOrDefault();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw new Exception($"Error al obtener videojuego {nombre}");
             }
         }
 
         public async Task AgregarDescripcion()
         {
-            var videojuegos = (await _repository.Get(x => x.Nombre != "")).ToList();
-
-            foreach (var item in videojuegos)
+            try
             {
-                string apiUrl = "https://api.rawg.io/api/games/"+item.AppRawgId+"?key=6c43806ec84d4f09a9ac4c221d783da2";
-                using (HttpClient httpClient = new HttpClient())
+                var videojuegos = (await _repository.Get(x => x.Nombre != "")).ToList();
+
+                foreach (var item in videojuegos)
                 {
-                    HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-
-                    if (response.IsSuccessStatusCode)
+                    string apiUrl = "https://api.rawg.io/api/games/" + item.AppRawgId + "?key=6c43806ec84d4f09a9ac4c221d783da2";
+                    using (HttpClient httpClient = new HttpClient())
                     {
-                        string jsonResponse = await response.Content.ReadAsStringAsync();
-                        VideojuegoRAWG apiResponse = JsonConvert.DeserializeObject<VideojuegoRAWG>(jsonResponse);
-                        var traduccion = Regex.Replace(apiResponse.Descripcion, "<.*?>", string.Empty).Trim();
-                        item.Descripcion = traduccion;
-                        await _repository.Update(item);
+                        HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
-                        await _unitOfWork.SaveChangesAsync();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string jsonResponse = await response.Content.ReadAsStringAsync();
+                            VideojuegoRAWG apiResponse = JsonConvert.DeserializeObject<VideojuegoRAWG>(jsonResponse);
+                            var traduccion = Regex.Replace(apiResponse.Descripcion, "<.*?>", string.Empty).Trim();
+                            item.Descripcion = traduccion;
+                            await _repository.Update(item);
 
+                            await _unitOfWork.SaveChangesAsync();
+
+                        }
                     }
                 }
-            }   
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error al registrar descripciones");
+            }
         }
 
         public async Task<string> TranslateText(string text, string targetLanguage = "es")
@@ -346,9 +357,9 @@ namespace _3._Core.Services
 
                 await _unitOfWork.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw;
+                throw new Exception($"Error al registrar información del videojuego {videojuego.Nombre}");
             }
         }
 
@@ -400,7 +411,7 @@ namespace _3._Core.Services
             }
             catch (Exception)
             {
-                throw;
+                throw new Exception($"Error al registrar el videojuego {videojuego.Name}");
             }
         }
     }

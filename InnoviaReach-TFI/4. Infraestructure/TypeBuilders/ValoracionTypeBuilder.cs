@@ -15,11 +15,13 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Valoracion_ID);
 
-            builder.Property(x => x.Puntuacion).HasColumnType("int").IsRequired();
+            builder.Property(x => x.Puntuacion)
+                .HasColumnType("integer") 
+                .IsRequired();
 
             builder.HasOne(x => x.Videojuego)
-                  .WithMany(y => y.valoracionModel)
-                  .HasForeignKey(z => z.Videojuego_ID);
+                .WithMany(y => y.valoracionModel)
+                .HasForeignKey(z => z.Videojuego_ID);
 
             builder.ToTable("Valoracion");
         }

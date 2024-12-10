@@ -61,41 +61,28 @@ namespace API_Business.Controllers
                 int pagina = 362;
                 do
                 {
-                    // URL de la API de RAWG con tu clave de API (asegúrate de reemplazar 'TU_CLAVE_API')
                     string apiUrl = "https://api.rawg.io/api/games?key=6c43806ec84d4f09a9ac4c221d783da2&page=" + pagina;
 
-                    // Crear un HttpClient
                     using (HttpClient httpClient = new HttpClient())
                     {
-                        // Realizar la solicitud GET a la API de RAWG
                         HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
-                        // Verificar si la respuesta fue exitosa
                         if (response.IsSuccessStatusCode)
                         {
-                            // Leer el contenido de la respuesta como string
                             string jsonResponse = await response.Content.ReadAsStringAsync();
 
-                            // Deserializar el JSON a la clase RawgApiResponse
                             RawgApiResponse apiResponse = JsonConvert.DeserializeObject<RawgApiResponse>(jsonResponse);
 
-                            // Acceder a la lista de videojuegos
                             List<VideojuegoRAWG> videojuegos = apiResponse.Results;
 
-                            // Aquí puedes procesar la lista de videojuegos y guardar los datos en la base de datos
-                            // Por ejemplo, puedes iterar sobre cada videojuego y guardarlo
                             foreach (var videojuego in videojuegos)
                             {
-                                // Lógica para guardar el videojuego en la base de datos
-                                // Puedes llamar a un servicio que realice la inserción en la base de datos aquí
-                                // Por ejemplo: _miServicioDeBaseDeDatos.GuardarVideojuego(videojuego);
                                 await _videojuegoService.RegistrarObtenerVideojuego(videojuego);
                             }
                             pagina++;
                         }
                         else
                         {
-                            // Si la respuesta no fue exitosa, retornar el mensaje de error
                             return Ok();
                         }
                     }
@@ -103,8 +90,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 
@@ -134,8 +120,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 
@@ -151,8 +136,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 
@@ -194,8 +178,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 
@@ -219,8 +202,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 
@@ -236,8 +218,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
         [HttpGet("ObtenerVideojuegoForo")]
@@ -252,8 +233,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
         [HttpGet("ObtenerVideojuegoDetalleCatalogo")]
@@ -268,8 +248,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogame.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 
@@ -282,8 +261,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining videogames.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 
@@ -306,8 +284,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while registering visit.");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
 

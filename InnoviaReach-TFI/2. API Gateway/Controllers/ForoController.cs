@@ -41,10 +41,10 @@ namespace Api_Gateway.Controllers
                 var GenericApiResponse = await RequestHelper.GetRequest<List<ForoResponse>>(URL);
                 return Ok(GenericApiResponse);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _logger.LogError(ex, "Error al obtener foros generales");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -52,9 +52,21 @@ namespace Api_Gateway.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ObtenerComentariosPorForo(int ForoId)
         {
-            string URL = ApiBaseURL + $"Foro/ObtenerComentariosPorForo?ForoId={ForoId}";
-            var GenericApiResponse = await RequestHelper.GetRequest<List<ComentarioResponse>>(URL);
-            return Ok(GenericApiResponse);
+            try
+            {
+                string URL = ApiBaseURL + $"Foro/ObtenerComentariosPorForo?ForoId={ForoId}";
+                var GenericApiResponse = await RequestHelper.GetRequest<List<ComentarioResponse>>(URL);
+                return Ok(GenericApiResponse);
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex, $"Error al obtener comentarios para el foro {ForoId}");
+                return BadRequest(ex.Message);
+            }
+
+            
         }
 
         [HttpPost("CalificarComentario")]
@@ -71,7 +83,8 @@ namespace Api_Gateway.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                _logger.LogError(ex, $"Error al calificar comentario {request.Comentario_ID}");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -90,7 +103,7 @@ namespace Api_Gateway.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando registrar comentario");
+                _logger.LogError(ex, $"Error intentando registrar comentario en el foro {request.Foro_Codigo}");
                 return BadRequest(ex.Message);
             }
         }
@@ -129,7 +142,7 @@ namespace Api_Gateway.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando guardar favorito");
+                _logger.LogError(ex, $"Error intentando guardar como favorito el foro {CodForo}");
                 return BadRequest(ex.Message);
             }
         }
@@ -148,7 +161,7 @@ namespace Api_Gateway.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando registrar visita");
+                _logger.LogError(ex, $"Error intentando registrar visita al foro {request.Foro_ID} por el usuario {request.User_ID}");
                 return BadRequest(ex.Message);
             }
         }
@@ -164,7 +177,7 @@ namespace Api_Gateway.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando eliminar foro");
+                _logger.LogError(ex, $"Error intentando eliminar el foro {ForoId}");
                 return BadRequest(ex.Message);
             }
         }
@@ -179,7 +192,7 @@ namespace Api_Gateway.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando eliminar comentario");
+                _logger.LogError(ex, $"Error intentando eliminar comentario {ComentarioId}");
                 return BadRequest(ex.Message);
             }
         }

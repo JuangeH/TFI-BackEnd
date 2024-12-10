@@ -36,7 +36,7 @@ namespace _2._API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while obtaining logs.");
+                _logger.LogError(ex, "Error al obtener logs");
                 return BadRequest(ex.Message);
             }
         }

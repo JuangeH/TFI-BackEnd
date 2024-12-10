@@ -46,7 +46,7 @@ namespace _3._Core.Services
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
     }

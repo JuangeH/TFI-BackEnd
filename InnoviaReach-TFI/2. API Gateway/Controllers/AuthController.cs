@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Transversal.Extensions;
 using Transversal.Helpers.JWT;
@@ -29,6 +30,14 @@ namespace Api.Controllers
         private readonly ActionLoggerMiddlewareConfiguration _actionLoggerMiddlewareConfiguration;
         private readonly IJwtBearerTokenHelper _jwtBearerTokenHelper;
         private readonly UserManager<Users> _userManager;
+        private string _userId
+        {
+            get
+            {
+                var data = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                return data;
+            }
+        }
 
         public AuthController(
             IMapper mapper,
@@ -56,12 +65,10 @@ namespace Api.Controllers
             try
             {
                 Users user = _mapper.Map<Users>(registerRequest);
-                
-                //AGREGO ESTO PORQUE SINO DE BASE LO CARGA EN FALSE
-                //user.Active = true;
-                user.Actualizaciones = true;
-                user.Descuentos = true;
-                //user.EmailConfirmed = true;
+
+                user.Active = true;
+                user.EmailConfirmed = true;
+                user.CommunityBanned = false;
 
                 var result = await _usersService.CreateUserAsync(user, registerRequest.Password);
                 if (!result.Data.IsRegistred)
@@ -83,7 +90,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while registering new user.");
+                _logger.LogError(ex, $"Error al registrar el usuario {registerRequest.UserName}");
                 return BadRequest(ex.Message);
             }
         }
@@ -124,7 +131,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while logging in.");
+                _logger.LogError(ex, $"Error al iniciar sesión del usuario {loginRequest.username}");
                 return BadRequest(ex.Message);
             }
 
@@ -155,6 +162,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error al confirmar email");
                 return BadRequest(ex.Message);
             }
         }
@@ -169,14 +177,14 @@ namespace Api.Controllers
                 await _usersService.ForgotPasswordGenerateToken(userName);
                 return Ok();
             }
-            catch (Exception)
-            { 
-                throw;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al recuperar la contraseña");
+                return BadRequest(ex.Message);
             }
            
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest model)
@@ -184,12 +192,14 @@ namespace Api.Controllers
             try
             {
                 var modelDto=_mapper.Map<ChangePasswordDto>(model);
+                modelDto.UserId = _userId;
                 await _usersService.ChangePasswordGenerateToken(modelDto);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                _logger.LogError(ex, $"Error al intentar cambiar la contraseña del usuario {_userId}");
+                return BadRequest(ex.Message);
             }
         }
 

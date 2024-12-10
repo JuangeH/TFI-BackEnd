@@ -5,6 +5,9 @@ namespace Api.Request
     public class RegisterRequest
     {
         [Required(ErrorMessage = "Campo requerido")]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido")]
         [RegularExpression(@"\A[\w|.|-]+@[\w|.|-]+\Z", ErrorMessage = "El formato no corresponde al de una dirección de correo")]
         public string Email { get; set; }
 
@@ -29,17 +32,5 @@ namespace Api.Request
 
         [Required(ErrorMessage = "Campo requerido")]
         public string Idioma { get; set; }
-
-        [Required(ErrorMessage = "Campo requerido")]
-        public string Estilo_preferido { get; set; }
-
-        [Required(ErrorMessage = "Campo requerido")]
-        public string Genero_preferido { get; set; }
-
-        [Required(ErrorMessage = "Campo requerido")]
-        public bool Actualizaciones { get; set; }
-
-        [Required(ErrorMessage = "Campo requerido")]
-        public bool Descuentos { get; set; }
     }
 }

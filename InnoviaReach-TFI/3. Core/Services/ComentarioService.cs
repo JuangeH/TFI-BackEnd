@@ -58,10 +58,18 @@ namespace _3._Core.Services
 
         public async Task<List<ComentarioModel>> ObtenerComentariosPorForo(int ForoId)
         {
-            var result = (await _repository.Get(x => x.Foro_ID == ForoId, includeProperties: "usuario, puntuacionModels")).OrderByDescending(x => x.FechaCreacion).ToList();
 
+            try
+            {
+                var result = (await _repository.Get(x => x.Foro_ID == ForoId, includeProperties: "usuario, puntuacionModels")).OrderByDescending(x => x.FechaCreacion).ToList();
+                return result;
 
-            return result;
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error al intentar obtener comentarios del foro {ForoId}");
+            }
+            
         }
 
         public async Task RegistrarComentario(ComentarioRequest comentario)
@@ -79,14 +87,12 @@ namespace _3._Core.Services
 
                 }
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
                 await _unitOfWork.SaveChangesAsync();
+
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error al intentar registrar comentario en el foro {comentario.Foro_Codigo}");
             }
         }
         public async Task EliminarComentario(int id)
@@ -95,14 +101,11 @@ namespace _3._Core.Services
             {
                 var result = (await _repository.GetOne(x => x.Comentario_ID == id));
                 await _repository.Delete(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
                 await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error al intentar eliminar el comentario {id}");
             }
         }
     }

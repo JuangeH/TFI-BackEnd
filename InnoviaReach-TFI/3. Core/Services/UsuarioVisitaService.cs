@@ -21,10 +21,12 @@ namespace _3._Core.Services
         private readonly IVideojuegoService _videojuegoService;
         private readonly IRecomendacionService _recomendacionService;
         private readonly IRecomendacionUsuarioService _recomendacionUsuarioService;
+        private readonly IRecomendacionVideojuegoRepository _recomendacionVideojuegoRepository;
 
         public UsuarioVisitaService(IUnitOfWork unitOfWork, IVideojuegoService videojuegoService, IRecomendacionService recomendacionService, IRecomendacionUsuarioService recomendacionUsuarioService)
             : base(unitOfWork, unitOfWork.GetRepository<IUsuarioVisitaRepository>())
         {
+            _recomendacionVideojuegoRepository = unitOfWork.GetRepository<IRecomendacionVideojuegoRepository>();
             _videojuegoRepo = unitOfWork.GetRepository<IVideojuegoRepository>();
             _usersRepo = unitOfWork.GetRepository<IUsersRepository>();
             _videojuegoService = videojuegoService;
@@ -72,24 +74,20 @@ namespace _3._Core.Services
                     await _unitOfWork.SaveChangesAsync();
                 }
 
-                if (videojuegoEncontrado!=null)
+                if (videojuegoEncontrado != null)
                 {
-                    await _recomendacionService.GenerarRecomendaciones(videojuegoEncontrado, visita.User_ID);
+                    await _recomendacionService.GenerarRecomendaciones(videojuegoEncontrado, visita.User_ID, "Contenido");
                 }
                 else
                 {
                     var vidjuego = (await _videojuegoRepo.Get(x => x.Videojuego_ID == visita.Videojuego_ID)).FirstOrDefault();
-                    await _recomendacionService.GenerarRecomendaciones(vidjuego, visita.User_ID);
+                    await _recomendacionService.GenerarRecomendaciones(vidjuego, visita.User_ID, "Contenido");
                 }
 
-                await _recomendacionService.CrearClustersUsuarios();
-
-                await _recomendacionService.GenerarRecomendacionesColaborativas(visita.User_ID);
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw;
+                throw new Exception($"Error al registrar visita del usaurio {usuario} sobre el videojuego {videojuego}");
             }
         }
     }

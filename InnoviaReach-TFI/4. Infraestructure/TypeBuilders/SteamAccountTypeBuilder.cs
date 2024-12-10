@@ -16,20 +16,30 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.SteamAccount_ID);
 
-            builder.Property(x => x.steamid).HasColumnType("varchar(max)").IsRequired();
+            builder.Property(x => x.steamid)
+                .HasColumnType("text")
+                .IsRequired();
 
-            builder.Property(x => x.ApiKey).HasColumnType("varchar(max)").IsRequired(false);
+            builder.Property(x => x.ApiKey)
+                .HasColumnType("text")
+                .IsRequired(false);
 
-            builder.Property(x => x.personaname).HasColumnType("varchar(max)").IsRequired();
+            builder.Property(x => x.personaname)
+                .HasColumnType("text")
+                .IsRequired();
 
-            builder.Property(x => x.avatarfull).HasColumnType("varchar(max)").IsRequired();
+            builder.Property(x => x.avatarfull)
+                .HasColumnType("text")
+                .IsRequired();
 
-            builder.Property(x => x.profileurl).HasColumnType("varchar(max)").IsRequired();
+            builder.Property(x => x.profileurl)
+                .HasColumnType("text")
+                .IsRequired();
 
             builder.HasOne(x => x.users)
-               .WithOne(x => x.SteamAccountModel)
-               .HasForeignKey<SteamAccountModel>(x => x.User_ID)
-               .IsRequired();
+                .WithOne(x => x.SteamAccountModel)
+                .HasForeignKey<SteamAccountModel>(x => x.User_ID)
+                .IsRequired();
 
             builder.ToTable("SteamAccount");
         }

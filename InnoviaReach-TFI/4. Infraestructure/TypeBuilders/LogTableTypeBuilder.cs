@@ -15,22 +15,28 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Message).HasColumnType("nvarchar(MAX)");
+            builder.Property(x => x.Message)
+                .HasColumnType("text");
 
-            builder.Property(x => x.Level).HasColumnType("nvarchar(MAX)");
+            builder.Property(x => x.Level)
+                .HasColumnType("text");
 
-            builder.Property(x => x.Timestamp).HasColumnType("datetime");
+            builder.Property(x => x.Timestamp)
+                .HasColumnType("timestamp with time zone");
 
-            builder.Property(x => x.Exception).HasColumnType("nvarchar(MAX)");
+            builder.Property(x => x.Exception)
+                .HasColumnType("text");
 
-            builder.Property(x => x.LogEvent).HasColumnType("nvarchar(MAX)");
+            builder.Property(x => x.LogEvent)
+                .HasColumnType("text");
 
-            builder.Property(x => x.ReferenceNumber).HasColumnType("int");
+            builder.Property(x => x.ReferenceNumber)
+                .HasColumnType("integer");
 
-            builder.Property(x => x.ReferenceType).HasColumnType("varchar(50)");
+            builder.Property(x => x.ReferenceType)
+                .HasColumnType("varchar(50)");
 
             builder.ToTable("LogTable");
         }
-    
     }
 }

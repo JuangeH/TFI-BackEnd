@@ -16,12 +16,12 @@ namespace _4._Infraestructure.TypeBuilders
             builder.HasKey(x => x.ID);
 
             builder.HasOne(x => x.videojuego)
-                   .WithMany(y => y.videojuegoTiendaModels)
-                   .HasForeignKey(z => z.Videojuego_ID);
+                .WithMany(y => y.videojuegoTiendaModels)
+                .HasForeignKey(z => z.Videojuego_ID);
 
             builder.HasOne(x => x.tiendaModel)
-                   .WithMany(y => y.videojuegoTiendaModels)
-                   .HasForeignKey(z => z.Tienda_ID);
+                .WithMany(y => y.videojuegoTiendaModels)
+                .HasForeignKey(z => z.Tienda_ID);
 
             builder.ToTable("VideojuegoTienda");
         }

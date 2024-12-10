@@ -42,9 +42,9 @@ namespace _3._Core.Services
                 }
                 await _unitOfWork.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw new Exception($"Error al actualizar la suscripción del usuario {UserID}");
             }
         }
 
@@ -67,9 +67,9 @@ namespace _3._Core.Services
 
                 return encontrado;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw new Exception($"Error al validar la suscripción del usuario {UserID}");
             }
         }
     }

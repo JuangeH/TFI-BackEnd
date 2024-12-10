@@ -99,6 +99,11 @@ namespace Core.Domain.Helper
                 string postBody = JsonConvert.SerializeObject(model);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = await client.PostAsync(url, new StringContent(postBody, Encoding.UTF8, "application/json"));
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error en API Core: {content}");
+                }
                 string contents = await response.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<T>(contents);
 
@@ -106,7 +111,7 @@ namespace Core.Domain.Helper
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -125,6 +130,11 @@ namespace Core.Domain.Helper
                 T result = default(T);
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.PostAsync(url, multiContent);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error en API Core: {content}");
+                }
                 string contents = await response.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<T>(contents);
 
@@ -132,7 +142,7 @@ namespace Core.Domain.Helper
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -145,6 +155,12 @@ namespace Core.Domain.Helper
                 string postBody = JsonConvert.SerializeObject(model);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = await client.PutAsync(url, new StringContent(postBody, Encoding.UTF8, "application/json"));
+                //response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error en API Core: {content}");
+                }
                 string contents = await response.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<T>(contents);
 
@@ -152,7 +168,7 @@ namespace Core.Domain.Helper
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -164,6 +180,11 @@ namespace Core.Domain.Helper
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = await client.DeleteAsync(url);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error en API Core: {content}");
+                }
                 string contents = await response.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<T>(contents);
 
@@ -171,7 +192,7 @@ namespace Core.Domain.Helper
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -183,6 +204,11 @@ namespace Core.Domain.Helper
 
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.GetAsync(urlRequest);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error en API Core: {content}");
+                }
                 string contents = response.Content.ReadAsStringAsync().Result;
                 result = JsonConvert.DeserializeObject<T>(contents);
 
@@ -190,7 +216,7 @@ namespace Core.Domain.Helper
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
 

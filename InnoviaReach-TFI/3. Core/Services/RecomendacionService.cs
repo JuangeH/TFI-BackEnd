@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using API_Business.Response;
+using AutoMapper;
 using Core.Business.Services;
 using Core.Contracts.Repositories;
 using Core.Contracts.Services;
@@ -9,6 +10,7 @@ using Microsoft.ML.Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -19,10 +21,14 @@ namespace _3._Core.Services
     public class RecomendacionService : GenericService<RecomendacionModel>, IRecomendacionService
     {
         private MLContext mlContext = new MLContext();
-        
+
+        private IForoRepository _foroRepository;
+        private IForoUsuarioVisitaRepository _foroUsuarioVisitaRepository;
         private IVideojuegoRepository _videojuegoRepository;
+        private IUsuarioJuegoPerfilRepository _usuarioJuegoPerfilRepository;
         private IUsersRepository _usersRepository;
         private IRecomendacionVideojuegoRepository _recomendacionVideojuegoRepository;
+        private IRecomendacionUsuarioRepository _recomendacionUsuarioRepository;
         private ITagRepository _tagRepository;
         private IGeneroRepository _generoRepository;
         private readonly IMapper _mapper;
@@ -38,12 +44,13 @@ namespace _3._Core.Services
             _mapper = mapper;
             _tagRepository = unitOfWork.GetRepository<ITagRepository>();
             _generoRepository = unitOfWork.GetRepository<IGeneroRepository>();
+            _usuarioJuegoPerfilRepository = unitOfWork.GetRepository<IUsuarioJuegoPerfilRepository>();
+            _recomendacionUsuarioRepository = unitOfWork.GetRepository<IRecomendacionUsuarioRepository>();
         }
 
         #region VIEJO
 
-        private IForoRepository _foroRepository;
-        private IForoUsuarioVisitaRepository _foroUsuarioVisitaRepository;
+        
 
         // Diccionario donde se almacena el Estilo_ID, Nombre_Estilo y la cantidad de veces que aparece
         Dictionary<int, Tuple<string, int>> keyValuePairsEstilos = new Dictionary<int, Tuple<string, int>>();
@@ -65,7 +72,7 @@ namespace _3._Core.Services
                 //{
                 //    GestionarTopGenero(item.foro.videojuego.videojuegoGeneroModels.ToList());
                 //}
-                
+
                 var topEstilo = keyValuePairsEstilos.OrderByDescending(kv => kv.Value.Item2).FirstOrDefault();
                 var topGenero = keyValuePairsGeneros.OrderByDescending(kv => kv.Value.Item2).FirstOrDefault();
 
@@ -155,400 +162,865 @@ namespace _3._Core.Services
 
         public async Task CrearClusters(List<VideojuegoClusterModel> juegos)
         {
-            // 1. Preparar los datos
-            var data = mlContext.Data.LoadFromEnumerable(juegos);
-
-            // 2. Transformar texto a vector de características y aplicar reducción de dimensionalidad (PCA)
-            int sqrtCount = (int)Math.Sqrt(juegos.Count);
-            int pcaDimensions = Math.Min(50, sqrtCount * 2);
-
-            var pipeline = mlContext.Transforms.Text.FeaturizeText("CaracteristicasVector", "Caracteristicas")
-                .Append(mlContext.Transforms.ProjectToPrincipalComponents("ReducedFeatures", "CaracteristicasVector", rank: pcaDimensions))
-                .Append(mlContext.Clustering.Trainers.KMeans("ReducedFeatures", numberOfClusters: sqrtCount));
-
-            // 3. Entrenar el modelo
-            var model = pipeline.Fit(data);
-            var predictions = model.Transform(data);
-
-            // 4. Asignar ClusterID y CaracteristicasVector reducido a cada juego
-            var clusters = mlContext.Data.CreateEnumerable<PredictedCluster>(predictions, reuseRowObject: false).ToList();
-            for (int i = 0; i < juegos.Count; i++)
+            try
             {
-                juegos[i].ClusterID = Convert.ToInt32(clusters[i].PredictedLabel);
-                juegos[i].CaracteristicasVector = clusters[i].ReducedFeatures;
-            }
+                // 1. Preparar los datos
+                var data = mlContext.Data.LoadFromEnumerable(juegos);
 
-            //5.Actualizar la base de datos
-            foreach (var item in juegos)
+                // 2. Transformar texto a vector de características y aplicar reducción de dimensionalidad (PCA)
+                int sqrtCount = (int)Math.Sqrt(juegos.Count);
+                int pcaDimensions = Math.Min(50, sqrtCount * 2);
+
+                var pipeline = mlContext.Transforms.Text.FeaturizeText("CaracteristicasVector", "Caracteristicas")
+                    .Append(mlContext.Transforms.ProjectToPrincipalComponents("ReducedFeatures", "CaracteristicasVector", rank: pcaDimensions))
+                    .Append(mlContext.Clustering.Trainers.KMeans("ReducedFeatures", numberOfClusters: sqrtCount));
+
+                // 3. Entrenar el modelo
+                var model = pipeline.Fit(data);
+                var predictions = model.Transform(data);
+
+                // 4. Asignar ClusterID y CaracteristicasVector reducido a cada juego
+                var clusters = mlContext.Data.CreateEnumerable<PredictedCluster>(predictions, reuseRowObject: false).ToList();
+                for (int i = 0; i < juegos.Count; i++)
+                {
+                    juegos[i].ClusterID = Convert.ToInt32(clusters[i].PredictedLabel);
+                    juegos[i].CaracteristicasVector = clusters[i].ReducedFeatures;
+                }
+
+                //5.Actualizar la base de datos
+                foreach (var item in juegos)
+                {
+                    var videojuego = (await _videojuegoRepository.Get(x => x.AppRawgId == item.AppRawgId)).FirstOrDefault();
+
+                    videojuego.ClusterID = item.ClusterID;
+                    videojuego.CaracteristicasVector = JsonConvert.SerializeObject(item.CaracteristicasVector);
+
+                    await _videojuegoRepository.Update(videojuego);
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception)
             {
-                var videojuego = (await _videojuegoRepository.Get(x => x.AppRawgId == item.AppRawgId)).FirstOrDefault();
-
-                videojuego.ClusterID = item.ClusterID;
-                videojuego.CaracteristicasVector = JsonConvert.SerializeObject(item.CaracteristicasVector);
-
-                await _videojuegoRepository.Update(videojuego);
+                throw new Exception($"Error al crear clusters de videojuegos");
             }
-
-            await _unitOfWork.SaveChangesAsync();
         }
 
         // Método para calcular similitud de coseno
         public float CalcularSimilitudCoseno(float[] vectorA, float[] vectorB)
         {
-            float productoPunto = 0f;
-            float magnitudA = 0f;
-            float magnitudB = 0f;
-
-            for (int i = 0; i < vectorA.Length; i++)
+            try
             {
-                productoPunto += vectorA[i] * vectorB[i];
-                magnitudA += vectorA[i] * vectorA[i];
-                magnitudB += vectorB[i] * vectorB[i];
-            }
+                float productoPunto = 0f;
+                float magnitudA = 0f;
+                float magnitudB = 0f;
 
-            return productoPunto / (float)(Math.Sqrt(magnitudA) * Math.Sqrt(magnitudB));
+                for (int i = 0; i < vectorA.Length; i++)
+                {
+                    productoPunto += vectorA[i] * vectorB[i];
+                    magnitudA += vectorA[i] * vectorA[i];
+                    magnitudB += vectorB[i] * vectorB[i];
+                }
+
+                return productoPunto / (float)(Math.Sqrt(magnitudA) * Math.Sqrt(magnitudB));
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al calcular similitud de coseno");
+            }
         }
 
         // Método para generar recomendaciones
-        public async Task GenerarRecomendaciones(VideojuegoModel juegoReferencia, string Usuario_ID)
+        public async Task GenerarRecomendaciones(VideojuegoModel juegoReferencia, string Usuario_ID, string TipoRecomendacion)
         {
-            var CaractVectorJuegoRef = JsonConvert.DeserializeObject<float[]>(juegoReferencia.CaracteristicasVector);
-
-            // 1. Filtrar juegos en el mismo cluster que el juego de referencia
-            var juegosCluster = _mapper.Map<List<VideojuegoRecModel>>(await _videojuegoRepository.Get(x => x.ClusterID == juegoReferencia.ClusterID)).ToList();
-
-            // 2. Calcular similitud de coseno y asignarla al objeto `VideojuegoClusterModel`
-            foreach (var juego in juegosCluster.Where(j => j.Videojuego_ID != juegoReferencia.Videojuego_ID))
+            try
             {
-                // Deserializar los vectores de características
-                var vectorB = JsonConvert.DeserializeObject<float[]>(juego.CaracteristicasVector);
+                var CaractVectorJuegoRef = JsonConvert.DeserializeObject<float[]>(juegoReferencia.CaracteristicasVector);
 
-                // Calcular similitud de coseno
-                juego.Similitud = CalcularSimilitudCoseno(CaractVectorJuegoRef, vectorB);
-            }
+                // 1. Filtrar juegos en el mismo cluster que el juego de referencia
+                var juegosCluster = _mapper.Map<List<VideojuegoRecModel>>(await _videojuegoRepository.Get(x => x.ClusterID == juegoReferencia.ClusterID)).ToList();
 
-            // 3. Ordenar los juegos por similitud y seleccionar los 10 más similares
-            var recomendaciones = juegosCluster
-                .Where(j => j.Videojuego_ID != juegoReferencia.Videojuego_ID)
-                .OrderByDescending(j => j.Similitud)
-                .Take(10)
+                // 2. Calcular similitud de coseno y asignarla al objeto `VideojuegoClusterModel`
+                foreach (var juego in juegosCluster.Where(j => j.Videojuego_ID != juegoReferencia.Videojuego_ID))
+                {
+                    // Deserializar los vectores de características
+                    var vectorB = JsonConvert.DeserializeObject<float[]>(juego.CaracteristicasVector);
+
+                    // Calcular similitud de coseno
+                    juego.Similitud = CalcularSimilitudCoseno(CaractVectorJuegoRef, vectorB);
+                }
+
+                // 3. Ordenar los juegos por similitud y seleccionar los 10 más similares
+                var recomendaciones = juegosCluster
+                    .Where(j => j.Videojuego_ID != juegoReferencia.Videojuego_ID)
+                    .OrderByDescending(j => j.Similitud)
+                    .Take(10)
                 .ToList();
 
-            foreach (var item in recomendaciones)
+                var recomendacion = (await _recomendacionVideojuegoRepository.Get(x => x.VideojuegoReferenciaId == juegoReferencia.Videojuego_ID && x.UserId == Usuario_ID && x.TipoRecomendacion == TipoRecomendacion)).ToList();
+
+                if (recomendacion != null)
+                {
+                    foreach (var item in recomendacion)
+                    {
+                        await _recomendacionVideojuegoRepository.Delete(item);
+                    }
+                    await _unitOfWork.SaveChangesAsync();
+                }
+
+                foreach (var item in recomendaciones)
+                {
+                    RecomendacionVideojuegoModel recomendacionVideojuegoModel = new RecomendacionVideojuegoModel();
+
+                    recomendacionVideojuegoModel.FechaRecomendacion = DateTime.Now;
+                    recomendacionVideojuegoModel.VideojuegoReferenciaId = juegoReferencia.Videojuego_ID;
+                    recomendacionVideojuegoModel.VideojuegoRecomendadoId = item.Videojuego_ID;
+                    recomendacionVideojuegoModel.UserId = Usuario_ID;
+                    recomendacionVideojuegoModel.Similitud = item.Similitud;
+                    recomendacionVideojuegoModel.TipoRecomendacion = TipoRecomendacion;
+
+                    //var vidjuego = await _recomendacionVideojuegoRepository.Get(x => x.VideojuegoReferenciaId == juegoReferencia.Videojuego_ID);
+
+                    //if (vidjuego is null)
+                    //{
+                    //await _recomendacionVideojuegoRepository.Insert(recomendacionVideojuegoModel);
+                    //}
+                    //else
+                    //{
+                    //await _recomendacionVideojuegoRepository.Delete(vidjuego);
+                    await _recomendacionVideojuegoRepository.Insert(recomendacionVideojuegoModel);
+                    //}
+
+                    await _unitOfWork.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
             {
-                RecomendacionVideojuegoModel recomendacionVideojuegoModel = new RecomendacionVideojuegoModel();
-
-                recomendacionVideojuegoModel.FechaRecomendacion = DateTime.Now;
-                recomendacionVideojuegoModel.VideojuegoReferenciaId = juegoReferencia.Videojuego_ID;
-                recomendacionVideojuegoModel.VideojuegoRecomendadoId = item.Videojuego_ID;
-                recomendacionVideojuegoModel.UserId = Usuario_ID;
-                recomendacionVideojuegoModel.Similitud = item.Similitud;
-
-                var vidjuego = await _recomendacionVideojuegoRepository.Get(x => x.VideojuegoReferenciaId == juegoReferencia.Videojuego_ID);
-
-                if (vidjuego is null)
-                {
-                    await _recomendacionVideojuegoRepository.Insert(recomendacionVideojuegoModel);
-                }
-                else
-                {
-                    await _recomendacionVideojuegoRepository.Delete(vidjuego);
-                    await _recomendacionVideojuegoRepository.Insert(recomendacionVideojuegoModel);
-                }
-
-                await _unitOfWork.SaveChangesAsync();
+                throw new Exception("Error generar recomendaciones de videojuegos}");
             }
         }
 
         #endregion
 
         #region RECOMENDACIONES ACTIVIDAD-USUARIO
-
         public async Task CrearClustersUsuarios()
         {
-            var users = (await _usersRepository.Get(
-                includeProperties: "usuarioVisitaModels, usuarioVisitaModels.Videojuego, usuarioVisitaModels.Videojuego.videojuegoGeneroModels.generoModel, usuarioVisitaModels.Videojuego.videojuegoTagModels.tagModel")).ToList();
-
-            var perfilesUsuarios = ConvertirAUserProfiles(users);
-            int sqrtCount = (int)Math.Sqrt(perfilesUsuarios.Count);
-
-            // Definir el vocabulario de géneros y tags
-            List<string> vocabularioGeneros = new List<string>();
-            List<string> vocabularioTags = new List<string>();
-
-            var generos = await _generoRepository.Get();
-            vocabularioGeneros = generos.Select(g => g.Nombre).Distinct().ToList();
-
-            var tags = await _tagRepository.Get();
-            vocabularioTags = tags.Select(g => g.Nombre).Distinct().ToList();
-
-            int longitudGeneros = vocabularioGeneros.Count;
-            int longitudTags = vocabularioTags.Count;
-            int longitudTotal = longitudGeneros + longitudTags;
-
-            var schemaDefinition = SchemaDefinition.Create(typeof(UsuarioClusterDataModel));
-            schemaDefinition["GenresVector"].ColumnType = new VectorDataViewType(NumberDataViewType.Single, longitudGeneros);
-            schemaDefinition["TagsVector"].ColumnType = new VectorDataViewType(NumberDataViewType.Single, longitudTags);
-
-            // Transformar los perfiles
-            TransformarPerfiles(perfilesUsuarios, vocabularioGeneros, vocabularioTags);
-
-            // Preparar los datos para ML.NET
-            var datosML = PrepararDatosParaML(perfilesUsuarios, longitudGeneros, longitudTags);
-            var data = mlContext.Data.LoadFromEnumerable(datosML, schemaDefinition);
-
-            var pipeline = mlContext.Transforms
-                .Concatenate("Features", "GenresVector", "TagsVector")
-                .Append(mlContext.Clustering.Trainers.KMeans("Features", numberOfClusters: sqrtCount));
-
-            var model = pipeline.Fit(data);
-            var predictions = model.Transform(data);
-
-            // Asignar el ClusterID a cada perfil de usuario
-            var clusters = mlContext.Data.CreateEnumerable<PredictedUserCluster>(predictions, reuseRowObject: false).ToList();
-            for (int i = 0; i < perfilesUsuarios.Count; i++)
+            try
             {
-                perfilesUsuarios[i].ClusterID = (int)clusters[i].PredictedLabel;
-            }
+                //VISITA
+                var usersVisita = (await _usersRepository.Get(
+                    includeProperties: "usuarioVisitaModels, usuarioVisitaModels.Videojuego, usuarioVisitaModels.Videojuego.videojuegoGeneroModels.generoModel, usuarioVisitaModels.Videojuego.videojuegoTagModels.tagModel",
+                    tracking: false)).ToList();
 
-            foreach (var perfil in perfilesUsuarios)
-            {
-                // Obtener el usuario de la base de datos
-                var usuario = (await _usersRepository.Get(u => u.Id == perfil.UserId)).FirstOrDefault();
+                //FOROFAV
+                var usersForo = (await _usersRepository.Get(includeProperties: "foroUsuarioFavoritoModels, foroUsuarioFavoritoModels.foro, foroUsuarioFavoritoModels.foro.videojuego, foroUsuarioFavoritoModels.foro.videojuego.videojuegoGeneroModels.generoModel, foroUsuarioFavoritoModels.foro.videojuego.videojuegoTagModels.tagModel",
+                    tracking: false)).ToList();
 
-                if (usuario != null)
+                //VISITA
+                var perfilesUsuariosVisita = ConvertirAUserProfiles(usersVisita, "Visita");
+                int sqrtCountVisita = (int)Math.Sqrt(perfilesUsuariosVisita.Count);
+
+                //FOROFAV
+                var perfilesUsuariosForoFav = ConvertirAUserProfiles(usersForo, "ForoFav");
+                int sqrtCountForoFav = (int)Math.Sqrt(perfilesUsuariosForoFav.Count);
+
+                //GENERAL
+                var generos = await _generoRepository.Get();
+                var tags = await _tagRepository.Get();
+
+                // Definir el vocabulario de géneros y tags para visita
+                List<string> vocabularioGenerosVisita = new List<string>();
+                List<string> vocabularioTagsVisita = new List<string>();
+                vocabularioGenerosVisita = generos.Select(g => g.Nombre).Distinct().ToList();
+                vocabularioTagsVisita = tags.Select(g => g.Nombre).Distinct().ToList();
+
+                // Definir el vocabulario de géneros y tags para ForoFav
+                List<string> vocabularioGenerosForoFav = new List<string>();
+                List<string> vocabularioTagsForoFav = new List<string>();
+                vocabularioGenerosForoFav = generos.Select(g => g.Nombre).Distinct().ToList();
+                vocabularioTagsForoFav = tags.Select(g => g.Nombre).Distinct().ToList();
+
+                //VISITA
+                int longitudGenerosVisita = vocabularioGenerosVisita.Count;
+                int longitudTagsVisita = vocabularioTagsVisita.Count;
+                int longitudTotalVisita = longitudGenerosVisita + longitudTagsVisita;
+
+                //FOROFAV
+                int longitudGenerosForoFav = vocabularioGenerosForoFav.Count;
+                int longitudTagsForoFav = vocabularioTagsForoFav.Count;
+                int longitudTotalForoFav = longitudGenerosForoFav + longitudTagsForoFav;
+
+                //VISITA
+                var schemaDefinitionVisita = SchemaDefinition.Create(typeof(UsuarioClusterDataModel));
+                schemaDefinitionVisita["GenresVector"].ColumnType = new VectorDataViewType(NumberDataViewType.Single, longitudGenerosVisita);
+                schemaDefinitionVisita["TagsVector"].ColumnType = new VectorDataViewType(NumberDataViewType.Single, longitudTagsVisita);
+
+                // Transformar los perfiles
+                TransformarPerfiles(perfilesUsuariosVisita, vocabularioGenerosVisita, vocabularioTagsVisita);
+
+                // Preparar los datos para ML.NET
+                var datosMLVisita = PrepararDatosParaML(perfilesUsuariosVisita, longitudGenerosVisita, longitudTagsVisita);
+                var dataVisita = mlContext.Data.LoadFromEnumerable(datosMLVisita, schemaDefinitionVisita);
+
+                var pipelineVisita = mlContext.Transforms
+                    .Concatenate("Features", "GenresVector", "TagsVector")
+                    .Append(mlContext.Clustering.Trainers.KMeans("Features", numberOfClusters: sqrtCountVisita));
+
+                var modelVisita = pipelineVisita.Fit(dataVisita);
+                var predictionsVisita = modelVisita.Transform(dataVisita);
+
+                // Asignar el ClusterID a cada perfil de usuario
+                var clustersVisita = mlContext.Data.CreateEnumerable<PredictedUserCluster>(predictionsVisita, reuseRowObject: false).ToList();
+                for (int i = 0; i < perfilesUsuariosVisita.Count; i++)
                 {
-                    // Actualizar el ClusterID
-                    usuario.ClusterID = perfil.ClusterID;
-
-                    // Serializar GameGenres, GameTags y GameHistory a formato JSON
-                    usuario.GameGenresJson = JsonConvert.SerializeObject(perfil.GameGenres);
-                    usuario.GameTagsJson = JsonConvert.SerializeObject(perfil.GameTags);
-                    usuario.GameHistoryJson = JsonConvert.SerializeObject(perfil.GameHistory);
-
-                    // Actualizar el usuario en la base de datos
-                    _usersRepository.Update(usuario);
+                    perfilesUsuariosVisita[i].ClusterID = (int)clustersVisita[i].PredictedLabel;
                 }
-            }
 
-            // Guardar los cambios en la base de datos
-            await _unitOfWork.SaveChangesAsync();
-        }
-
-        private float CalcularSimilitudCosenoUsuario(Dictionary<string, int> vectorA, Dictionary<string, int> vectorB)
-        {
-            var keys = vectorA.Keys.Intersect(vectorB.Keys);
-            float productoPunto = keys.Sum(k => vectorA[k] * vectorB[k]);
-
-            float magnitudA = (float)Math.Sqrt(vectorA.Values.Sum(x => x * x));
-            float magnitudB = (float)Math.Sqrt(vectorB.Values.Sum(x => x * x));
-
-            // Manejar el caso en que una de las magnitudes sea cero
-            if (magnitudA == 0 || magnitudB == 0)
-                return 0;
-
-            return productoPunto / (magnitudA * magnitudB);
-        }
-        public async Task<List<string>> GenerarRecomendacionesColaborativas(string userId)
-        {
-            // Obtener el usuario objetivo desde la base de datos
-            var user = (await _usersRepository.Get(u => u.Id == userId)).FirstOrDefault();
-
-            if (user == null)
-            {
-                throw new Exception($"Usuario con ID {userId} no encontrado.");
-            }
-
-            // Deserializar los datos del perfil del usuario
-            var perfilUsuario = new UsuarioClusterModel
-            {
-                UserId = user.Id,
-                ClusterID = user.ClusterID ?? -1,
-                GameGenres = string.IsNullOrEmpty(user.GameGenresJson)
-                    ? new Dictionary<string, int>()
-                    : JsonConvert.DeserializeObject<Dictionary<string, int>>(user.GameGenresJson),
-                GameTags = string.IsNullOrEmpty(user.GameTagsJson)
-                    ? new Dictionary<string, int>()
-                    : JsonConvert.DeserializeObject<Dictionary<string, int>>(user.GameTagsJson),
-                GameHistory = string.IsNullOrEmpty(user.GameHistoryJson)
-                    ? new List<string>()
-                    : JsonConvert.DeserializeObject<List<string>>(user.GameHistoryJson)
-            };
-
-            // Obtener todos los usuarios del mismo cluster
-            var users = await _usersRepository.Get(filter: u => u.ClusterID == perfilUsuario.ClusterID && u.Id != userId);
-
-            // Crear perfiles de usuario a partir del JSON
-            var userProfiles = users.Select(u => new UsuarioClusterModel
-            {
-                UserId = u.Id,
-                ClusterID = u.ClusterID ?? -1,
-                GameGenres = string.IsNullOrEmpty(u.GameGenresJson)
-                    ? new Dictionary<string, int>()
-                    : JsonConvert.DeserializeObject<Dictionary<string, int>>(u.GameGenresJson),
-                GameTags = string.IsNullOrEmpty(u.GameTagsJson)
-                    ? new Dictionary<string, int>()
-                    : JsonConvert.DeserializeObject<Dictionary<string, int>>(u.GameTagsJson),
-                GameHistory = string.IsNullOrEmpty(u.GameHistoryJson)
-                    ? new List<string>()
-                    : JsonConvert.DeserializeObject<List<string>>(u.GameHistoryJson)
-            }).ToList();
-
-            // Filtrar usuarios y calcular similitud de coseno
-            var usuariosSimilares = userProfiles
-                .Select(u => new
+                foreach (var perfil in perfilesUsuariosVisita)
                 {
-                    Usuario = u,
-                    Similitud = CalcularSimilitudCosenoUsuario(perfilUsuario.GameGenres, u.GameGenres) +
-                                CalcularSimilitudCosenoUsuario(perfilUsuario.GameTags, u.GameTags)
-                })
-                .OrderByDescending(x => x.Similitud)
-                .ToList();
+                    var usuarioJuegoPerfil = (await _usuarioJuegoPerfilRepository
+                        .Get(p => p.User_ID == perfil.UserId && p.TipoRecomendacion == "Visita")).FirstOrDefault();
 
-            // Crear un diccionario de juegos recomendados
-            var recomendaciones = new Dictionary<string, int>();
-
-            foreach (var usuarioSimilar in usuariosSimilares.Take(5))
-            {
-                foreach (var juego in usuarioSimilar.Usuario.GameHistory)
-                {
-                    if (!perfilUsuario.GameHistory.Contains(juego)) // Solo recomendar juegos no vistos
+                    if (usuarioJuegoPerfil == null)
                     {
-                        if (recomendaciones.ContainsKey(juego))
-                            recomendaciones[juego]++;
-                        else
-                            recomendaciones[juego] = 1;
+                        // Si no existe el perfil, crearlo
+                        usuarioJuegoPerfil = new UsuarioJuegoPerfilModel
+                        {
+                            User_ID = perfil.UserId,
+                            ClusterID = perfil.ClusterID,
+                            TipoRecomendacion = "Visita",
+                            GameGenresJson = JsonConvert.SerializeObject(perfil.GameGenres),
+                            GameTagsJson = JsonConvert.SerializeObject(perfil.GameTags),
+                            GameHistoryJson = JsonConvert.SerializeObject(perfil.GameHistory)
+                        };
+
+                        await _usuarioJuegoPerfilRepository.Insert(usuarioJuegoPerfil);
+                    }
+                    else
+                    {
+                        // Si existe, actualizar los campos
+                        usuarioJuegoPerfil.User_ID = perfil.UserId;
+                        usuarioJuegoPerfil.ClusterID = perfil.ClusterID;
+                        usuarioJuegoPerfil.TipoRecomendacion = "Visita";
+                        usuarioJuegoPerfil.GameGenresJson = JsonConvert.SerializeObject(perfil.GameGenres);
+                        usuarioJuegoPerfil.GameTagsJson = JsonConvert.SerializeObject(perfil.GameTags);
+                        usuarioJuegoPerfil.GameHistoryJson = JsonConvert.SerializeObject(perfil.GameHistory);
+
+                        await _usuarioJuegoPerfilRepository.Update(usuarioJuegoPerfil);
                     }
                 }
+
+                await _unitOfWork.SaveChangesAsync();
+
+                //FOROFAV
+                var schemaDefinitionForoFav = SchemaDefinition.Create(typeof(UsuarioClusterDataModel));
+                schemaDefinitionForoFav["GenresVector"].ColumnType = new VectorDataViewType(NumberDataViewType.Single, longitudGenerosForoFav);
+                schemaDefinitionForoFav["TagsVector"].ColumnType = new VectorDataViewType(NumberDataViewType.Single, longitudTagsForoFav);
+
+                // Transformar los perfiles
+                TransformarPerfiles(perfilesUsuariosForoFav, vocabularioGenerosForoFav, vocabularioTagsForoFav);
+
+                // Preparar los datos para ML.NET
+                var datosMLForoFav = PrepararDatosParaML(perfilesUsuariosForoFav, longitudGenerosForoFav, longitudTagsForoFav);
+                var dataForoFav = mlContext.Data.LoadFromEnumerable(datosMLForoFav, schemaDefinitionForoFav);
+
+                var pipelineForoFav = mlContext.Transforms
+                    .Concatenate("Features", "GenresVector", "TagsVector")
+                    .Append(mlContext.Clustering.Trainers.KMeans("Features", numberOfClusters: sqrtCountForoFav));
+
+                var modelForoFav = pipelineForoFav.Fit(dataForoFav);
+                var predictionsForoFav = modelForoFav.Transform(dataForoFav);
+
+                // Asignar el ClusterID a cada perfil de usuario
+                var clustersForoFav = mlContext.Data.CreateEnumerable<PredictedUserCluster>(predictionsForoFav, reuseRowObject: false).ToList();
+                for (int i = 0; i < perfilesUsuariosForoFav.Count; i++)
+                {
+                    perfilesUsuariosForoFav[i].ClusterID = (int)clustersForoFav[i].PredictedLabel;
+                }
+
+                foreach (var perfil in perfilesUsuariosForoFav)
+                {
+                    var usuarioJuegoPerfil = (await _usuarioJuegoPerfilRepository
+                        .Get(p => p.User_ID == perfil.UserId && p.TipoRecomendacion == "ForoFav")).FirstOrDefault();
+
+                    if (usuarioJuegoPerfil == null)
+                    {
+                        // Si no existe el perfil, crearlo
+                        usuarioJuegoPerfil = new UsuarioJuegoPerfilModel
+                        {
+                            User_ID = perfil.UserId,
+                            ClusterID = perfil.ClusterID,
+                            TipoRecomendacion = "ForoFav",
+                            GameGenresJson = JsonConvert.SerializeObject(perfil.GameGenres),
+                            GameTagsJson = JsonConvert.SerializeObject(perfil.GameTags),
+                            GameHistoryJson = JsonConvert.SerializeObject(perfil.GameHistory)
+                        };
+
+                        await _usuarioJuegoPerfilRepository.Insert(usuarioJuegoPerfil);
+                    }
+                    else
+                    {
+                        // Si existe, actualizar los campos
+                        usuarioJuegoPerfil.User_ID = perfil.UserId;
+                        usuarioJuegoPerfil.ClusterID = perfil.ClusterID;
+                        usuarioJuegoPerfil.TipoRecomendacion = "ForoFav";
+                        usuarioJuegoPerfil.GameGenresJson = JsonConvert.SerializeObject(perfil.GameGenres);
+                        usuarioJuegoPerfil.GameTagsJson = JsonConvert.SerializeObject(perfil.GameTags);
+                        usuarioJuegoPerfil.GameHistoryJson = JsonConvert.SerializeObject(perfil.GameHistory);
+
+                        await _usuarioJuegoPerfilRepository.Update(usuarioJuegoPerfil);
+                    }
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al crear clusters de usuarios}");
+            }
+        }
+        private float CalcularSimilitudCosenoUsuario(Dictionary<string, int> vectorA, Dictionary<string, int> vectorB)
+        {
+            try
+            {
+                var keys = vectorA.Keys.Intersect(vectorB.Keys);
+                float productoPunto = keys.Sum(k => vectorA[k] * vectorB[k]);
+
+                float magnitudA = (float)Math.Sqrt(vectorA.Values.Sum(x => x * x));
+                float magnitudB = (float)Math.Sqrt(vectorB.Values.Sum(x => x * x));
+
+                // Manejar el caso en que una de las magnitudes sea cero
+                if (magnitudA == 0 || magnitudB == 0)
+                    return 0;
+
+                return productoPunto / (magnitudA * magnitudB);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al calcular similitud de coseno");
+            }
+        }
+        private async Task GenerarRecomendacionesColaborativas(string userId)
+        {
+            try
+            {
+                var perfilesJuego = (await _usuarioJuegoPerfilRepository.Get(p => p.User_ID == userId)).ToList();
+
+                if (perfilesJuego == null || !perfilesJuego.Any())
+                {
+                    throw new Exception($"Perfil de usuario con ID {userId} no encontrado.");
+                }
+
+                foreach (var perfilJuego in perfilesJuego)
+                {
+                    var perfilUsuario = new UsuarioClusterModel
+                    {
+                        UserId = perfilJuego.User_ID,
+                        ClusterID = perfilJuego.ClusterID ?? -1,
+                        GameGenres = string.IsNullOrEmpty(perfilJuego.GameGenresJson)
+                            ? new Dictionary<string, int>()
+                            : JsonConvert.DeserializeObject<Dictionary<string, int>>(perfilJuego.GameGenresJson),
+                        GameTags = string.IsNullOrEmpty(perfilJuego.GameTagsJson)
+                            ? new Dictionary<string, int>()
+                            : JsonConvert.DeserializeObject<Dictionary<string, int>>(perfilJuego.GameTagsJson),
+                        GameHistory = string.IsNullOrEmpty(perfilJuego.GameHistoryJson)
+                            ? new List<string>()
+                            : JsonConvert.DeserializeObject<List<string>>(perfilJuego.GameHistoryJson)
+                    };
+
+                    // Obtener todos los usuarios del mismo cluster
+                    var users = await _usuarioJuegoPerfilRepository.Get(filter: u => u.ClusterID == perfilUsuario.ClusterID && u.User_ID != userId && u.TipoRecomendacion == perfilJuego.TipoRecomendacion);
+
+                    // Crear perfiles de usuario a partir del JSON
+                    var userProfiles = users.Select(u => new UsuarioClusterModel
+                    {
+                        UserId = u.User_ID,
+                        ClusterID = u.ClusterID ?? -1,
+                        GameGenres = string.IsNullOrEmpty(u.GameGenresJson)
+                            ? new Dictionary<string, int>()
+                            : JsonConvert.DeserializeObject<Dictionary<string, int>>(u.GameGenresJson),
+                        GameTags = string.IsNullOrEmpty(u.GameTagsJson)
+                            ? new Dictionary<string, int>()
+                            : JsonConvert.DeserializeObject<Dictionary<string, int>>(u.GameTagsJson),
+                        GameHistory = string.IsNullOrEmpty(u.GameHistoryJson)
+                            ? new List<string>()
+                            : JsonConvert.DeserializeObject<List<string>>(u.GameHistoryJson)
+                    }).ToList();
+
+                    // Filtrar usuarios y calcular similitud de coseno
+                    var usuariosSimilares = userProfiles
+                        .Select(u => new
+                        {
+                            Usuario = u,
+                            Similitud = CalcularSimilitudCosenoUsuario(perfilUsuario.GameGenres, u.GameGenres) +
+                                        CalcularSimilitudCosenoUsuario(perfilUsuario.GameTags, u.GameTags)
+                        })
+                        .OrderByDescending(x => x.Similitud)
+                        .ToList();
+
+                    // Crear un diccionario de juegos recomendados
+                    var recomendaciones = new Dictionary<string, int>();
+
+                    foreach (var usuarioSimilar in usuariosSimilares.Take(5))
+                    {
+                        foreach (var juego in usuarioSimilar.Usuario.GameHistory)
+                        {
+                            if (!perfilUsuario.GameHistory.Contains(juego)) // Solo recomendar juegos no vistos
+                            {
+                                if (recomendaciones.ContainsKey(juego))
+                                    recomendaciones[juego]++;
+                                else
+                                    recomendaciones[juego] = 1;
+                            }
+                        }
+                    }
+
+                    // Ordenar juegos recomendados por popularidad
+                    var resultado = recomendaciones.OrderByDescending(r => r.Value).ToList();
+
+                    // Registrar las recomendaciones
+                    foreach (var recomendacion in resultado)
+                    {
+                        // Busca el videojuego por nombre (puedes ajustar esto según tu estructura de datos)
+                        var videojuego = await _videojuegoRepository.GetOne(v => v.Nombre == recomendacion.Key);
+
+                        if (videojuego != null)
+                        {
+                            var rec = (await _recomendacionUsuarioRepository.Get(x => x.UserId == userId && x.VideojuegoRecomendadoId == videojuego.Videojuego_ID)).FirstOrDefault();
+
+                            // Crear la recomendación
+                            var nuevaRecomendacion = new RecomendacionUsuarioModel
+                            {
+                                UserId = userId,
+                                VideojuegoRecomendadoId = videojuego.Videojuego_ID,
+                                Frecuencia = recomendacion.Value,
+                                TipoRecomendacion = perfilJuego.TipoRecomendacion,
+                                FechaRecomendacion = DateTime.UtcNow
+                            };
+
+                            if (rec == null)
+                            {
+                                await _recomendacionUsuarioRepository.Insert(nuevaRecomendacion);
+                            }
+                            else
+                            {
+                                await _recomendacionUsuarioRepository.Update(nuevaRecomendacion);
+                            }
+                        }
+                    }
+                }
+                // Guardar los cambios
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al generar recomendaciones colaborativas");
+            }
+        }
+        public async Task GenerarRecomendacionesColaborativas()
+        {
+            try
+            {
+                var userRepository = _unitOfWork.GetRepository<IUsersRepository>();
+                foreach (var user in await userRepository.Get())
+                {
+                    await GenerarRecomendacionesColaborativas(user.Id);
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al generar recomendaciones colaborativas");
             }
 
-            // Ordenar juegos recomendados por popularidad
-            return recomendaciones.OrderByDescending(r => r.Value).Select(r => r.Key).Take(5).ToList();
+            
         }
         public void TransformarPerfiles(List<UsuarioClusterModel> perfilesUsuarios, List<string> vocabularioGeneros, List<string> vocabularioTags)
         {
-            int longitudGeneros = vocabularioGeneros.Count;
-            int longitudTags = vocabularioTags.Count;
-
-            foreach (var perfil in perfilesUsuarios)
+            try
             {
-                perfil.GenresVector = new float[longitudGeneros];
-                perfil.TagsVector = new float[longitudTags];
+                int longitudGeneros = vocabularioGeneros.Count;
+                int longitudTags = vocabularioTags.Count;
 
-                for (int i = 0; i < longitudGeneros; i++)
+                foreach (var perfil in perfilesUsuarios)
                 {
-                    string genero = vocabularioGeneros[i];
-                    perfil.GenresVector[i] = perfil.GameGenres.ContainsKey(genero) ? (float)perfil.GameGenres[genero] : 0f;
-                }
+                    perfil.GenresVector = new float[longitudGeneros];
+                    perfil.TagsVector = new float[longitudTags];
 
-                for (int i = 0; i < longitudTags; i++)
-                {
-                    string tag = vocabularioTags[i];
-                    perfil.TagsVector[i] = perfil.GameTags.ContainsKey(tag) ? (float)perfil.GameTags[tag] : 0f;
+                    for (int i = 0; i < longitudGeneros; i++)
+                    {
+                        string genero = vocabularioGeneros[i];
+                        perfil.GenresVector[i] = perfil.GameGenres.ContainsKey(genero) ? (float)perfil.GameGenres[genero] : 0f;
+                    }
+
+                    for (int i = 0; i < longitudTags; i++)
+                    {
+                        string tag = vocabularioTags[i];
+                        perfil.TagsVector[i] = perfil.GameTags.ContainsKey(tag) ? (float)perfil.GameTags[tag] : 0f;
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al transformar perfiles");
             }
         }
         public List<UsuarioClusterDataModel> PrepararDatosParaML(List<UsuarioClusterModel> perfilesUsuarios, int longitudGeneros, int longitudTags)
         {
-            var datosML = new List<UsuarioClusterDataModel>();
-
-            foreach (var perfil in perfilesUsuarios)
+            try
             {
-                var genresVector = new float[longitudGeneros];
-                var tagsVector = new float[longitudTags];
+                var datosML = new List<UsuarioClusterDataModel>();
 
-                // Asignar valores al vector de géneros
-                for (int i = 0; i < longitudGeneros; i++)
+                foreach (var perfil in perfilesUsuarios)
                 {
-                    genresVector[i] = i < perfil.GenresVector.Length ? perfil.GenresVector[i] : 0f;
+                    var genresVector = new float[longitudGeneros];
+                    var tagsVector = new float[longitudTags];
+
+                    // Asignar valores al vector de géneros
+                    for (int i = 0; i < longitudGeneros; i++)
+                    {
+                        genresVector[i] = i < perfil.GenresVector.Length ? perfil.GenresVector[i] : 0f;
+                    }
+
+                    // Asignar valores al vector de tags
+                    for (int i = 0; i < longitudTags; i++)
+                    {
+                        tagsVector[i] = i < perfil.TagsVector.Length ? perfil.TagsVector[i] : 0f;
+                    }
+
+                    datosML.Add(new UsuarioClusterDataModel
+                    {
+                        UserId = perfil.UserId,
+                        GenresVector = genresVector,
+                        TagsVector = tagsVector
+                    });
                 }
 
-                // Asignar valores al vector de tags
-                for (int i = 0; i < longitudTags; i++)
-                {
-                    tagsVector[i] = i < perfil.TagsVector.Length ? perfil.TagsVector[i] : 0f;
-                }
-
-                datosML.Add(new UsuarioClusterDataModel
-                {
-                    UserId = perfil.UserId,
-                    GenresVector = genresVector,
-                    TagsVector = tagsVector
-                });
+                return datosML;
             }
-
-            return datosML;
+            catch (Exception)
+            {
+                throw new Exception("Error al preparar datos para Machine Learning");
+            }
         }
-
-
-        public List<UsuarioClusterModel> ConvertirAUserProfiles(List<Users> users)
+        public List<UsuarioClusterModel> ConvertirAUserProfiles(List<Users> users, string Tipo)
         {
-            var userProfiles = new List<UsuarioClusterModel>();
-
-            foreach (var user in users)
+            try
             {
-                // Inicializar diccionarios para géneros y tags
-                var gameGenres = new Dictionary<string, int>();
-                var gameTags = new Dictionary<string, int>();
-                var gameHistory = new List<string>();
+                var userProfiles = new List<UsuarioClusterModel>();
 
-                // Iterar sobre las visitas del usuario
-                foreach (var visita in user.usuarioVisitaModels)
+                foreach (var user in users)
                 {
-                    var videojuego = visita.Videojuego;
+                    // Inicializar diccionarios para géneros y tags
+                    var gameGenres = new Dictionary<string, int>();
+                    var gameTags = new Dictionary<string, int>();
+                    var gameHistory = new List<string>();
 
-                    // Agregar el videojuego al historial
-                    if (!gameHistory.Contains(videojuego.Nombre))
+                    if (Tipo == "Visita")
                     {
-                        gameHistory.Add(videojuego.Nombre);
+                        // Iterar sobre las visitas del usuario
+                        foreach (var visita in user.usuarioVisitaModels)
+                        {
+                            var videojuego = visita.Videojuego;
+
+                            // Agregar el videojuego al historial
+                            if (!gameHistory.Contains(videojuego.Nombre))
+                            {
+                                gameHistory.Add(videojuego.Nombre);
+                            }
+
+                            // Contabilizar géneros
+                            foreach (var generoModel in videojuego.videojuegoGeneroModels)
+                            {
+                                var genero = generoModel.generoModel.Nombre;
+                                if (gameGenres.ContainsKey(genero))
+                                {
+                                    gameGenres[genero]++;
+                                }
+                                else
+                                {
+                                    gameGenres[genero] = 1;
+                                }
+                            }
+
+                            // Contabilizar tags
+                            foreach (var tagModel in videojuego.videojuegoTagModels)
+                            {
+                                var tag = tagModel.tagModel.Nombre;
+                                if (gameTags.ContainsKey(tag))
+                                {
+                                    gameTags[tag]++;
+                                }
+                                else
+                                {
+                                    gameTags[tag] = 1;
+                                }
+                            }
+                        }
+
+                        // Crear el UserProfile y añadirlo a la lista
+                        var userProfile = new UsuarioClusterModel
+                        {
+                            UserId = user.Id,
+                            GameGenres = gameGenres,
+                            GameTags = gameTags,
+                            GameHistory = gameHistory
+                        };
+
+                        userProfiles.Add(userProfile);
                     }
-
-                    // Contabilizar géneros
-                    foreach (var generoModel in videojuego.videojuegoGeneroModels)
+                    else
                     {
-                        var genero = generoModel.generoModel.Nombre;
-                        if (gameGenres.ContainsKey(genero))
+                        // Iterar sobre las visitas del usuario
+                        foreach (var visita in user.foroUsuarioFavoritoModels)
                         {
-                            gameGenres[genero]++;
-                        }
-                        else
-                        {
-                            gameGenres[genero] = 1;
-                        }
-                    }
+                            var videojuego = visita.foro.videojuego;
 
-                    // Contabilizar tags
-                    foreach (var tagModel in videojuego.videojuegoTagModels)
-                    {
-                        var tag = tagModel.tagModel.Nombre;
-                        if (gameTags.ContainsKey(tag))
-                        {
-                            gameTags[tag]++;
+                            // Agregar el videojuego al historial
+                            if (!gameHistory.Contains(videojuego.Nombre))
+                            {
+                                gameHistory.Add(videojuego.Nombre);
+                            }
+
+                            // Contabilizar géneros
+                            foreach (var generoModel in videojuego.videojuegoGeneroModels)
+                            {
+                                var genero = generoModel.generoModel.Nombre;
+                                if (gameGenres.ContainsKey(genero))
+                                {
+                                    gameGenres[genero]++;
+                                }
+                                else
+                                {
+                                    gameGenres[genero] = 1;
+                                }
+                            }
+
+                            // Contabilizar tags
+                            foreach (var tagModel in videojuego.videojuegoTagModels)
+                            {
+                                var tag = tagModel.tagModel.Nombre;
+                                if (gameTags.ContainsKey(tag))
+                                {
+                                    gameTags[tag]++;
+                                }
+                                else
+                                {
+                                    gameTags[tag] = 1;
+                                }
+                            }
                         }
-                        else
+
+                        // Crear el UserProfile y añadirlo a la lista
+                        var userProfile = new UsuarioClusterModel
                         {
-                            gameTags[tag] = 1;
-                        }
+                            UserId = user.Id,
+                            GameGenres = gameGenres,
+                            GameTags = gameTags,
+                            GameHistory = gameHistory
+                        };
+
+                        userProfiles.Add(userProfile);
                     }
                 }
-
-                // Crear el UserProfile y añadirlo a la lista
-                var userProfile = new UsuarioClusterModel
-                {
-                    UserId = user.Id,
-                    GameGenres = gameGenres,
-                    GameTags = gameTags,
-                    GameHistory = gameHistory
-                };
-
-                userProfiles.Add(userProfile);
+                return userProfiles;
             }
-
-            return userProfiles;
+            catch (Exception)
+            {
+                throw new Exception("Error al convertir los perfiles de usuario");
+            }
         }
-
         #endregion
 
-    }
+        public async Task<List<RecomendacionVideojuegoModel>> ObtenerRecomendacionesVisitas(string Usuario_ID)
+        {
+            try
+            {
+                // Obtiene las recomendaciones filtrando por tipo "Contenido"
+                var recomendaciones = (await _recomendacionVideojuegoRepository.Get(
+                    filter: r => r.TipoRecomendacion == "Contenido" && r.UserId == Usuario_ID,
+                    includeProperties: "videojuegoReferencia,videojuegoRecomendado"))
+                    .OrderByDescending(r => r.FechaRecomendacion) // Ordenar por FechaRecomendacion descendente
+                    .ToList();
 
-}
+                // Agrupa por VideojuegoReferenciaId, ordena los bloques y toma los 3 últimos
+                var ultimosBloques = recomendaciones
+                    .GroupBy(r => r.VideojuegoReferenciaId)
+                    .OrderByDescending(g => g.Max(r => r.FechaRecomendacion)) // Ordenar bloques por la fecha más reciente en cada grupo
+                    .Take(3) // Tomar los 3 últimos bloques
+                    .SelectMany(g => g) // Aplanar los grupos en una lista
+                    .ToList();
+
+                return ultimosBloques;
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error obtener recomendaciones por visitas del usuario {Usuario_ID}");
+            }
+        }
+        public async Task<List<RecomendacionVideojuegoModel>> ObtenerRecomendacionesForosFav(string Usuario_ID)
+        {
+            try
+            {
+                // Obtiene las recomendaciones filtrando por tipo "Contenido"
+                var recomendaciones = (await _recomendacionVideojuegoRepository.Get(
+                    filter: r => r.TipoRecomendacion == "Foro" && r.UserId == Usuario_ID,
+                    includeProperties: "videojuegoReferencia,videojuegoRecomendado"))
+                    .OrderByDescending(r => r.FechaRecomendacion) // Ordenar por FechaRecomendacion descendente
+                    .ToList();
+
+                // Agrupa por VideojuegoReferenciaId, ordena los bloques y toma los 3 últimos
+                var ultimosBloques = recomendaciones
+                    .GroupBy(r => r.VideojuegoReferenciaId)
+                    .OrderByDescending(g => g.Max(r => r.FechaRecomendacion)) // Ordenar bloques por la fecha más reciente en cada grupo
+                    .Take(3) // Tomar los 3 últimos bloques
+                    .SelectMany(g => g) // Aplanar los grupos en una lista
+                    .ToList();
+
+                return ultimosBloques;
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error obtener recomendaciones por favoritos del usuario {Usuario_ID}");
+            }
+        }
+        public async Task<List<RecomendacionUsuarioModel>> ObtenerRecomendacionesColabVisitas(string Usuario_ID)
+        {
+            try
+            {
+                // Obtener las últimas 10 recomendaciones de tipo "Visita"
+                var recomendacionesVisita = (await _recomendacionUsuarioRepository.Get(
+                    filter: r => r.UserId == Usuario_ID && r.TipoRecomendacion == "Visita",
+                    includeProperties: "videojuego"))
+                    .OrderByDescending(r => r.FechaRecomendacion) // Ordenar por fecha descendente
+                    .Take(10) // Tomar los últimos 10
+                    .ToList();
+
+                return (recomendacionesVisita);
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error obtener recomendaciones colaborativas por visitas del usuario {Usuario_ID}");
+            }
+        }
+        public async Task<List<RecomendacionUsuarioModel>> ObtenerRecomendacionesColabForosFav(string Usuario_ID)
+        {
+            try
+            {
+                // Obtener las últimas 10 recomendaciones de tipo "ForoFav"
+                var recomendacionesForoFav = (await _recomendacionUsuarioRepository.Get(
+                    filter: r => r.UserId == Usuario_ID && r.TipoRecomendacion == "ForoFav",
+                    includeProperties: "videojuego"))
+                    .OrderByDescending(r => r.FechaRecomendacion) // Ordenar por fecha descendente
+                    .Take(10) // Tomar los últimos 10
+                    .ToList();
+
+                return (recomendacionesForoFav);
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error obtener recomendaciones colaborativas por favoritos del usuario {Usuario_ID}");
+            }
+        }
+        public async Task<List<ForoModel>> ObtenerForosRecPorVisitas(string Usuario_ID)
+        {
+            try
+            {
+                // Obtiene las recomendaciones filtrando por tipo "Contenido"
+                var recomendaciones = (await _recomendacionVideojuegoRepository.Get(
+                    filter: r => r.TipoRecomendacion == "Contenido" && r.UserId == Usuario_ID,
+                    includeProperties: "videojuegoReferencia,videojuegoRecomendado"))
+                    .OrderByDescending(r => r.FechaRecomendacion) // Ordenar por FechaRecomendacion descendente
+                    .ToList();
+
+                // Agrupa por VideojuegoReferenciaId, ordena los bloques y toma los 3 últimos
+                var ultimoBloque = recomendaciones
+                    .GroupBy(r => r.VideojuegoReferenciaId)
+                    .OrderByDescending(g => g.Max(r => r.FechaRecomendacion)) // Ordenar bloques por la fecha más reciente en cada grupo
+                    .Take(1) // Tomar los 3 últimos bloques
+                    .SelectMany(g => g) // Aplanar los grupos en una lista
+                    .ToList();
+
+                List<ForoModel> Foros = new List<ForoModel>();
+
+                foreach (var item in ultimoBloque)
+                {
+                    var result = (await _foroRepository.Get(filter: r => r.Videojuego_ID == item.VideojuegoRecomendadoId, includeProperties: "foroUsuarioFavoritoModels, foroUsuarioVisitaModels, comentarioModels, videojuego,usuario")).OrderByDescending(x => x.foroUsuarioVisitaModels.Count).FirstOrDefault();
+                    if (result!=null)
+                    {
+                        Foros.Add(result);
+                    }
+                }
+                return Foros;
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error obtener recomendaciones de foros por visitas del usuario {Usuario_ID}");
+            }
+        }
+        public async Task<List<ForoModel>> ObtenerForosRecPorFavoritos(string Usuario_ID)
+        {
+            try
+            {
+                // Obtiene las recomendaciones filtrando por tipo "Contenido"
+                var recomendaciones = (await _recomendacionVideojuegoRepository.Get(
+                    filter: r => r.TipoRecomendacion == "Foro" && r.UserId == Usuario_ID,
+                    includeProperties: "videojuegoReferencia,videojuegoRecomendado"))
+                    .OrderByDescending(r => r.FechaRecomendacion) // Ordenar por FechaRecomendacion descendente
+                    .ToList();
+
+                // Agrupa por VideojuegoReferenciaId, ordena los bloques y toma los 3 últimos
+                var ultimoBloque = recomendaciones
+                    .GroupBy(r => r.VideojuegoReferenciaId)
+                    .OrderByDescending(g => g.Max(r => r.FechaRecomendacion)) // Ordenar bloques por la fecha más reciente en cada grupo
+                    .Take(1) // Tomar los 3 últimos bloques
+                    .SelectMany(g => g) // Aplanar los grupos en una lista
+                    .ToList();
+
+                List<ForoModel> Foros = new List<ForoModel>();
+
+                foreach (var item in ultimoBloque)
+                {
+                    var result = (await _foroRepository.Get(filter: r => r.Videojuego_ID == item.VideojuegoRecomendadoId, includeProperties: "foroUsuarioFavoritoModels, foroUsuarioVisitaModels, comentarioModels, videojuego,usuario")).OrderByDescending(x => x.foroUsuarioVisitaModels.Count).FirstOrDefault();
+                    if (result != null)
+                    {
+                        Foros.Add(result);
+                    }
+                }
+                return Foros;
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error obtener recomendaciones de foros por favoritos del usuario {Usuario_ID}");
+            }
+        }
+        public async Task<List<ForoModel>> ObtenerForosRecColaborativos(string Usuario_ID)
+        {
+            try
+            {
+                // Obtener las últimas 10 recomendaciones de tipo "Visita"
+                var recomendacionesColab = (await _recomendacionUsuarioRepository.Get(
+                    filter: r => r.UserId == Usuario_ID,
+                    includeProperties: "videojuego"))
+                    .OrderByDescending(r => r.FechaRecomendacion) // Ordenar por fecha descendente
+                    .Take(10) // Tomar los últimos 10
+                    .ToList();
+
+                List<ForoModel> Foros = new List<ForoModel>();
+
+                foreach (var item in recomendacionesColab)
+                {
+                    var result = (await _foroRepository.Get(filter: r => r.Videojuego_ID == item.VideojuegoRecomendadoId, includeProperties: "foroUsuarioFavoritoModels, foroUsuarioVisitaModels, comentarioModels, videojuego,usuario")).OrderByDescending(x => x.foroUsuarioVisitaModels.Count).FirstOrDefault();
+                    if (result != null)
+                    {
+                        Foros.Add(result);
+                    }
+                }
+                return Foros;
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Error obtener recomendaciones de foros colaborativas del usuario {Usuario_ID}");
+            }
+        }
+    }
+}  

@@ -10,5 +10,6 @@ namespace Core.Domain.Response.Business
     {
         public int Codigo { get; set; }
         public string Nombre { get; set; }
+
     }
 }

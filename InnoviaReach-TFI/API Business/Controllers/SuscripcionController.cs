@@ -2,6 +2,7 @@
 using AutoMapper;
 using Core.Contracts.Services;
 using Core.Domain.Request.Gateway;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_Business.Controllers
@@ -33,9 +34,10 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                throw;
             }
         }
+
         [HttpPut("ActualizarSuscripcion")]
         public async Task<IActionResult> ActualizarSuscripcion([FromBody] string user_id)
         {
@@ -46,8 +48,7 @@ namespace API_Business.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error intentando guardar foro");
-                return BadRequest(ex.Message);
+                throw;
             }
         }
     }

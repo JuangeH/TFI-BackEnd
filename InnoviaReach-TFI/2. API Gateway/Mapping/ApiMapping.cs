@@ -6,6 +6,7 @@ using AutoMapper;
 using Core.Domain.ApplicationModels;
 using Core.Domain.DTOs;
 using Core.Domain.Models;
+using Core.Domain.Request.Gateway;
 using Core.Domain.Response.Business;
 using Core.Domain.Response.Gateway;
 using Microsoft.AspNetCore.Identity;
@@ -22,8 +23,7 @@ namespace Api.Mapping
         public ApiMapping()
         {
             CreateMap<Users, RegisterRequest>();
-            CreateMap<RegisterRequest, Users>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+            CreateMap<RegisterRequest, Users>();
 
             CreateMap<Privileges, PrivilegesPutRequest>();
             CreateMap<PrivilegesPutRequest, Privileges>()
@@ -41,14 +41,15 @@ namespace Api.Mapping
 
             CreateMap<ChangePasswordDto, ChangePasswordRequest>();
 
+            CreateMap<ChangePasswordRequest, ChangePasswordDto>()
+                .ForMember(dest => dest.UserId, opt => opt.Ignore());
+
             CreateMap<LogTableModel, LogTableResponse>();
 
             CreateMap<Users, UserResponse>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active))
-                .ForMember(dest => dest.Estilo_preferido, opt => opt.MapFrom(src => src.Estilo_preferido))
-                .ForMember(dest => dest.Genero_preferido, opt => opt.MapFrom(src => src.Genero_preferido));
+                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active));
 
             CreateMap<SteamAccountModel, SteamAccountResponse>()
                 .ForMember(dest => dest.steamid, opt => opt.MapFrom(src => src.steamid))
@@ -61,8 +62,13 @@ namespace Api.Mapping
                .ForMember(dest => dest.Mail, opt => opt.MapFrom(src => src.Email))
                .ForMember(dest => dest.Telefono, opt => opt.MapFrom(src => src.PhoneNumber))
                .ForMember(dest => dest.Idioma, opt => opt.MapFrom(src => src.Idioma))
-               .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Active))
+               .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.CommunityBanned))
                .ForMember(dest => dest.Contraseña, opt => opt.Ignore());
+
+            //CreateMap<Users, CultureResponse>()
+            //   .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+            //   .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+            //   .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active));
         }
     }
 }

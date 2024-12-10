@@ -15,15 +15,17 @@ namespace _4._Infraestructure.TypeBuilders
         {
             builder.HasKey(x => x.Tiempo_ID);
 
-            builder.Property(x => x.CantidadMinutos).HasColumnType("int").IsRequired();
+            builder.Property(x => x.CantidadMinutos)
+                .HasColumnType("integer")
+                .IsRequired();
 
             builder.HasOne(x => x.usuario)
-                  .WithMany(y => y.tiempoDeJuegoModel)
-                  .HasForeignKey(z => z.User_ID);
+                .WithMany(y => y.tiempoDeJuegoModel)
+                .HasForeignKey(z => z.User_ID);
 
             builder.HasOne(x => x.videojuego)
-                   .WithMany(y => y.tiempoDeJuegoModel)
-                   .HasForeignKey(z => z.Videojuego_ID);
+                .WithMany(y => y.tiempoDeJuegoModel)
+                .HasForeignKey(z => z.Videojuego_ID);
 
             builder.ToTable("TiempoDeJuego");
         }

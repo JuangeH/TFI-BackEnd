@@ -40,10 +40,9 @@ namespace _3._Core.Services
                     await _unitOfWork.SaveChangesAsync();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw;
+                throw new Exception($"Error al registrar visita del usuario {User_ID} sobre el foro {Foro_ID}");
             }
         }
 
