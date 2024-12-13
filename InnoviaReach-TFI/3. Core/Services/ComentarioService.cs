@@ -1,24 +1,30 @@
-﻿using API_Business.Request;
+﻿using Amazon.Runtime.Internal;
+using Amazon.Runtime.Internal.Util;
+using API_Business.Request;
 using Core.Business.Services;
 using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Domain.Models;
 using Core.Domain.Request.Business;
+using DnsClient.Internal;
+using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Transversal.Extensions;
 
 namespace _3._Core.Services
 {
     public class ComentarioService : GenericService<ComentarioModel>, IComentarioService
     {
-        public ComentarioService(IUnitOfWork unitOfWork)
+        private readonly ILogger<ComentarioService> _logger;
+        public ComentarioService(IUnitOfWork unitOfWork, ILogger<ComentarioService> logger)
             : base(unitOfWork, unitOfWork.GetRepository<IComentarioRepository>())
         {
-
+            _logger = logger;
         }
 
         public async Task<bool> CalificarComentario(CalificarComentarioRequest request)
@@ -47,6 +53,9 @@ namespace _3._Core.Services
                     puntuacion.Puntaje = request.Puntaje;
                     await _puntajeRepository.Update(puntuacion);
                 }
+
+                _logger.LogBusiness($"El usuario [{request.User_ID}] calificó el comentario [{comentario.Comentario_ID}] con el puntaje [{request.Puntaje}]");
+
                 await _unitOfWork.SaveChangesAsync();
                 return true;
             }
@@ -84,8 +93,8 @@ namespace _3._Core.Services
                 else
                 {
                     await _repository.Insert(new ComentarioModel { User_ID = comentario.User_ID, Foro_ID = comentario.Foro_Codigo, ComentarioPadre_ID = comentario.ComentarioPadre_Codigo, Contenido = comentario.Contenido, FechaCreacion = comentario.FechaCreacion });
-
                 }
+                _logger.LogBusiness($"El usuario [{comentario.User_ID}] hizo un comentario en el foro [{comentario.Foro_Codigo}]");
 
                 await _unitOfWork.SaveChangesAsync();
 
@@ -95,6 +104,7 @@ namespace _3._Core.Services
                 throw new Exception($"Error al intentar registrar comentario en el foro {comentario.Foro_Codigo}");
             }
         }
+
         public async Task EliminarComentario(int id)
         {
             try

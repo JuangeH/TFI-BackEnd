@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "N394DxBxATZarJBwJuGnwTWnvaFZ4fqlpG31Q2wo7TF/slsRYfZA3o5sJcJjX3ZANJIWlLab4F7kTk3PEmzHKA==",
+  "dgSpecHash": "6IT8YSBIWfSVWTT2lwHs7Be8GoyAgVmiafNvxrgnwlv9lidD0iGg61/DUpdPGXmsIz35+rqMGT6sGMzJBOFsXQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-BackEnd\\InnoviaReach-TFI\\Core.Domain\\Core.Domain.csproj",
   "expectedPackageFiles": [
@@ -28,6 +28,7 @@
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.ml.dataview\\3.0.1\\microsoft.ml.dataview.3.0.1.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\mongodb.bson\\2.28.0\\mongodb.bson.2.28.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.codedom\\4.5.0\\system.codedom.4.5.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",

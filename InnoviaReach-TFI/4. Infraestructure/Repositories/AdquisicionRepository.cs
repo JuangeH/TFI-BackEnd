@@ -22,9 +22,9 @@ namespace _4._Infraestructure.Repositories
 
         public async Task LimpiarJuegoReciente(string User_ID)
         {
-            var juegos = this.Entities.Where(x => x.TiempoJuegoReciente!=null && x.User_ID==User_ID);
-            await juegos.ExecuteUpdateAsync(y => y.SetProperty(z => z.TiempoJuegoReciente, z => (int?)null));
-            await _context.SaveChangesAsync();
+            //var juegos = this.Entities.Where(x => x.TiempoJuegoReciente!=null && x.User_ID==User_ID);
+            //await juegos.ExecuteUpdateAsync(y => y.SetProperty(z => z.TiempoJuegoReciente, z => (int?)null));
+            //await _context.SaveChangesAsync();
         }
     }
 }

@@ -26,13 +26,13 @@ namespace Api.Configurations
                 })
                 .ReadFrom.Configuration(configuration, sectionName: "Serilog")
                 .WriteTo.File("Log.txt", rollingInterval: RollingInterval.Day)
-                .WriteTo.MSSqlServer(
-                    connectionString: configuration.GetConnectionString("SqlConnection"),
-                    tableName: configuration.GetSection("Serilog").GetSection("TableName").Value,
-                    appConfiguration: configuration,
-                    autoCreateSqlTable: true,
-                    columnOptionsSection: configuration.GetSection("Serilog").GetSection("ColumnOptions"),
-                    schemaName: configuration.GetSection("Serilog").GetSection("SchemaName").Value)
+                //.WriteTo.MSSqlServer(
+                //    connectionString: configuration.GetConnectionString("SqlConnection"),
+                //    tableName: configuration.GetSection("Serilog").GetSection("TableName").Value,
+                //    appConfiguration: configuration,
+                //    autoCreateSqlTable: true,
+                //    columnOptionsSection: configuration.GetSection("Serilog").GetSection("ColumnOptions"),
+                //    schemaName: configuration.GetSection("Serilog").GetSection("SchemaName").Value)
                 .WriteTo.MongoDB(
                     databaseUrl: configuration.GetConnectionString("MongoDbConnectionUri") ?? "",
                     collectionName: "logs",

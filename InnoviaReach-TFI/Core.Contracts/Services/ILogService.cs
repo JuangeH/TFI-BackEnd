@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Core.Contracts.Services
 {
-    public interface ILogService : IGenericService<LogTableModel>
+    public interface ILogService
     {
         public Task<List<LogTableModel>> ObtenerLogs();
+        public Task<List<LogTableModel>> ObtenerBusinessLogs();
     }
 }

@@ -3,7 +3,12 @@
     <assembly>
         <name>API Gateway</name>
     </assembly>
-	<members>
-	
+    <members>
+        <member name="M:_2._API.Controllers.RecomendacionesController.ObtenerForosRecomendadosVisita">
+            <summary>
+            /////////////////////////////////////////////
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

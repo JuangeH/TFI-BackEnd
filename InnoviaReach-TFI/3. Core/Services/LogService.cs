@@ -2,6 +2,7 @@
 using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Domain.Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +11,26 @@ using System.Threading.Tasks;
 
 namespace _3._Core.Services
 {
-    public class LogService : GenericService<LogTableModel>, ILogService
+    public class LogService : ILogService
     {
-        public LogService(IUnitOfWork unitOfWork)
-            : base(unitOfWork, unitOfWork.GetRepository<ILogRepository>())
-        {
+        private readonly IMongoCollection<LogTableModel> _logsCollection;
 
+        public LogService(IMongoClient mongoClient, string databaseName, string collectionName)
+        {
+            var database = mongoClient.GetDatabase(databaseName);
+            _logsCollection = database.GetCollection<LogTableModel>(collectionName);
         }
 
         public async Task<List<LogTableModel>> ObtenerLogs()
         {
-            try
-            {
-                return (await _repository.Get(x => x.Id.ToString() != "")).ToList();
+            return await _logsCollection.Find(_ => true).ToListAsync();
+        }
 
-            }
-            catch (Exception)
-            {
-                throw new Exception($"Error al obtener logs");
-            }
+        public async Task<List<LogTableModel>> ObtenerBusinessLogs()
+        {
+            // Filtrar por el nombre del evento de negocio
+            var filter = Builders<LogTableModel>.Filter.Eq("Properties.EventId.Name", "Business");
+            return await _logsCollection.Find(filter).ToListAsync();
         }
     }
 }

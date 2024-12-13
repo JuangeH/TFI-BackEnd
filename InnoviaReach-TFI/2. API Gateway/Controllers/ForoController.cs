@@ -20,7 +20,7 @@ namespace Api_Gateway.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger<ForoController> _logger;
-        private string ApiBaseURL = "https://localhost:44309/";
+        private string ApiBaseURL = "https://api-business-apibusiness.onrender.com/";
 
         public ForoController(
             IMapper mapper,

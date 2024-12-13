@@ -16,7 +16,7 @@ namespace _2._API.Controllers
     [Route("[controller]")]
     public class RecomendacionesController : ControllerBase
     {
-        private string ApiBaseURL = "https://localhost:44309/";
+        private string ApiBaseURL = "https://api-business-apibusiness.onrender.com/";
         private readonly ILogger<RecomendacionesController> _logger;
 
         public RecomendacionesController(

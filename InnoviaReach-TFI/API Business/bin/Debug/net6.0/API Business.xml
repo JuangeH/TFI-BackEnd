@@ -3,7 +3,16 @@
     <assembly>
         <name>API Business</name>
     </assembly>
-	<members>
-	
+    <members>
+        <member name="F:API_Business.Background.Api.Background.TasksResolver._lastExecution">
+            <summary>
+            Marca de tiempo utilizada como condicion en la ejecucion de varios mÃ©todos
+            </summary>
+        </member>
+        <member name="F:API_Business.Background.Api.Background.TasksResolver._lastFinalizeMeetingsExecution">
+            <summary>
+            Marca de tiempo utilizada como condicion en la ejecucion de FinalizeMeetings
+            </summary>
+        </member>
     </members>
 </doc>

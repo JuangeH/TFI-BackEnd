@@ -26,7 +26,8 @@ namespace Infrastructure.Data
         //{
         //    if (!optionsBuilder.IsConfigured)
         //    {
-        //        optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=InnoviaDB3;User ID=testuser;Password=1234;Current Language=Spanish;MultipleActiveResultSets=True;Integrated Security=True;TrustServerCertificate=True");
+        //        //optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=InnoviaDB3;User ID=testuser;Password=1234;Current Language=Spanish;MultipleActiveResultSets=True;Integrated Security=True;TrustServerCertificate=True");
+        //        optionsBuilder.UseNpgsql("Host=dpg-ctbrv2jtq21c73dfb8q0-a.oregon-postgres.render.com;Port=5432;Username=innoviadb3_user;Password=Adp60rRuYR1owb7O51PwNppuR9D8Auv8;Database=innoviadb3;SslMode=Require;Trust Server Certificate=true;");
         //    }
         //}
 

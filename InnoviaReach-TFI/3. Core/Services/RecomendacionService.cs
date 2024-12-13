@@ -5,9 +5,11 @@ using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Domain.ApplicationModels;
 using Core.Domain.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +17,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Transversal.Extensions;
 
 namespace _3._Core.Services
 {
@@ -32,8 +35,9 @@ namespace _3._Core.Services
         private ITagRepository _tagRepository;
         private IGeneroRepository _generoRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<ComentarioService> _logger;
 
-        public RecomendacionService(IUnitOfWork unitOfWork, IMapper mapper)
+        public RecomendacionService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ComentarioService> logger)
             : base(unitOfWork, unitOfWork.GetRepository<IRecomendacionRepository>())
         {
             _foroRepository = unitOfWork.GetRepository<IForoRepository>();
@@ -46,6 +50,7 @@ namespace _3._Core.Services
             _generoRepository = unitOfWork.GetRepository<IGeneroRepository>();
             _usuarioJuegoPerfilRepository = unitOfWork.GetRepository<IUsuarioJuegoPerfilRepository>();
             _recomendacionUsuarioRepository = unitOfWork.GetRepository<IRecomendacionUsuarioRepository>();
+            _logger = logger;
         }
 
         #region VIEJO
@@ -198,6 +203,8 @@ namespace _3._Core.Services
                     await _videojuegoRepository.Update(videojuego);
                 }
 
+                _logger.LogBusiness($"Se crearon los clusters para videojuegos exitosamente.");
+
                 await _unitOfWork.SaveChangesAsync();
             }
             catch (Exception)
@@ -293,6 +300,10 @@ namespace _3._Core.Services
 
                     await _unitOfWork.SaveChangesAsync();
                 }
+
+                _logger.LogBusiness($"Se generaron las recomendaciones para videojuegos exitosamente.");
+
+
             }
             catch (Exception)
             {
@@ -472,6 +483,8 @@ namespace _3._Core.Services
                     }
                 }
 
+                _logger.LogBusiness($"Se crearon los clusters de usuarios exitosamente.");
+
                 await _unitOfWork.SaveChangesAsync();
             }
             catch (Exception)
@@ -626,6 +639,7 @@ namespace _3._Core.Services
                 {
                     await GenerarRecomendacionesColaborativas(user.Id);
                 }
+                _logger.LogBusiness($"Se generaron las creaciones colaborativas para usuarios exitosamente.");
             }
             catch (Exception)
             {

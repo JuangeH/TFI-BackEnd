@@ -40,6 +40,24 @@ namespace _2._API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpGet("ObtenerBusinessLogs")]
+        public async Task<IActionResult> ObtenerBusinessLogs()
+        {
+            try
+            {
+                var resultado = await _logService.ObtenerBusinessLogs();
+                var response = _mapper.Map<List<LogTableResponse>>(resultado);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener logs de negocio");
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
 

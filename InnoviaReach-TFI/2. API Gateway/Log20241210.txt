@@ -1,0 +1,4 @@
+2024-12-10 09:41:07.341 +00:00 [WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
+2024-12-10 09:41:07.404 +00:00 [WRN] No XML encryptor configured. Key {8c324cf2-6b06-4a46-86e4-fd6a3c885cc7} may be persisted to storage in unencrypted form.
+2024-12-10 13:46:08.698 +00:00 [WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
+2024-12-10 14:00:26.499 +00:00 [WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.

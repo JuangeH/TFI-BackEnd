@@ -4,12 +4,15 @@ using Core.Contracts.Services;
 using Core.Domain.Models;
 using Core.Domain.Request.Business;
 using Core.Domain.Request.Gateway;
+using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Transversal.Extensions;
 
 namespace _3._Core.Services
 {
@@ -18,13 +21,15 @@ namespace _3._Core.Services
         private IRecomendacionVideojuegoRepository _recomendacionVideojuegoRepository;
         private IVideojuegoRepository _videojuegoRepository;
         private IRecomendacionService _recomendacionService;
+        private readonly ILogger<ComentarioService> _logger;
 
-        public ForoService(IUnitOfWork unitOfWork, IRecomendacionService recomendacionService)
+        public ForoService(IUnitOfWork unitOfWork, IRecomendacionService recomendacionService, ILogger<ComentarioService> logger)
             : base(unitOfWork, unitOfWork.GetRepository<IForoRepository>())
         {
             _recomendacionVideojuegoRepository = unitOfWork.GetRepository<IRecomendacionVideojuegoRepository>();
             _videojuegoRepository = unitOfWork.GetRepository<IVideojuegoRepository>();
             _recomendacionService = recomendacionService;
+            _logger = logger;
         }
 
         public async Task GestionarForoFavorito(GuardarForoRequest foro)
@@ -102,6 +107,7 @@ namespace _3._Core.Services
             try
             {
                 await _repository.Insert(new ForoModel { User_ID = foro.User_ID, Videojuego_ID = foro.Videojuego_Codigo, Descripcion = foro.Descripcion, FechaCreado = foro.FechaCreado, Titulo=foro.Titulo, Activo=foro.Activo });
+                _logger.LogBusiness($"El usuario [{foro.User_ID}] creó un nuevo foro.");
                 await _unitOfWork.SaveChangesAsync();
             }
             catch (Exception)

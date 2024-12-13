@@ -1,3 +1,4 @@
+using _3._Core.Services;
 using Api.Configurations;
 using Api.Mapping;
 using AutoMapper;
@@ -12,6 +13,8 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
+using MongoDB.Driver;
+using System.Configuration;
 using Transversal.Extensions;
 using Transversal.Helpers;
 
@@ -44,16 +47,38 @@ internal class Program
         #endregion
 
         #region Configure DbContext
+        //builder.Services.AddDbContext<ApplicationDbContext>
+        //(
+        //    options => options
+        //    .UseSqlServer(GetConnectionString(), builder =>
+        //         builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null)) //Al contexto le agrego la conexion de la base de datos
+
+        //    //En esta parte configuramos el entity framework para ver los querys en consola (IMPORTANTE: desactivarlo en produccion)
+        //    .EnableSensitiveDataLogging()
+        //    .UseLoggerFactory(_loggerFactory)
+        //);
+
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         builder.Services.AddDbContext<ApplicationDbContext>
         (
             options => options
-            .UseSqlServer(GetConnectionString(), builder =>
-                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null)) //Al contexto le agrego la conexion de la base de datos
-
-            //En esta parte configuramos el entity framework para ver los querys en consola (IMPORTANTE: desactivarlo en produccion)
-            .EnableSensitiveDataLogging()
+                .UseNpgsql(GetPostgreSQLConnectionString())
+            .EnableSensitiveDataLogging(sensitiveDataLoggingEnabled: false)
             .UseLoggerFactory(_loggerFactory)
         );
+
+        builder.Services.AddSingleton<IMongoClient>(ServiceProvider =>
+        {
+            var settings = MongoClientSettings.FromConnectionString(builder.Configuration.GetConnectionString("MongoDbConnectionUri") ?? "");
+            return new MongoClient(settings);
+        });
+
+        builder.Services.AddScoped<ILogService, LogService>(provider =>
+        {
+            var mongoClient = provider.GetRequiredService<IMongoClient>();
+            return new LogService(mongoClient, "TFI-InnoviaMongoDB", "logs");
+        });
         #endregion
 
         #region Configure Identity
@@ -187,6 +212,11 @@ internal class Program
         string GetConnectionString()
         {
             var connectionString = builder.Configuration.GetConnectionString("SqlConnection");
+            return connectionString;
+        }
+        string GetPostgreSQLConnectionString()
+        {
+            var connectionString = builder.Configuration.GetConnectionString("PostgreSqlConnection");
             return connectionString;
         }
         string GetMySQLConnectionString()

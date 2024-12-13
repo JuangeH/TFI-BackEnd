@@ -46,6 +46,12 @@ namespace Api.Mapping
 
             CreateMap<LogTableModel, LogTableResponse>();
 
+            CreateMap<Core.Domain.Models.Renderings, _2._API.Response.Renderings>();
+            CreateMap<Core.Domain.Models.Rendering, _2._API.Response.Rendering>();
+            CreateMap<Core.Domain.Models.KeyIdItem, _2._API.Response.KeyIdItem>();
+            CreateMap<Core.Domain.Models.LogProperties, _2._API.Response.LogProperties>();
+            CreateMap<Core.Domain.Models.EventId, _2._API.Response.EventId>();
+
             CreateMap<Users, UserResponse>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
