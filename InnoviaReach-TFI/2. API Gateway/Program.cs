@@ -10,6 +10,7 @@ using Infrastructure.Data.Repositories;
 using IoC.Resolver;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
@@ -64,7 +65,6 @@ internal class Program
         (
             options => options
                 .UseNpgsql(GetPostgreSQLConnectionString())
-            .EnableSensitiveDataLogging(sensitiveDataLoggingEnabled: false)
             .UseLoggerFactory(_loggerFactory)
         );
 
@@ -137,6 +137,11 @@ internal class Program
 
         void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context, RoleManager<Privileges> _roleManager)
         {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
