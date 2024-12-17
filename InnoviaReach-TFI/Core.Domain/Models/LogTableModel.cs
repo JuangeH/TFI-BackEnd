@@ -41,6 +41,7 @@ namespace Core.Domain.Models
         public string? UtcTimestamp { get; set; }
     }
 
+    [BsonIgnoreExtraElements]
     public class LogProperties
     {
         [BsonElement("MethodName")]
@@ -77,6 +78,7 @@ namespace Core.Domain.Models
 
         [BsonElement("ConnectionId")]
         public string ConnectionId { get; set; }
+
     }
 
     [BsonNoId]

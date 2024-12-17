@@ -55,7 +55,7 @@ namespace Api.Mapping
             CreateMap<Users, UserResponse>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active));
+                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.CommunityBanned));
 
             CreateMap<SteamAccountModel, SteamAccountResponse>()
                 .ForMember(dest => dest.steamid, opt => opt.MapFrom(src => src.steamid))
